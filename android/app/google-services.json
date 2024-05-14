@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "261698602356",
+    "project_id": "self-inspection-4172e",
+    "storage_bucket": "self-inspection-4172e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261698602356:android:8feb21c9266b583057d821",
+        "android_client_info": {
+          "package_name": "com.selfinspection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261698602356-qu87he6fs0m39nu20k8dbpasdd12knll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCP5pjp_3yVugKXKzk1VbGF57-nwhH7vhM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261698602356-qu87he6fs0m39nu20k8dbpasdd12knll.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "261698602356-aadtmakds6jif73nft6071n6o70e6de5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.SelfInspection"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

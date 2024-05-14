@@ -1,0 +1,204 @@
+
+App Thinning Size Report for All Variants of SelfInspection
+
+Variant: SelfInspection-06A6B00A-6F25-4335-A121-D0051119DE96.ipa
+Supported variant descriptors: [device: iPhone11,6, os-version: 15.0], [device: iPhone11,2, os-version: 15.0], [device: iPhone14,5, os-version: 15.0], [device: iPhone14,4, os-version: 15.0], [device: iPhone13,3, os-version: 15.0], [device: iPhone9,4, os-version: 15.0], [device: iPhone13,1, os-version: 15.0], [device: iPhone13,4, os-version: 15.0], [device: iPhone13,2, os-version: 15.0], [device: iPhone12,5, os-version: 15.0], [device: iPhone14,3, os-version: 15.0], [device: iPhone14,2, os-version: 15.0], [device: iPhone10,3, os-version: 15.0], [device: iPhone9,2, os-version: 15.0], [device: iPhone12,3, os-version: 15.0], [device: iPhone11,4, os-version: 15.0], [device: iPhone10,2, os-version: 15.0], [device: iPhone10,5, os-version: 15.0], and [device: iPhone10,6, os-version: 15.0]
+App + On Demand Resources size: 24.5 MB compressed, 43.2 MB uncompressed
+App size: 24.5 MB compressed, 43.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-17A92006-0D2B-4405-BC27-BAD9AF67B7A8.ipa
+Supported variant descriptors: [device: iPhone9,2, os-version: 13.0], [device: iPhone12,5, os-version: 13.0], [device: iPhone12,3, os-version: 13.0], [device: iPhone13,1, os-version: 14.0], [device: iPhone11,2, os-version: 13.0], [device: iPhone11,2, os-version: 14.0], [device: iPhone13,4, os-version: 14.0], [device: iPhone10,6, os-version: 14.0], [device: iPhone11,4, os-version: 13.0], [device: iPhone12,5, os-version: 14.0], [device: iPhone10,3, os-version: 14.0], [device: iPhone10,3, os-version: 13.0], [device: iPhone10,2, os-version: 14.0], [device: iPhone12,3, os-version: 14.0], [device: iPhone9,4, os-version: 13.0], [device: iPhone10,2, os-version: 13.0], [device: iPhone9,2, os-version: 14.0], [device: iPhone10,5, os-version: 13.0], [device: iPhone11,6, os-version: 14.0], [device: iPhone9,4, os-version: 14.0], [device: iPhone10,5, os-version: 14.0], [device: iPhone13,2, os-version: 14.0], [device: iPhone10,6, os-version: 13.0], [device: iPhone11,4, os-version: 14.0], [device: iPhone11,6, os-version: 13.0], and [device: iPhone13,3, os-version: 14.0]
+App + On Demand Resources size: 24.5 MB compressed, 43.2 MB uncompressed
+App size: 24.5 MB compressed, 43.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-2968012A-BFF5-4882-9374-BDE3BC13EA3D.ipa
+Supported variant descriptors: [device: iPhone7,1, os-version: 12.0] and [device: iPhone8,2, os-version: 12.0]
+App + On Demand Resources size: 27 MB compressed, 50.6 MB uncompressed
+App size: 27 MB compressed, 50.6 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-2DB72B14-8D3F-4836-AFBB-6F902BA09CF0.ipa
+Supported variant descriptors: [device: MacFamily20,1, os-version: 14.0], [device: iPad8,7, os-version: 14.0], [device: iPad8,1, os-version: 13.0], [device: iPad8,4, os-version: 13.0], [device: iPad8,10, os-version: 13.0], [device: iPad13,8, os-version: 14.0], [device: iPad8,3, os-version: 14.0], [device: iPad7,2, os-version: 14.0], [device: iPad8,3, os-version: 13.0], [device: iPad6,3, os-version: 14.0], [device: iPad13,5, os-version: 14.0], [device: iPad13,4, os-version: 14.0], [device: iPad8,12, os-version: 14.0], [device: iPad11,1, os-version: 13.0], [device: iPad13,2, os-version: 14.0], [device: iPad6,3, os-version: 13.0], [device: iPad11,1, os-version: 14.0], [device: iPad8,9, os-version: 14.0], [device: iPad8,9, os-version: 13.0], [device: iPad8,11, os-version: 13.0], [device: iPad11,2, os-version: 13.0], [device: iPad8,2, os-version: 14.0], [device: iPad8,1, os-version: 14.0], [device: iPad7,4, os-version: 14.0], [device: iPad11,3, os-version: 14.0], [device: iPad13,11, os-version: 14.0], [device: iPad13,6, os-version: 14.0], [device: iPad7,2, os-version: 13.0], [device: iPad11,4, os-version: 13.0], [device: iPad7,3, os-version: 14.0], [device: iPad7,4, os-version: 13.0], [device: iPad6,4, os-version: 13.0], [device: iPad6,4, os-version: 14.0], [device: iPad7,1, os-version: 14.0], [device: iPad11,2, os-version: 14.0], [device: iPad8,6, os-version: 14.0], [device: iPad11,4, os-version: 14.0], [device: iPad8,6, os-version: 13.0], [device: iPad13,9, os-version: 14.0], [device: iPad8,8, os-version: 13.0], [device: iPad8,4, os-version: 14.0], [device: iPad8,11, os-version: 14.0], [device: iPad8,10, os-version: 14.0], [device: iPad11,3, os-version: 13.0], [device: iPad8,7, os-version: 13.0], [device: iPad13,10, os-version: 14.0], [device: iPad8,12, os-version: 13.0], [device: iPad13,7, os-version: 14.0], [device: iPad13,1, os-version: 14.0], [device: iPad8,8, os-version: 14.0], [device: iPad7,3, os-version: 13.0], [device: iPad8,2, os-version: 13.0], [device: iPad7,1, os-version: 13.0], [device: iPad8,5, os-version: 14.0], and [device: iPad8,5, os-version: 13.0]
+App + On Demand Resources size: 24.4 MB compressed, 43 MB uncompressed
+App size: 24.4 MB compressed, 43 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-38488CC4-5BBB-4949-9186-C9E23B4C42DA.ipa
+Supported variant descriptors: [device: iPod7,1, os-version: 12.0], [device: iPhone6,1, os-version: 12.0], [device: iPhone8,1, os-version: 12.0], [device: iPhone8,4, os-version: 12.0], [device: iPhone7,2, os-version: 12.0], and [device: iPhone6,2, os-version: 12.0]
+App + On Demand Resources size: 26.8 MB compressed, 50.4 MB uncompressed
+App size: 26.8 MB compressed, 50.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-41D7684A-3396-4EC8-8D54-DDB955929DC2.ipa
+Supported variant descriptors: [device: iPhone11,8, os-version: 12.2]
+App + On Demand Resources size: 24.4 MB compressed, 43.1 MB uncompressed
+App size: 24.4 MB compressed, 43.1 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-432AC44B-92A4-4FB5-85C4-04A662205BC1.ipa
+Supported variant descriptors: [device: iPad5,1, os-version: 12.2], [device: iPad6,12, os-version: 12.2], [device: iPad4,4, os-version: 12.2], [device: iPad4,8, os-version: 12.2], [device: iPad6,11, os-version: 12.2], [device: iPad4,1, os-version: 12.2], [device: iPad5,2, os-version: 12.2], [device: iPad5,3, os-version: 12.2], [device: iPad7,5, os-version: 12.2], [device: iPad6,7, os-version: 12.2], [device: iPad4,3, os-version: 12.2], [device: iPad4,9, os-version: 12.2], [device: iPad4,2, os-version: 12.2], [device: iPad4,5, os-version: 12.2], [device: iPad4,7, os-version: 12.2], [device: iPad5,4, os-version: 12.2], [device: iPad7,6, os-version: 12.2], [device: iPad6,8, os-version: 12.2], and [device: iPad4,6, os-version: 12.2]
+App + On Demand Resources size: 24.4 MB compressed, 43 MB uncompressed
+App size: 24.4 MB compressed, 43 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-460B19EA-A01A-4927-89BD-4C1FA814CB90.ipa
+Supported variant descriptors: [device: iPhone8,2, os-version: 15.0]
+App + On Demand Resources size: 24.5 MB compressed, 43.2 MB uncompressed
+App size: 24.5 MB compressed, 43.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-53623832-093C-41E8-AE4D-0F195FCE43DE.ipa
+Supported variant descriptors: [device: iPad8,1, os-version: 15.0], [device: iPad13,16, os-version: 15.0], [device: iPad13,2, os-version: 15.0], [device: iPad13,1, os-version: 15.0], [device: iPad13,6, os-version: 15.0], [device: iPad13,11, os-version: 15.0], [device: iPad13,9, os-version: 15.0], [device: iPad8,11, os-version: 15.0], [device: iPad8,12, os-version: 15.0], [device: iPad13,5, os-version: 15.0], [device: iPad8,3, os-version: 15.0], [device: iPad8,4, os-version: 15.0], [device: iPad7,2, os-version: 15.0], [device: iPad8,7, os-version: 15.0], [device: iPad8,5, os-version: 15.0], [device: iPad13,10, os-version: 15.0], [device: iPad7,3, os-version: 15.0], [device: iPad8,2, os-version: 15.0], [device: MacFamily20,1, os-version: 15.0], [device: iPad8,8, os-version: 15.0], [device: iPad8,9, os-version: 15.0], [device: iPad13,7, os-version: 15.0], [device: iPad11,2, os-version: 15.0], [device: iPad8,10, os-version: 15.0], [device: iPad13,4, os-version: 15.0], [device: iPad11,4, os-version: 15.0], [device: iPad6,4, os-version: 15.0], [device: iPad6,3, os-version: 15.0], [device: iPad14,2, os-version: 15.0], [device: iPad13,8, os-version: 15.0], [device: iPad8,6, os-version: 15.0], [device: iPad13,17, os-version: 15.0], [device: iPad14,1, os-version: 15.0], [device: iPad7,1, os-version: 15.0], [device: iPad11,1, os-version: 15.0], [device: iPad11,3, os-version: 15.0], and [device: iPad7,4, os-version: 15.0]
+App + On Demand Resources size: 24.4 MB compressed, 43 MB uncompressed
+App size: 24.4 MB compressed, 43 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-5611D7F7-D44E-4836-B1B8-9D9EC23B6411.ipa
+Supported variant descriptors: [device: iPad7,5, os-version: 15.0], [device: iPad7,11, os-version: 15.0], [device: iPad11,6, os-version: 15.0], [device: iPad6,11, os-version: 15.0], [device: iPad5,1, os-version: 15.0], [device: iPad6,12, os-version: 15.0], [device: iPad6,8, os-version: 15.0], [device: iPad12,1, os-version: 15.0], [device: iPad12,2, os-version: 15.0], [device: iPad6,7, os-version: 15.0], [device: iPad5,3, os-version: 15.0], [device: iPad5,4, os-version: 15.0], [device: iPad7,6, os-version: 15.0], [device: iPad7,12, os-version: 15.0], [device: iPad11,7, os-version: 15.0], and [device: iPad5,2, os-version: 15.0]
+App + On Demand Resources size: 24.4 MB compressed, 43 MB uncompressed
+App size: 24.4 MB compressed, 43 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-67D1F68D-EB50-4F0C-B646-5A30DFF37EF5.ipa
+Supported variant descriptors: [device: iPhone8,1, os-version: 12.2], [device: iPhone6,1, os-version: 12.2], [device: iPhone7,2, os-version: 12.2], [device: iPod7,1, os-version: 12.2], [device: iPhone6,2, os-version: 12.2], [device: iPhone8,4, os-version: 12.2], and [device: iPod9,1, os-version: 12.2]
+App + On Demand Resources size: 24.4 MB compressed, 43 MB uncompressed
+App size: 24.4 MB compressed, 43 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-6BAF6257-F294-4812-880A-4838E8B93351.ipa
+Supported variant descriptors: [device: iPhone12,1, os-version: 15.0] and [device: iPhone11,8, os-version: 15.0]
+App + On Demand Resources size: 24.4 MB compressed, 43.1 MB uncompressed
+App size: 24.4 MB compressed, 43.1 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-7900D5B9-4ECF-40C5-B330-36FBCFCE38E5.ipa
+Supported variant descriptors: [device: iPhone8,2, os-version: 14.0] and [device: iPhone8,2, os-version: 13.0]
+App + On Demand Resources size: 24.5 MB compressed, 43.2 MB uncompressed
+App size: 24.5 MB compressed, 43.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-8780274D-DD69-4926-BC0E-98D1E281A9FF.ipa
+Supported variant descriptors: [device: iPad11,1, os-version: 12.2], [device: iPad6,3, os-version: 12.2], [device: iPad8,1, os-version: 12.2], [device: iPad8,7, os-version: 12.2], [device: iPad11,4, os-version: 12.2], [device: iPad11,2, os-version: 12.2], [device: iPad7,3, os-version: 12.2], [device: iPad8,6, os-version: 12.2], [device: iPad11,3, os-version: 12.2], [device: iPad7,4, os-version: 12.2], [device: iPad8,4, os-version: 12.2], [device: iPad7,2, os-version: 12.2], [device: iPad8,5, os-version: 12.2], [device: iPad8,2, os-version: 12.2], [device: iPad7,1, os-version: 12.2], [device: iPad8,8, os-version: 12.2], [device: iPad8,3, os-version: 12.2], and [device: iPad6,4, os-version: 12.2]
+App + On Demand Resources size: 24.4 MB compressed, 43 MB uncompressed
+App size: 24.4 MB compressed, 43 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-9B98AB3F-2EE2-4C66-9C2F-1EDE32F87512.ipa
+Supported variant descriptors: [device: iPhone9,1, os-version: 15.0], [device: iPhone10,4, os-version: 15.0], [device: iPhone14,6, os-version: 15.0], [device: iPhone12,8, os-version: 15.0], [device: iPhone9,3, os-version: 15.0], and [device: iPhone10,1, os-version: 15.0]
+App + On Demand Resources size: 24.4 MB compressed, 43 MB uncompressed
+App size: 24.4 MB compressed, 43 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-9FF7FFAE-2F9F-4580-87A7-935E5A03C898.ipa
+Supported variant descriptors: [device: iPhone11,8, os-version: 12.0]
+App + On Demand Resources size: 26.9 MB compressed, 50.5 MB uncompressed
+App size: 26.9 MB compressed, 50.5 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-B4CDF765-68D5-47B3-87EF-2D7D876F7801.ipa
+Supported variant descriptors: [device: iPhone10,1, os-version: 12.2], [device: iPhone10,4, os-version: 12.2], [device: iPhone9,1, os-version: 12.2], and [device: iPhone9,3, os-version: 12.2]
+App + On Demand Resources size: 24.4 MB compressed, 43 MB uncompressed
+App size: 24.4 MB compressed, 43 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-B7B80C57-1648-46DF-AFBB-8E596A520791.ipa
+Supported variant descriptors: [device: iPhone7,1, os-version: 12.2] and [device: iPhone8,2, os-version: 12.2]
+App + On Demand Resources size: 24.5 MB compressed, 43.2 MB uncompressed
+App size: 24.5 MB compressed, 43.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-BF1C5600-A2F0-4A7B-956E-695BE1E13435.ipa
+Supported variant descriptors: [device: iPhone12,1, os-version: 13.0], [device: iPhone11,8, os-version: 14.0], [device: iPhone11,8, os-version: 13.0], and [device: iPhone12,1, os-version: 14.0]
+App + On Demand Resources size: 24.4 MB compressed, 43.1 MB uncompressed
+App size: 24.4 MB compressed, 43.1 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-BF9C938F-4CB6-4252-BC5A-B4E517200DB4.ipa
+Supported variant descriptors: [device: iPhone9,3, os-version: 12.0], [device: iPhone9,1, os-version: 12.0], [device: iPhone10,1, os-version: 12.0], and [device: iPhone10,4, os-version: 12.0]
+App + On Demand Resources size: 26.8 MB compressed, 50.4 MB uncompressed
+App size: 26.8 MB compressed, 50.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-BFF28E1B-B53D-49C9-9105-F7DD42A9B847.ipa
+Supported variant descriptors: [device: iPad6,4, os-version: 12.0], [device: iPad7,4, os-version: 12.0], [device: iPad8,5, os-version: 12.0], [device: iPad8,8, os-version: 12.0], [device: iPad7,1, os-version: 12.0], [device: iPad8,7, os-version: 12.0], [device: iPad6,3, os-version: 12.0], [device: iPad8,2, os-version: 12.0], [device: iPad8,3, os-version: 12.0], [device: iPad8,4, os-version: 12.0], [device: iPad7,3, os-version: 12.0], [device: iPad7,2, os-version: 12.0], [device: iPad8,6, os-version: 12.0], and [device: iPad8,1, os-version: 12.0]
+App + On Demand Resources size: 26.8 MB compressed, 50.4 MB uncompressed
+App size: 26.8 MB compressed, 50.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-C37EA5CB-B02A-4A37-BB4B-BF7D561B21D2.ipa
+Supported variant descriptors: [device: iPhone9,4, os-version: 12.0], [device: iPhone10,2, os-version: 12.0], [device: iPhone9,2, os-version: 12.0], [device: iPhone10,6, os-version: 12.0], [device: iPhone11,4, os-version: 12.0], [device: iPhone11,2, os-version: 12.0], [device: iPhone11,6, os-version: 12.0], [device: iPhone10,3, os-version: 12.0], and [device: iPhone10,5, os-version: 12.0]
+App + On Demand Resources size: 27 MB compressed, 50.6 MB uncompressed
+App size: 27 MB compressed, 50.6 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-C3E56F40-7483-4DB6-AF6D-802C3EAC49DD.ipa
+Supported variant descriptors: [device: iPad5,4, os-version: 13.0], [device: iPad7,6, os-version: 14.0], [device: iPad7,11, os-version: 13.0], [device: iPad5,4, os-version: 14.0], [device: iPad6,8, os-version: 13.0], [device: iPad7,6, os-version: 13.0], [device: iPad6,11, os-version: 14.0], [device: iPad11,7, os-version: 14.0], [device: iPad5,3, os-version: 14.0], [device: iPad7,12, os-version: 13.0], [device: iPad5,1, os-version: 13.0], [device: iPad5,3, os-version: 13.0], [device: iPad6,8, os-version: 14.0], [device: iPad6,7, os-version: 14.0], [device: iPad5,2, os-version: 14.0], [device: iPad6,7, os-version: 13.0], [device: iPad7,5, os-version: 14.0], [device: iPad5,2, os-version: 13.0], [device: iPad6,12, os-version: 14.0], [device: iPad11,6, os-version: 14.0], [device: iPad6,11, os-version: 13.0], [device: iPad7,12, os-version: 14.0], [device: iPad5,1, os-version: 14.0], [device: iPad7,5, os-version: 13.0], [device: iPad6,12, os-version: 13.0], and [device: iPad7,11, os-version: 14.0]
+App + On Demand Resources size: 24.4 MB compressed, 43 MB uncompressed
+App size: 24.4 MB compressed, 43 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-C411561E-2769-4EE0-95A7-D09BF5C29C82.ipa
+Supported variant descriptors: [device: iPhone10,5, os-version: 12.2], [device: iPhone11,2, os-version: 12.2], [device: iPhone10,3, os-version: 12.2], [device: iPhone10,6, os-version: 12.2], [device: iPhone11,6, os-version: 12.2], [device: iPhone10,2, os-version: 12.2], [device: iPhone9,4, os-version: 12.2], [device: iPhone11,4, os-version: 12.2], and [device: iPhone9,2, os-version: 12.2]
+App + On Demand Resources size: 24.5 MB compressed, 43.2 MB uncompressed
+App size: 24.5 MB compressed, 43.2 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-E7C17D2B-66BD-4382-9727-EEF34E8AA7F7.ipa
+Supported variant descriptors: [device: iPhone8,4, os-version: 15.0], [device: iPhone8,1, os-version: 15.0], and [device: iPod9,1, os-version: 15.0]
+App + On Demand Resources size: 24.4 MB compressed, 43 MB uncompressed
+App size: 24.4 MB compressed, 43 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-EC59E758-0417-49DF-BB98-0046E7EF7796.ipa
+Supported variant descriptors: [device: iPad6,8, os-version: 12.0], [device: iPad6,11, os-version: 12.0], [device: iPad5,3, os-version: 12.0], [device: iPad4,8, os-version: 12.0], [device: iPad5,1, os-version: 12.0], [device: iPad6,7, os-version: 12.0], [device: iPad4,2, os-version: 12.0], [device: iPad4,3, os-version: 12.0], [device: iPad4,1, os-version: 12.0], [device: iPad4,7, os-version: 12.0], [device: iPad5,2, os-version: 12.0], [device: iPad6,12, os-version: 12.0], [device: iPad7,6, os-version: 12.0], [device: iPad4,4, os-version: 12.0], [device: iPad4,6, os-version: 12.0], [device: iPad7,5, os-version: 12.0], [device: iPad4,9, os-version: 12.0], [device: iPad4,5, os-version: 12.0], and [device: iPad5,4, os-version: 12.0]
+App + On Demand Resources size: 26.8 MB compressed, 50.4 MB uncompressed
+App size: 26.8 MB compressed, 50.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-EF65ACF9-0818-400B-932A-2A1776A4B3D7.ipa
+Supported variant descriptors: [device: iPhone8,4, os-version: 13.0], [device: iPhone8,1, os-version: 13.0], [device: iPod9,1, os-version: 14.0], [device: iPod9,1, os-version: 13.0], [device: iPhone8,1, os-version: 14.0], and [device: iPhone8,4, os-version: 14.0]
+App + On Demand Resources size: 24.4 MB compressed, 43 MB uncompressed
+App size: 24.4 MB compressed, 43 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection-F210C6DF-B16B-40E7-81AD-C4FDC35FE501.ipa
+Supported variant descriptors: [device: iPhone9,3, os-version: 14.0], [device: iPhone9,1, os-version: 14.0], [device: iPhone10,1, os-version: 13.0], [device: iPhone10,4, os-version: 14.0], [device: iPhone10,1, os-version: 14.0], [device: iPhone9,1, os-version: 13.0], [device: iPhone10,4, os-version: 13.0], [device: iPhone12,8, os-version: 13.0], [device: iPhone12,8, os-version: 14.0], and [device: iPhone9,3, os-version: 13.0]
+App + On Demand Resources size: 24.4 MB compressed, 43 MB uncompressed
+App size: 24.4 MB compressed, 43 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: SelfInspection.ipa
+Supported variant descriptors: Universal
+App + On Demand Resources size: 28.1 MB compressed, 51.7 MB uncompressed
+App size: 28.1 MB compressed, 51.7 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
