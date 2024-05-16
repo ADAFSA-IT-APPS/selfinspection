@@ -35,8 +35,8 @@ const UserDetails = () => {
 
     useEffect(() => { 
        // dispatch(Search_Establishment_History_NOC());
-  
-        let parsedSiebeleport = Search_Establishment_HistoryResult_NOC?JSON.parse(Search_Establishment_HistoryResult_NOC):''
+  //console.log('Search_Establishment_HistoryResult_NOCSearch_Establishment_HistoryResult_NOC', Search_Establishment_HistoryResult_NOC);
+        let parsedSiebeleport =Object.keys(Search_Establishment_HistoryResult_NOC).length ?JSON.parse(Search_Establishment_HistoryResult_NOC):''
         let data=parsedSiebeleport?.TradelicenseHistory?.Establishment[0]?.ListOfServiceRequest?.ServiceRequest
         setServiceRequest(data)
         //console.log('Eshtablisment_parsedSiebeleport', parsedSiebeleport.TradelicenseHistory.Establishment[0].ListOfServiceRequest.ServiceRequest);

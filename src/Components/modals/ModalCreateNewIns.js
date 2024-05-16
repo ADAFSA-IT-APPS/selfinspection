@@ -35,7 +35,7 @@ const ModalCreateNewIns = ({ navigation, modalVisible, setModalVisible, image, t
       dispatch(AdhocInspection(checked));
 
       setModalVisible(!modalVisible)
-       
+
     } else if (checked == 'Vehicle Self Inspection') {
       if (vehicleText === '') {
         console.log('testingtoast');
@@ -48,7 +48,7 @@ const ModalCreateNewIns = ({ navigation, modalVisible, setModalVisible, image, t
           animation: true,
           hideOnPress: true, */
           textColor: 'white',
-      })
+        })
       } else {
         dispatch(AdhocInspection(checked, vehicleText));
         setModalVisible(!modalVisible)
@@ -56,10 +56,10 @@ const ModalCreateNewIns = ({ navigation, modalVisible, setModalVisible, image, t
     }
   }
   return (
-   /*  <RootSiblingParent> */
+    /*  <RootSiblingParent> */
     <View style={styles.centeredView}>
       {/* {state.isLoading && <Loading />} */}
-     {/*  <Loading /> */}
+      {/*  <Loading /> */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -70,7 +70,7 @@ const ModalCreateNewIns = ({ navigation, modalVisible, setModalVisible, image, t
         }}
       >
         <View style={styles.centeredView}>
-       {/*  {state.isLoading && <Loading />}  */}
+          {/*  {state.isLoading && <Loading />}  */}
           <View style={styles.modalView}>
             <View style={{ alignSelf: 'flex-start', }}>
               <Text style={{ color: '#5d6674', fontSize: 16, paddingBottom: 10 }}>Select Inspection Type</Text>
@@ -83,6 +83,38 @@ const ModalCreateNewIns = ({ navigation, modalVisible, setModalVisible, image, t
                 />
                 <Text style={{ color: '#5d6674', }}>Direct Self Inspection</Text>
               </Pressable>
+              {
+                checked &&
+                <View style={{paddingLeft:25}}>
+                  <Pressable onPress={() => getInspectionType('Direct Self Inspection')} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <RadioButton
+                      value="Food"
+                      color='#5d6674'
+                      onPress={() => getInspectionType('Direct Self Inspection')}
+                      status={checked === 'Direct Self Inspection' ? 'checked' : 'unchecked'}
+                    />
+                    <Text style={{ color: '#5d6674', }}>Food</Text>
+                  </Pressable>
+                  <Pressable onPress={() => getInspectionType('Direct Self Inspection')} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <RadioButton
+                      value="Food"
+                      color='#5d6674'
+                      onPress={() => getInspectionType('Direct Self Inspection')}
+                      status={checked === 'Animal' ? 'checked' : 'unchecked'}
+                    />
+                    <Text style={{ color: '#5d6674', }}>Animal</Text>
+                  </Pressable>
+                  <Pressable onPress={() => getInspectionType('Direct Self Inspection')} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <RadioButton
+                      value="Food"
+                      color='#5d6674'
+                      onPress={() => getInspectionType('Direct Self Inspection')}
+                      status={checked === 'Agriculture' ? 'checked' : 'unchecked'}
+                    />
+                    <Text style={{ color: '#5d6674', }}>Agriculture</Text>
+                  </Pressable>
+                </View>
+              }
               <Pressable onPress={() => getInspectionType('Vehicle Self Inspection')} style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <RadioButton
                   color='#5d6674'

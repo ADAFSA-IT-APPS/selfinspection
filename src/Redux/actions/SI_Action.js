@@ -448,11 +448,13 @@ export const Search_Establishment_History = (result) => async (dispatch) => {
             }
         })
             .then(function (response) {
+               console.log('Search_Establishment_HistoryResult_response',response);
+
                 if (response.data.Search_Establishment_HistoryResult.ErrorCode == 402) {
                     return result({ error: response.data.Search_Establishment_HistoryResult.ErrorDesc })
 
                 }
-             //  console.log('Search_Establishment_HistoryResult_response', JSON.stringify(response.data.Search_Establishment_HistoryResult));
+               console.log('Search_Establishment_HistoryResult_response', JSON.stringify(response.data.Search_Establishment_HistoryResult));
                 let data = response.data.Search_Establishment_HistoryResult.Search_Establishment_History_Output.tradelicenseHistoryField[0].listOfActionField;
                 let dataSR = response.data.Search_Establishment_HistoryResult.Search_Establishment_History_Output.tradelicenseHistoryField[0].listOfServiceRequestField;
 //                 console.log('getSRDatagetSRData', dataSR);
