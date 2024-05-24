@@ -152,12 +152,19 @@ const Accordions = ({ data, taskid, inspectionItem, checklistDate, subChecked })
         if (inspectionItem.inspectionTypeField == 'Direct Self Inspection') {
           for (let i = 0; i < arr.length; i++) {
             let item = arr[i];
-
+            let score = ''
+            if (item.Value == 'Yes') {
+              score = 1
+            } else if (item.Value == 'No') {
+              score = 0
+            } else {
+              score = ''
+            }
             temarr.push({
               // ...item,
               Comment: item.Comment,
               Order: item.Order,
-              Score: item.Score,
+              Score: score/* item.Score */,
               Value: item.Value,
               Weight: item.Weight,
               AttributeName: item.AttributeName,
@@ -173,9 +180,9 @@ const Accordions = ({ data, taskid, inspectionItem, checklistDate, subChecked })
 
           if (item.Value == 'Yes') {
             temp = 1
-          } else if(item.Value == 'No') {
+          } else if (item.Value == 'No') {
             temp = 0
-          } else{
+          } else {
             temp = 0
           }
           assessScore += temp
