@@ -8,7 +8,7 @@ import ProgressCircle from '../Components/ProgressCircle';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Config from "react-native-config";
-import { GetCheckList, Search_Establishment_History, GetDeviceDetailsByLicenseNo, GetInspectionDetails, Get_Assessment, Search_Establishment_History_NOC } from '../Redux/actions/SI_Action';
+import { GetCheckList, Search_Establishment_History, GetDeviceDetailsByLicenseNo, GetInspectionDetails, Get_Assessment, Get_Assessment_New, Search_Establishment_History_NOC } from '../Redux/actions/SI_Action';
 import { FontFamily, Colors } from '../Util/CommonStyle';
 import { toast, IconLeftActiveDaily, PendingtaskIcon, DownloadIcon, DelayedIcon, IconRightActiveDaily, IconLeftInActiveDaily, IconRightInActiveDaily, ActiveSelfIns, InactiveSelfIns, ActiveAdafsaIns, InactiveAdafsaIns, PendingTask, Delayed, InProgress } from '../Util/CommonStyle'
 import SI_ImageCont from '../Components/SI_ImageCont';
@@ -37,7 +37,7 @@ const Dashboard = ({ navigation }) => {
     const state = useSelector(state => state)
     const Eshtablisment_Count = useSelector(state => state.Eshtablisment_Count)
     const Search_Establishment_HistoryResult_NOC = useSelector(state => state.Search_Establishment_HistoryResult_NOC)
-    
+
     const [focusedScreen, setFocusedScreen] = React.useState(1);
     const [visible, setVisible] = useState(false)
     const [modalVisible, setModalVisible] = useState(false);
@@ -62,7 +62,7 @@ const Dashboard = ({ navigation }) => {
           }).start();  */
         console.log('>>>>date', moment().add(7, 'days').format("MM/DD/YYYY HH:mm:ss"));
         //let parsedSiebeleport = JSON.parse(Search_Establishment_HistoryResult_NOC)
-       //  console.log('Eshtablisment_parsedSiebeleport', parsedSiebeleport);
+        //  console.log('Eshtablisment_parsedSiebeleport', parsedSiebeleport);
     });
     let pdfData = [];
     data.map((inspect, id) => {
@@ -82,7 +82,6 @@ const Dashboard = ({ navigation }) => {
 
     useEffect(() => {
         dispatch(Search_Establishment_History_NOC());
-
     }, [])
 
     useEffect(() => {
@@ -90,6 +89,7 @@ const Dashboard = ({ navigation }) => {
         // console.log('moment().format)',moment().format("HH:mm:ss"));
         //  dispatch(GetDeviceDetailsByLicenseNo());
         //  dispatch(GetCheckList());
+
         dispatch(Search_Establishment_History((result) => {
             // console.log('sssssss', result);
             alertRef.current.show(result.error);

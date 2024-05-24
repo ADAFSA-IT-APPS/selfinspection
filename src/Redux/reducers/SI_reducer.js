@@ -5,19 +5,20 @@ const initialState = {
     UserAccountDetails: [],
     showModal: false,
     inspectionDetails: [],
+    lovDetails: [],
     checkList: [],
     adhocInspection: [],
     Search_Establishment_HistoryResult: [],
-    Search_Establishment_HistoryResult_NOC:[],
+    Search_Establishment_HistoryResult_NOC: [],
     get_Assessment: [],
     Eshtablisment_Count: [],
     Eshtablisment_Inspection_Type: [],
     Add_Questionnaires_Attachment: '',
     checkListData: [],
     pushnotification: true,
-    GET_INSPECTION_REPORT:null,
-    recall:[],
-    SR_Data:[]
+    GET_INSPECTION_REPORT: null,
+    recall: [],
+    SR_Data: []
 }
 
 const SI_reducer = (state = initialState, action) => {
@@ -48,6 +49,11 @@ const SI_reducer = (state = initialState, action) => {
                 ...state,
                 inspectionDetails: action.payload,
             }
+        case 'GET_LOV_DETAILS':
+            return {
+                ...state,
+                lovDetails: action.payload,
+            }
         case 'GET_ASSESSMENT':
             return {
                 ...state,
@@ -74,13 +80,13 @@ const SI_reducer = (state = initialState, action) => {
                 ...state,
                 Search_Establishment_HistoryResult_NOC: action.payload,
             }
-            case 'SEARCH_ESHTABLISHMENT_RESULT':
+        case 'SEARCH_ESHTABLISHMENT_RESULT':
             return {
                 ...state,
                 Search_Establishment_HistoryResult: action.payload,
                 Eshtablisment_Count: action.eshtablish_count,
                 Eshtablisment_Inspection_Type: action.eshtablish_inspection_type,
-                SR_Data:action.getSRData
+                SR_Data: action.getSRData
             }
         case 'ADD_QUESTIONNAIRES_ATTACHMENT':
             return {
@@ -88,7 +94,7 @@ const SI_reducer = (state = initialState, action) => {
                 Add_Questionnaires_Attachment: action.payload,
             }
         case 'GET_INSPECTION_REPORT':
-          //  console.log('from_reducer_report',action.payload );
+            //  console.log('from_reducer_report',action.payload );
 
             return {
                 ...state,

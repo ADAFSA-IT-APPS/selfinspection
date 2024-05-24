@@ -4,7 +4,7 @@ import Navbar from "../../Components/Navbar/Navbar";
 import SI_ImageCont from "../../Components/SI_ImageCont";
 import Loading from "../../Components/Loading";
 import NavigationService from '../../navigation/NavigationService';
-import { AdhocInspection, Search_Establishment_History, Get_Assessment, GetCheckList } from '../../Redux/actions/SI_Action';
+import { AdhocInspection,Get_Assessment_New, Search_Establishment_History, Get_Assessment, GetCheckList } from '../../Redux/actions/SI_Action';
 import { useDispatch, useSelector } from "react-redux";
 
 
@@ -38,12 +38,16 @@ const Notifications = (props) => {
         })); */
    // console.log('item', item);
     console.log('taskId', taskId);
-    dispatch(Get_Assessment(item, (result) => {
+    // dispatch(Get_Assessment(item, (result) => {
+    //   alertRef.current.show(result.error);
+    // }));
+    // dispatch(GetCheckList(item, (result) => {
+    //   alertRef.current.show(result.error);
+    // }));
+    dispatch(Get_Assessment_New(item, (result) => {
+      console.log('sssssss', result);
       alertRef.current.show(result.error);
-    }));
-    dispatch(GetCheckList(item, (result) => {
-      alertRef.current.show(result.error);
-    }));
+  }));
   }
   return (
     <View style={styles.container}>

@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { writeFile, appendFile, readFile, readFileAssets, DownloadDirectoryPath, mkdir, readDir } from 'react-native-fs';
 
 
-const { SERVERDATE_TIME,COMMON_SERVICE, APP_SERVICE_URL, ESERVICE_GENERIC, SELFINSPECTION_SERVICE, MOBILE_SERVICE, STAGE_API } = Config;
+const { SERVERDATE_TIME, COMMON_SERVICE, UpdateAssessment, LOV, APP_SERVICE_URL, SMARTCONTROL, GetAssessment, ESERVICE_GENERIC, SELFINSPECTION_SERVICE, MOBILE_SERVICE, STAGE_API } = Config;
 
 /* export const GetServerDateTime = () => async () => {
 
@@ -139,7 +139,7 @@ function withTimeout(msecs, promise) {
 
 //     let postUrl = STAGE_API + ESERVICE_GENERIC + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "DoLogin";
 //     console.log('mainurl', postUrl);
-  
+
 //     if (userName === '') {
 //         return result({ error: 'Please enter Username' })
 //     } else if (password === '') {
@@ -153,7 +153,7 @@ function withTimeout(msecs, promise) {
 //     };
 //     console.log('userdata', postData);
 
-  
+
 //     try {
 //         return withTimeout( 
 //             30000,
@@ -188,7 +188,7 @@ function withTimeout(msecs, promise) {
 //                             userToken = await AsyncStorage.getItem('userToken');
 
 //                             /* 'asdf';
-                            
+
 //                             AsyncStorage.setItem('userToken', userToken) */
 //                             let userdetails = JSON.stringify(userDetails);
 //                             AsyncStorage.setItem('userdetails', userdetails)
@@ -277,7 +277,7 @@ export const signIn = (userName, password, toggle, result) => async (dispatch) =
     console.log('new date object', dateob.data);
 
     let checkToken = await AsyncStorage.getItem('fcmToken');
-    console.log('checktoken>>', );
+    console.log('checktoken>>',);
     console.log('checkToken', checkToken);
 
     const dateInUtc = getDateInUtc(dateob.data);
@@ -285,109 +285,109 @@ export const signIn = (userName, password, toggle, result) => async (dispatch) =
 
     let postUrl = STAGE_API + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "DoLogin";
     console.log('mainurl', postUrl);
-  
+
     if (userName === '') {
         return result({ error: 'Please enter Username' })
     } else if (password === '') {
         return result({ error: 'Please enter Password' })
     }
-    let postData = { 
-        UserName: userName, 
+    let postData = {
+        UserName: userName,
         Password: password,
-        DeviceToken:checkToken?checkToken:'',
-        DeviceType:Platform.OS ==='ios'? 'IOS' : 'ANDROID'  ,
+        DeviceToken: checkToken ? checkToken : '',
+        DeviceType: Platform.OS === 'ios' ? 'IOS' : 'ANDROID',
     };
     console.log('userdata', postData);
 
-  
+
     try {
-       /*  return withTimeout( 
-            30000, */
-            axios({
-                method: "POST",
-                url: postUrl, 
-                mode: "cors",
-                timeout: 1000 * 20,
-                data: JSON.stringify(postData),
-                headers: {
-                    "Content-Type": "application/json",
+        /*  return withTimeout( 
+             30000, */
+        axios({
+            method: "POST",
+            url: postUrl,
+            mode: "cors",
+            timeout: 1000 * 20,
+            data: JSON.stringify(postData),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+            .then(async function (response) {
+                dispatch({ type: 'HIDE_LOADER' });
+                console.log('response_from _login', response.data.DoLoginResult);
+                console.log('response', response.data.DoLoginResult.ErrorCode);
+                console.log('response_from _STUlogin', response.status);
+
+                if (response.data.DoLoginResult.ErrorCode === "0") {
+                    console.log('enter');
+                    let userDetails = response.data.DoLoginResult.CompanyInfoDetails;
+                    let LicenseNO = response.data.DoLoginResult.CompanyInfoDetails.LicenseNO;
+                    let TradeName = response.data.DoLoginResult.CompanyInfoDetails.TradeName;
+                    let errorCode = response.data.DoLoginResult.ErrorCode;
+                    console.log('errorCode', errorCode);
+                    console.log('TradeName>>>>>', TradeName);
+
+                    let ErrorMsg = response.data.DoLoginResult.ErrorDesc;
+                    // userToken = LicenseNO.DeviceToken;
+                    if (errorCode == 0) {
+                        console.log('inside login',);
+                        userToken = await AsyncStorage.getItem('userToken');
+
+                        /* 'asdf';
+                        
+                        AsyncStorage.setItem('userToken', userToken) */
+                        let userdetails = JSON.stringify(userDetails);
+                        AsyncStorage.setItem('userdetails', userdetails)
+                        AsyncStorage.setItem('LicenseNO', LicenseNO)
+                        AsyncStorage.setItem('TradeName', TradeName)
+                        console.log('token_login', userToken);
+                        /*  let testUser= await AsyncStorage.getItem('userdetails')
+                         console.log('userdetails',testUser ); */
+                        dispatch({ type: 'LOGIN', id: userName, token: userToken ? userToken : null, UserAccountDetails: userDetails });
+                        NavigationService.navigate('Tabs');
+
+                    }
+                    else if (errorCode == 1001) {
+                        return result({ error: ErrorMsg })
+                    }
+                    else if (errorCode == 1002) {
+                        return result({ error: ErrorMsg })
+                    }
+                    else if (errorCode == 1003) {
+                        return result({ error: ErrorMsg })
+                    }
+                    else if (errorCode == 1004) {
+                        return result({ error: ErrorMsg })
+                    }
+                }
+                else if (response.data.DoLoginResult.ErrorCode == "101") {
+                    return result({ error: 'Please correct time on your device' })
+                }
+                else if (response.data.DoLoginResult.ErrorCode == "102") {
+                    return result({ error: 'Please correct date&time on your device' })
+                }
+                else if (response.data.DoLoginResult.ErrorCode == "103") {
+                    return result({ error: 'Dear employee,this service has been stopped temporary' })
+                } else if (response.data.DoLoginResult.ErrorCode == "104") {
+                    return result({ error: response.data.DoLoginResult.UserAccountDetails.ErrorMsg })
+                }
+                else if (response.data.DoLoginResult.ErrorCode == "404") {
+                    return result({ error: 'Dear Customer, we are unable to load. Please try again later. Sorry for the inconvenience caused. ' })
+                }
+                else if (response.data.DoLoginResult.ErrorCode == "402") {
+                    return result({ error: 'Dear Customer,server error occured. Please try again later.' })
+                }
+                else {
+                    console.log('nodata');
+                    return result({ error: 'No_Data_Found' })
                 }
             })
-                .then(async function (response) {
-                    dispatch({ type: 'HIDE_LOADER' });
-                    console.log('response_from _login', response.data.DoLoginResult);
-                    console.log('response', response.data.DoLoginResult.ErrorCode);
-                    console.log('response_from _STUlogin', response.status);
-
-                    if (response.data.DoLoginResult.ErrorCode === "0") {
-                        console.log('enter');
-                        let userDetails = response.data.DoLoginResult.CompanyInfoDetails;
-                        let LicenseNO = response.data.DoLoginResult.CompanyInfoDetails.LicenseNO;
-                        let TradeName = response.data.DoLoginResult.CompanyInfoDetails.TradeName;
-                        let errorCode = response.data.DoLoginResult.ErrorCode;
-                        console.log('errorCode', errorCode);
-                        console.log('TradeName>>>>>', TradeName);
-
-                        let ErrorMsg = response.data.DoLoginResult.ErrorDesc;
-                        // userToken = LicenseNO.DeviceToken;
-                        if (errorCode == 0) {
-                            console.log('inside login', );
-                            userToken = await AsyncStorage.getItem('userToken');
-
-                            /* 'asdf';
-                            
-                            AsyncStorage.setItem('userToken', userToken) */
-                            let userdetails = JSON.stringify(userDetails);
-                            AsyncStorage.setItem('userdetails', userdetails)
-                            AsyncStorage.setItem('LicenseNO', LicenseNO)
-                            AsyncStorage.setItem('TradeName', TradeName)
-                            console.log('token_login', userToken);
-                            /*  let testUser= await AsyncStorage.getItem('userdetails')
-                             console.log('userdetails',testUser ); */
-                            dispatch({ type: 'LOGIN', id: userName, token: userToken ? userToken : null, UserAccountDetails: userDetails });
-                            NavigationService.navigate('Tabs');
-
-                        }
-                        else if (errorCode == 1001) {
-                            return result({ error: ErrorMsg })
-                        }
-                        else if (errorCode == 1002) {
-                            return result({ error: ErrorMsg })
-                        }
-                        else if (errorCode == 1003) {
-                            return result({ error: ErrorMsg })
-                        }
-                        else if (errorCode == 1004) {
-                            return result({ error: ErrorMsg })
-                        }
-                    }
-                    else if (response.data.DoLoginResult.ErrorCode == "101") {
-                        return result({ error: 'Please correct time on your device' })
-                    }
-                    else if (response.data.DoLoginResult.ErrorCode == "102") {
-                        return result({ error: 'Please correct date&time on your device' })
-                    }
-                    else if (response.data.DoLoginResult.ErrorCode == "103") {
-                        return result({ error: 'Dear employee,this service has been stopped temporary' })
-                    } else if (response.data.DoLoginResult.ErrorCode == "104") {
-                        return result({ error: response.data.DoLoginResult.UserAccountDetails.ErrorMsg })
-                    }
-                    else if (response.data.DoLoginResult.ErrorCode == "404") {
-                        return result({ error: 'Dear Customer, we are unable to load. Please try again later. Sorry for the inconvenience caused. ' })
-                    }
-                    else if (response.data.DoLoginResult.ErrorCode == "402") {
-                        return result({ error: 'Dear Customer,server error occured. Please try again later.' })
-                    }
-                    else {
-                        console.log('nodata');
-                        return result({ error: 'No_Data_Found' })
-                    }
-                })
-                .catch((err) => {
-                    dispatch({ type: 'HIDE_LOADER' });
-                    console.log('error_from login_in_then', err.ErrorMsg);
-                    return result({ error: 'Please check the username and password' })
-                })
+            .catch((err) => {
+                dispatch({ type: 'HIDE_LOADER' });
+                console.log('error_from login_in_then', err.ErrorMsg);
+                return result({ error: 'Please check the username and password' })
+            })
         /* ); */
 
     } catch (e) {
@@ -435,7 +435,6 @@ export const Search_Establishment_History = (result) => async (dispatch) => {
             AdditionalTag3: ""
         }
     };
-    console.log('Search_Establishment_History_postData', postData);
 
     try {
         axios({
@@ -448,19 +447,14 @@ export const Search_Establishment_History = (result) => async (dispatch) => {
             }
         })
             .then(function (response) {
-               console.log('Search_Establishment_HistoryResult_response',response);
-
+                console.log('history_resp', response.data);
                 if (response.data.Search_Establishment_HistoryResult.ErrorCode == 402) {
                     return result({ error: response.data.Search_Establishment_HistoryResult.ErrorDesc })
 
                 }
-               console.log('Search_Establishment_HistoryResult_response', JSON.stringify(response.data.Search_Establishment_HistoryResult));
                 let data = response.data.Search_Establishment_HistoryResult.Search_Establishment_History_Output.tradelicenseHistoryField[0].listOfActionField;
                 let dataSR = response.data.Search_Establishment_HistoryResult.Search_Establishment_History_Output.tradelicenseHistoryField[0].listOfServiceRequestField;
-//                 console.log('getSRDatagetSRData', dataSR);
-// console.log('.slice(3)',LicenseNO.slice(3) );
-//                 let getSRData = dataSR.filter((i) => i.priorityField === LicenseNO.slice(3))
-//                   console.log('getSRDatagetSRData>>', getSRData);
+
                 let dataObjCount = {};
                 data.forEach(e => {
                     if (dataObjCount[e.statusField]) {
@@ -504,7 +498,7 @@ export const Search_Establishment_History = (result) => async (dispatch) => {
     } catch (e) {
         // console.log('GET_INSPECTION_DETAILS_ERROR', e.ErrorMsg);
         dispatch({ type: 'HIDE_LOADER' });
-      //  return result({ error: e.ErrorMsg })
+        //  return result({ error: e.ErrorMsg })
 
     }
 
@@ -512,33 +506,30 @@ export const Search_Establishment_History = (result) => async (dispatch) => {
 }
 
 export const Search_Establishment_History_NOC = (/* result */) => async (dispatch) => {
-    console.log('Search_Establishment_History_NOC_action');
     dispatch({ type: 'SHOW_LOADER' });
 
 
 
     let postUrl = 'https://smartcontrol.adafsa.gov.ae/GBL_ADAFSA_MOB_Application/SERV_HistorySearchRestService/HistorySearch';
 
-    console.log('Search_Establishment_History_NOC', postUrl);
     const LicenseNO = await AsyncStorage.getItem('LicenseNO');
 
     let postData =
     {
-            InterfaceID: "ADFCA_CRM_SBL_005",
-            LanguageType: "ENU",
-            TradeLicenseNumber: LicenseNO/* ?LicenseNO:"CN-1700160" */,
-            InspectorName: "",
-            LicenseSource: "",
-            EnglishName: "",
-            InspectorId: "",
-            ArabicName: "",
-            AdditionalTag1: "",
-            Sector: "",
-            AdditionalTag2: "",
-            Area: "",
-            AdditionalTag3: ""
+        InterfaceID: "ADFCA_CRM_SBL_005",
+        LanguageType: "ENU",
+        TradeLicenseNumber: LicenseNO/* ?LicenseNO:"CN-1700160" */,
+        InspectorName: "",
+        LicenseSource: "",
+        EnglishName: "",
+        InspectorId: "",
+        ArabicName: "",
+        AdditionalTag1: "",
+        Sector: "",
+        AdditionalTag2: "",
+        Area: "",
+        AdditionalTag3: ""
     };
-    console.log('Search_Establishment_History_NOC_postData', postData);
 
     try {
         axios({
@@ -552,11 +543,11 @@ export const Search_Establishment_History_NOC = (/* result */) => async (dispatc
         })
             .then(function (response) {
                 const data = response.data.Data;
-         
+
                 dispatch({ type: 'HIDE_LOADER' });
                 if (response.data) {
                     console.log('enterhistory')
-                    dispatch({ type: 'SEARCH_ESHTABLISHMENT_RESULT_NOC', payload: data});
+                    dispatch({ type: 'SEARCH_ESHTABLISHMENT_RESULT_NOC', payload: data });
                     // toast('Success')
 
                 } else {
@@ -573,14 +564,14 @@ export const Search_Establishment_History_NOC = (/* result */) => async (dispatc
     } catch (e) {
         // console.log('GET_INSPECTION_DETAILS_ERROR', e.ErrorMsg);
         dispatch({ type: 'HIDE_LOADER' });
-       // return result({ error: e.ErrorMsg })
+        // return result({ error: e.ErrorMsg })
 
     }
 
     // dispatch({ type: 'GET_CHECK_LIST', payload: false });
 }
 
-export const AdhocInspection = (IType, VNumber) => async (dispatch) => {
+export const AdhocInspection = (IType, VNumber, subChecked) => async (dispatch) => {
     console.log('itype', IType);
     console.log('VNumber', VNumber);
     dispatch({ type: 'SHOW_LOADER' });
@@ -675,8 +666,12 @@ export const AdhocInspection = (IType, VNumber) => async (dispatch) => {
 
 
                     console.log('taskid_check>>>>>>>', taskid);
-                    dispatch(Get_Assessment(taskid));
-                    dispatch(GetCheckList(taskid));
+                    if (IType == 'Vehicle Self Inspection') {
+                        dispatch(Get_Assessment(taskid));
+                        dispatch(GetCheckList(taskid));
+                    } else {
+                        dispatch(Get_Assessment_New(taskid, '', subChecked));
+                    }
                     // NavigationService.navigate('TaskDetails', { taskId: taskid });
                     // return result({ error: response.data.AdhocInspectionResult.NewInspection_Output.statusField })
                 } else {
@@ -724,7 +719,7 @@ export const Get_Assessment = (item, result) => async (dispatch) => {
     console.log('checktaskid', item.inspectionTypeField !== 'Vehicle Self Inspection' && item.inspectionTypeField);
     var TaskId;
     if ((item.inspectionTypeField === 'Vehicle Self Inspection') && (item.statusField == 'Scheduled' || item.statusField == 'Acknowledged')) {
-       //For dev
+        //For dev
         // TaskId = '1-1046099439';
         //For prod
         TaskId = '1-13602897619';
@@ -758,7 +753,7 @@ export const Get_Assessment = (item, result) => async (dispatch) => {
             }
         })
             .then(function (response) {
-                console.log('Get_AssessmentResponse', response.data.Get_AssessmentResult);
+                // console.log('Get_AssessmentResponse', response.data.Get_AssessmentResult);
                 //  if (response.data.Get_AssessmentResult.GetAssesment_Output?.listOfAdfcaMobilitySalesAssessmentField === '') {
                 if (response.data.Get_AssessmentResult.GetAssesment_Output?.statusField === 'Failed') {
                     toast('Empty Checklist');
@@ -797,6 +792,171 @@ export const Get_Assessment = (item, result) => async (dispatch) => {
     }
 
     // dispatch({ type: 'GET_CHECK_LIST', payload: false });
+}
+
+export const Get_Assessment_New = (item, result, subChecked) => async (dispatch) => {
+    // console.log('task_Get_Assessment', item.inspectionNumberField);
+    console.log('itemfrom action', item);
+    console.log('subCheckedfrom_action_Get_Assessment_New', subChecked);
+    dispatch({ type: 'SHOW_LOADER' });
+
+
+    let postUrl = SMARTCONTROL + GetAssessment;
+
+    console.log('Get_Assessment_new', postUrl);
+
+    let postData = {
+        "TemplateName": subChecked?.LanguageIndependentCode ? subChecked.LanguageIndependentCode : 'Self Inspection-Food'
+        // "TemplateName": "Final FSMS Audit Inspection"
+        //"TemplateName": "Self Inspection-Food"
+
+
+    };
+    console.log('Get_Assessment_new_postData', postData);
+
+    try {
+        axios({
+            method: "POST",
+            url: postUrl,
+            timeout: 1000 * 16,
+            data: JSON.stringify(postData),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+            .then(function (response) {
+                console.log('Get_Assessment_new_Response', response.data.Data);
+                // let resp = response.data.Data; 
+                let resp = JSON.parse(response.data.Data)
+                if (resp.ListOfAdfcaMobilitySalesAssessment == null) {
+                    toast('Empty Checklist');
+                    dispatch({ type: 'HIDE_LOADER' });
+                    return;
+                }
+                const data = resp.ListOfAdfcaMobilitySalesAssessment.SalesAssessmentTemplate[0].ListOfSalesAssessmentAttribute;
+                console.log('FSMS_data', data);
+                console.log('to test',);
+                // console.log('response.data.Message', response.data.Message);
+
+                // if (true) {
+                console.log('test',);
+                //toast('Please wait...')
+                // dispatch({ type: 'GET_ASSESSMENT', payload: formattedObj/*  payload: {data:formattedObj,loading:false}  */ });
+                toast('Please wait...')
+                let salesAssessmentArray = [];
+                let salesAssessmentTemplate = resp.ListOfAdfcaMobilitySalesAssessment.SalesAssessmentTemplate;
+                // console.log('salesAssessmentTemplate test',);
+                // console.log('salesAssessmentTemplate', resp.ListOfAdfcaMobilitySalesAssessment.SalesAssessmentTemplate);
+                // console.log('salesAssessmentTemplatesalesAssessmentTemplate', salesAssessmentTemplate);
+                for (let index = 0; index < salesAssessmentTemplate.length; index++) {
+                    const element = salesAssessmentTemplate[index];
+                    let salesAssessmentAttribute = element.ListOfSalesAssessmentAttribute.SalesAssessmentAttribute;
+                    for (let indexSalesAssessment = 0; indexSalesAssessment < salesAssessmentAttribute.length; indexSalesAssessment++) {
+                        const elementSalesAssessment = salesAssessmentAttribute[indexSalesAssessment];
+                        // const elementSalesAssessmentValue=elementSalesAssessment.ListOfSalesAssessmentAttributeValue
+                        // let decs=elementSalesAssessmentValue.SalesAssessmentAttributeValue[indexSalesAssessment].Description;
+                        let saleAssessmentObj = {};
+                        saleAssessmentObj.attributeNameField = elementSalesAssessment.Name;
+                        saleAssessmentObj.orderField = elementSalesAssessment.Order;
+                        saleAssessmentObj.Description3 = elementSalesAssessment.Category;
+                        saleAssessmentObj.comment2Field = /* elementSalesAssessment.Description ? elementSalesAssessment.Description : */ '';
+                        saleAssessmentObj.scoreField = ""/* elementSalesAssessment.ListOfSalesAssessmentAttributeValue.SalesAssessmentAttributeValue */;
+                        //  saleAssessmentObj.scoredata = elementSalesAssessment.ListOfSalesAssessmentAttributeValue.SalesAssessmentAttributeValue;
+                        saleAssessmentObj.valueField = '';
+                        saleAssessmentObj.weightField = 1;
+                        salesAssessmentArray.push(saleAssessmentObj);
+                    }
+                    // console.log('salesAssessmentArray', salesAssessmentArray);
+
+                    let DataObj = {};
+
+                    salesAssessmentArray.forEach(e => {
+                        console.log('ee', e);
+                        if (DataObj[e.Description3]) {
+                            DataObj[e.Description3].push(e);
+                        } else {
+                            DataObj[e.Description3] = [e];
+                        }
+                    });
+                    // console.log('salesAssessmentArray', salesAssessmentArray);
+                    // console.log('salesAssessmentArray_DataObj', DataObj);
+
+                    let formattedObj = Object.values(DataObj).map((item, index) => ({
+                        title: item[0].Description3,
+                        data: item
+                    }))
+                    // console.log('formattedObjformattedObj', formattedObj);
+
+                    dispatch({ type: 'GET_CHECK_LIST', payload: formattedObj, dataObj: salesAssessmentArray });
+                    NavigationService.navigate('TaskDetails', { taskId: item.inspectionNumberField, statusField: item.statusField, item: item, nearestDateField: "", subChecked: subChecked });
+                    dispatch({ type: 'HIDE_LOADER' });
+                }
+                dispatch({ type: 'HIDE_LOADER' });
+
+            }).catch((err) => {
+                console.log('catch', err);
+                toast('Network Error');
+
+                dispatch({ type: 'HIDE_LOADER' });
+            })
+    } catch (e) {
+        //console.log('GET_INSPECTION_DETAILS_ERROR', e.ErrorMsg);
+        dispatch({ type: 'HIDE_LOADER' });
+        toast('Network Error');
+        return
+    }
+
+    // dispatch({ type: 'GET_CHECK_LIST', payload: false });
+}
+
+export const GetLOVDetails = () => async (dispatch) => {
+    dispatch({ type: 'SHOW_LOADER' });
+
+    let postUrl = SMARTCONTROL + LOV;
+
+    console.log('GetLOVDetails', postUrl);
+
+    let postData = {
+        "InterfaceID": "ADFCA_CRM_SBL_061",
+        "ApplicationType": "ADAFSA_SI_TEMP_NAME",
+        "LanguageName": ""
+    };
+
+    try {
+        axios({
+            method: "POST",
+            url: postUrl,
+            data: JSON.stringify(postData),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+            .then(function (response) {
+                let resp = JSON.parse(response.data.Data)
+                if (resp.GetLookupValuesResponse == null) {
+                    toast('Empty Checklist Template');
+                    dispatch({ type: 'HIDE_LOADER' });
+                    return;
+                }
+                const data = resp.GetLookupValuesResponse.Lookup;
+                console.log('LOVlength', data);
+                if (data.length) {
+                    dispatch({ type: 'GET_LOV_DETAILS', payload: data });
+                    dispatch({ type: 'HIDE_LOADER' });
+
+                } else {
+                    console.log('wrong');
+                    return result({ error: data.Status })
+                    dispatch({ type: 'HIDE_LOADER' });
+
+                }
+            }).catch((err) => async (dispatch) => {
+                dispatch({ type: 'HIDE_LOADER' });
+            })
+    } catch (e) {
+        console.log('GET_INSPECTION_DETAILS_ERROR', e.ErrorMsg);
+        // dispatch({ type: 'HIDE_LOADER' });
+    }
 }
 
 export const GetInspectionDetails = () => async (dispatch) => {
@@ -868,7 +1028,7 @@ export const GetCheckList = (item, result) => async (dispatch) => {
 
     if (item.statusField === 'Scheduled') {
         let postUrl = APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Send_Acknowledge";
-        //  console.log('post url from send acknowledge',postUrl );
+        console.log('post url from send acknowledge', postUrl);
         let postData = {
             _Input: {
                 InterfaceID: "ADFCA_CRM_SBL_068",
@@ -886,7 +1046,7 @@ export const GetCheckList = (item, result) => async (dispatch) => {
                 PreposedDateTime: ""
             }
         }
-        //   console.log('postData from send acknowledge',postData );
+        console.log('postData from send acknowledge', postData);
 
         try {
             axios({
@@ -921,7 +1081,7 @@ export const GetCheckList = (item, result) => async (dispatch) => {
 
     let TaskId;
     if ((item.inspectionTypeField === 'Vehicle Self Inspection') && (item.statusField == 'Scheduled' || item.statusField == 'Acknowledged')) {
-         //For dev
+        //For dev
         // TaskId = '1-1046099439';
         //For prod
         TaskId = '1-13602897619';
@@ -961,9 +1121,9 @@ export const GetCheckList = (item, result) => async (dispatch) => {
                     if (response.data.Get_Check_ListResult.Get_Check_List_Output.inspectionCheckListField[0].listOfSalesAssessmentField.length > 0) {
                         let nearestDateField = response.data.Get_Check_ListResult.Get_Check_List_Output.inspectionCheckListField[0].nearestDateField
                         // alert(nearestDateField)
-                        console.log('before fetching', );
+                        console.log('before fetching',);
                         await AsyncStorage.getItem("dataAssessmentt").then((value) => {
-                        console.log('after fetching', );
+                            console.log('after fetching',);
 
                             let valueFormatted = JSON.parse(value);
                             const dataObj = data.map(item => {
@@ -985,6 +1145,8 @@ export const GetCheckList = (item, result) => async (dispatch) => {
                             //   console.log('dataobj', dataObj);
 
                             let DataObj = {};
+                            console.log('DataObjbefore', dataObj)
+
                             dataObj.forEach(e => {
                                 if (DataObj[e.Description3]) {
                                     DataObj[e.Description3].push(e);
@@ -992,6 +1154,7 @@ export const GetCheckList = (item, result) => async (dispatch) => {
                                     DataObj[e.Description3] = [e];
                                 }
                             });
+                            console.log('DataObj', DataObj)
                             const formattedObj = Object.values(DataObj).map((item, index) => ({
                                 title: item[0].Description3,
                                 data: item
@@ -1038,21 +1201,21 @@ export const GetCheckList = (item, result) => async (dispatch) => {
     // dispatch({ type: 'GET_CHECK_LIST', payload: false });
 }
 
-export const CallToGetInspectionReport = (data,type) => async (dispatch) => {
+export const CallToGetInspectionReport = (data, type) => async (dispatch) => {
     dispatch({ type: 'SHOW_LOADER' });
 
     console.log('CallToGetInspectionReport_taskid', data);
-   // var path = DownloadDirectoryPath + '/' + data + "_SibleReport.pdf";
-   // console.log('path callToGetInspectionReport', path);
+    // var path = DownloadDirectoryPath + '/' + data + "_SibleReport.pdf";
+    // console.log('path callToGetInspectionReport', path);
     // "ReferenceId": "1-2796924481",
     let postData = {
         "InterfaceID": "ADFCA_CRM_SBL_058",
         "LanguageType": "ENG",
         "ReferenceId": data,
-        "EntityName": type=='No Objection Certificate'?"SR":"Inspection"
+        "EntityName": type == 'No Objection Certificate' ? "SR" : "Inspection"
     }
 
-console.log('postData_report', postData);
+    console.log('postData_report', postData);
     let postUrl = 'https://smartcontrol.adafsa.gov.ae/resources/SOA_PROD/GBL_ADFCA_SERV_GetPaymentReport_RestSC/GetPaymentRestService/InspectionReport'
 
     try {
@@ -1066,25 +1229,25 @@ console.log('postData_report', postData);
             }
         })
             .then(function (response) {
-         
+
                 const data = response.data.Data;
 
 
                 // dispatch({ type: 'HIDE_LOADER' });
-               // console.log('Error_REPORT', data.ErrorMessage);
-                if (response.data ) {
+                // console.log('Error_REPORT', data.ErrorMessage);
+                if (response.data) {
                     // console.log('GET_INSPECTION_REPORT', JSON.stringify(response));
-                     console.log('GET_INSPECTION_REPORT', response.data.Data);
+                    console.log('GET_INSPECTION_REPORT', response.data.Data);
                     dispatch({ type: 'HIDE_LOADER' });
-                     dispatch({ type: 'GET_INSPECTION_REPORT', payload: data });
+                    dispatch({ type: 'GET_INSPECTION_REPORT', payload: data });
                     //toast('Attached Successfully')
-                  //  return callback('Success')
+                    //  return callback('Success')
                     // NavigationService.navigate('TaskDetails');
 
                 } else {
                     toast(response.data.Data.ErrorMessage)
-                    console.log('wrong'); 
-                 //   return callback('Failed')
+                    console.log('wrong');
+                    //   return callback('Failed')
 
                 }
             }).catch((err) => {
@@ -1165,7 +1328,7 @@ export const Add_Questionnaires_Attachment = (data, callback) => async (dispatch
     // dispatch({ type: 'GET_CHECK_LIST', payload: false });
 }
 
-export const Update_Assessment = (data, callback) => async (dispatch) => {
+export const Update_Assessment = (data, IType, callback) => async (dispatch) => {
     //console.log('task_Get_Assessment', data.inspectionNumberField);
     console.log('updateassesment action', JSON.stringify(data));
     dispatch({ type: 'SHOW_LOADER' });
@@ -1183,7 +1346,7 @@ export const Update_Assessment = (data, callback) => async (dispatch) => {
     const encryptedServerDate = Encrypt(dateInUtc);
 
 
-    let postUrl = APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Update_Assessment";
+    let postUrl = IType == 'Direct Self Inspection' ? SMARTCONTROL + UpdateAssessment : APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Update_Assessment";
 
     console.log('Update_Assessment', postUrl);
     // console.log('checktaskid', item.inspectionTypeField !== 'Vehicle Self Inspection' && item.inspectionTypeField);
@@ -1206,46 +1369,41 @@ export const Update_Assessment = (data, callback) => async (dispatch) => {
             .then(function (response) {
                 //dispatch({ type: 'HIDE_LOADER' });
                 console.log('Update_AssessmentResponse', response.data);
-                // if (response.data.Update_AssessmentResult.UpdateAssesment_Output.statusField === 'Failed') {
-                //    toast(response.data.Update_AssessmentResult.UpdateAssesment_Output.errorMessageField );
+                if (response?.data?.Data) {
+                    let data = JSON.parse(response.data.Data)
+                    if (data.Status == 'Failed') {
+                        toast(data.ErrorMessage);
+                        dispatch({ type: 'HIDE_LOADER' });
+                        return callback('Success')
+                    } else {
+                        dispatch({ type: 'HIDE_LOADER' });
+                        return callback('Success')
+                    }
+                } else if (response?.data?.Update_AssessmentResult) {
+                    let data = response.data.Update_AssessmentResult;
+                    console.log('Update_Assessment--------', data);
 
-                //     dispatch({ type: 'HIDE_LOADER' });
-                //     return;
-                // }
-                const data = response.data.Update_AssessmentResult;
-                console.log('Update_Assessment--------', data);
 
 
+                    if (data.ErrorDesc === "Success") {
 
-                if (data.ErrorDesc === "Success") {
-                    /* 
-                                        if (response.data.Update_AssessmentResult.UpdateAssesment_Output.statusField === 'Failed') {
-                                            toast(response.data.Update_AssessmentResult.UpdateAssesment_Output.errorMessageField );
-                        
-                                            dispatch({ type: 'HIDE_LOADER' });
-                                            return callback({ error: response.data.Update_AssessmentResult.UpdateAssesment_Output.errorMessageField })
-                                        }else{ */
+                        console.log('data.ErrorDesc ', data.errorMessageField);
+                        toast('Success');
 
-                    // dispatch({ type: 'GET_ASSESSMENT', payload: formattedObj/*  payload: {data:formattedObj,loading:false}  */ });
-                    console.log('data.ErrorDesc ', data.errorMessageField);
-                    toast('Success');
-
-                    dispatch({ type: 'HIDE_LOADER' });
-                    return callback('Success')
-
-                    //  NavigationService.navigate('TaskDetails', { taskId: TaskId });
-
-                } else if (data.ErrorCode == "402") {
-                    toast(data.ErrorDesc);
-                    dispatch({ type: 'HIDE_LOADER' });
-
-                    return;
+                        dispatch({ type: 'HIDE_LOADER' });
+                        return callback('Success')
+                    } else if (data.ErrorCode == "402") {
+                        toast(data.ErrorDesc);
+                        dispatch({ type: 'HIDE_LOADER' });
+                        return;
+                    }
                 }
                 else {
                     console.log('wrong');
+                    dispatch({ type: 'HIDE_LOADER' });
                     NavigationService.goBack();
-                    console.log('data.ErrorDesc ', data.errorMessageField);
-                    toast(response.data.Update_AssessmentResult.ErrorDesc)
+                    //console.log('data.ErrorDesc ', data.errorMessageField);
+                    toast(response?.data?.Update_AssessmentResult.ErrorDesc)
                     return result({ error: ErrorMsg })
                 }
             }).catch((err) => async (dispatch) => {

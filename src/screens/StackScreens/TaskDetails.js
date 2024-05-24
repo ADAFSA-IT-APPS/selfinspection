@@ -18,7 +18,7 @@ const TaskDetails = props => {
     //const [taskId,setTaskId]=useState('');
     console.log('route', JSON.stringify(props));
     const dispatch = useDispatch();
-    const { taskId,statusField,item,nearestDateField } = props.route.params;
+    const { taskId, statusField, item, nearestDateField, subChecked } = props.route.params;
 
 
 
@@ -30,17 +30,19 @@ const TaskDetails = props => {
 
     useEffect(() => {
         console.log('>>>>>>>>>checkListfrom task details comp', nearestDateField);
-      // console.log('itemmmm',item );
+        console.log('subChecked_taskdetails', subChecked);
 
-        if (taskId&&get_Assessment) {
+        if (taskId && get_Assessment) {
+            setIsLoading(false);
+        } else if (taskId) {
             setIsLoading(false);
         } else {
             return
         }
-    }, [taskId,get_Assessment])
+    }, [taskId, get_Assessment])
 
-    const onSubmitPhoto = (task) => { 
-        console.log('attachment data from accordion',task );
+    const onSubmitPhoto = (task) => {
+        console.log('attachment data from accordion', task);
         //dispatch(Add_Questionnaires_Attachment(task));
     }
     return (
@@ -48,23 +50,23 @@ const TaskDetails = props => {
             {isLoading && <Loading />}
             <TaskNavbar taskno={taskId} />
             {/* <ScrollView> */}
-            {(statusField==='Satisfactory' || statusField==='Unsatisfactory' /* ||statusField==='Scheduled' */)?<AccordionsViewTask data={checkList} taskid={taskId}/>:<Accordions data={checkList} taskid={taskId} inspectionItem={item} checklistDate={nearestDateField}/>}
+            {(statusField === 'Satisfactory' || statusField === 'Unsatisfactory' /* ||statusField==='Scheduled' */) ? <AccordionsViewTask data={checkList} taskid={taskId} /> : <Accordions data={checkList} taskid={taskId} inspectionItem={item} checklistDate={nearestDateField} subChecked={subChecked} />}
             {/* <Accordions data={checkList} /> */}
             {/*  </ScrollView> */}
             {/* (statusField==='Satisfactory' || statusField==='Unsatisfactory')?<Text></Text>:<Text></Text> */
-            // <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 5 }}>
-            //     <View style={{ flex: 1, alignItems: 'center' }}>
-            //         <Text>Completion: 100%</Text>
-            //     </View>
-            //     <TouchableOpacity onPress={()=>onSubmit(taskId)} style={{ backgroundColor: '#738591', paddingHorizontal: 20, alignItems: 'center', flex: 1 / 2, paddingVertical: 18, borderTopLeftRadius: 100, borderWidth: 1, borderTopRightRadius: 100, borderColor: '#485865' }}>
-            //         <Text style={{ color: '#fff' }}>Submit</Text>
-            //     </TouchableOpacity>
-            //     <View style={{ alignItems: 'center', flex: 1 }}> 
-            //         {/* <Text>Timer</Text> */}
-            //         <Timer />
-            //     </View>   
-            // </View>
-}
+                // <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 5 }}>
+                //     <View style={{ flex: 1, alignItems: 'center' }}>
+                //         <Text>Completion: 100%</Text>
+                //     </View>
+                //     <TouchableOpacity onPress={()=>onSubmit(taskId)} style={{ backgroundColor: '#738591', paddingHorizontal: 20, alignItems: 'center', flex: 1 / 2, paddingVertical: 18, borderTopLeftRadius: 100, borderWidth: 1, borderTopRightRadius: 100, borderColor: '#485865' }}>
+                //         <Text style={{ color: '#fff' }}>Submit</Text>
+                //     </TouchableOpacity>
+                //     <View style={{ alignItems: 'center', flex: 1 }}> 
+                //         {/* <Text>Timer</Text> */}
+                //         <Timer />
+                //     </View>   
+                // </View>
+            }
             <View style={{ backgroundColor: '#dedede', height: '4%', }}></View>
         </View>
     );

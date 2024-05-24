@@ -8,7 +8,7 @@ import SI_ImageCont from '../Components/SI_ImageCont';
 import { IconLeftActiveRoutine, IconRightActive, IconRightInActive, IconLeftInActiveRoutine, ActiveScheduledTask, ActiveCompletedTask, InactiveScheduledTask, InactiveCompletedTask } from '../Util/CommonStyle'
 import { useDispatch, useSelector } from 'react-redux';
 import ModalCreateNewIns from '../Components/modals/ModalCreateNewIns';
-import { AdhocInspection, Get_Assessment,GetCheckList,Search_Establishment_History } from '../Redux/actions/SI_Action';
+import { AdhocInspection, Get_Assessment,Get_Assessment_New,GetCheckList,Search_Establishment_History } from '../Redux/actions/SI_Action';
 import CustomeError from '../Components/modals/CustomeError';
 import Loading from '../Components/Loading';
 import { useTranslation } from 'react-i18next';
@@ -34,14 +34,15 @@ const RoutineSelf = ({ navigation }) => {
 
 
     const openTask = (taskId,item) => {
-        dispatch(Get_Assessment(item, (result) => {
-            console.log('sssssss', result);
-            alertRef.current.show(result.error);
-        }));
-        dispatch(GetCheckList(item, (result) => {
-            console.log('sssssss', result);
-            alertRef.current.show(result.error);
-        }));
+        // dispatch(Get_Assessment(item, (result) => {
+        //     console.log('sssssss', result);
+        //     alertRef.current.show(result.error);
+        // }));
+        // dispatch(GetCheckList(item, (result) => {
+        //     console.log('sssssss', result);
+        //     alertRef.current.show(result.error);
+        // }));
+        dispatch(Get_Assessment_New(item, '', ''));
     }
 
     return (

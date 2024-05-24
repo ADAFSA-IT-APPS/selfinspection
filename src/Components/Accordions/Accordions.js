@@ -24,6 +24,7 @@ import { Add_Questionnaires_Attachment, Update_Assessment, Search_Establishment_
 import Loading from '../Loading';
 import { toast, getUserdetails } from '../../Util/CommonStyle';
 import Toast from 'react-native-root-toast';
+import { TemporaryDirectoryPath } from 'react-native-fs';
 
 
 //import RNHTMLtoPDF from 'react-native-html-to-pdf';
@@ -31,7 +32,7 @@ import Toast from 'react-native-root-toast';
 const _ = require('lodash');
 
 // create a component 'Grace can only be gven to unsatisfactory questions'
-const Accordions = ({ data, taskid, inspectionItem, checklistDate }) => {
+const Accordions = ({ data, taskid, inspectionItem, checklistDate, subChecked }) => {
   let dataCloned = _.cloneDeep(data)
   const [currentIndex, setCurrentIndex] = React.useState(null);
   /* ----------  Modal State  ---------- */
@@ -40,7 +41,7 @@ const Accordions = ({ data, taskid, inspectionItem, checklistDate }) => {
   const [graceModalVisible, setGraceModalVisible] = useState(false);
   const [dataModalVisible, setDataModalVisible] = useState(false)
   const [graceEmpty, setGraceEmpty] = useState(false);
-  const [timeValue,setTimeValue]=useState(null);
+  const [timeValue, setTimeValue] = useState(null);
 
   const [alertText, setAlertText] = useState('');
   const alertRef = useRef();
@@ -106,12 +107,11 @@ const Accordions = ({ data, taskid, inspectionItem, checklistDate }) => {
   }
 
   const submit = () => {
+    console.log('subChecked_submit', subChecked);
     let dataCloned = _.cloneDeep(listData);
-    console.log('dataCloned', JSON.stringify(dataCloned));
     let arr = [];
     for (let i = 0; i < dataCloned.length; i++) {
       let item = dataCloned[i];
-
       for (let y = 0; y < item.data.length; y++) {
         const subItem = item.data[y]
         //alert(JSON.stringify(item))
@@ -128,19 +128,14 @@ const Accordions = ({ data, taskid, inspectionItem, checklistDate }) => {
       }
       if (i == dataCloned.length - 1) {
         // post request
-        console.log('item>>>>>', item);
 
-        console.log('checkYesNoNA', YesNoNA.No);
         let countResult = (YesNoNA.Yes > 0 && YesNoNA.No == 0 && YesNoNA.NA == 0) ? 'Inspection Approved' : 'Inspection Rejected';
-        console.log('countResult', countResult);
-        console.log('inspectionItem.inspectionTypeField', inspectionItem.inspectionTypeField + '-Food');
 
-        
-        let minValue =Math.min(...arr.filter(e=>e.Score).map(e=>(Number(e.Score))))
+
+        let minValue = Math.min(...arr.filter(e => e.Score).map(e => (Number(e.Score))))
         // let current_Date=moment().format("MM/DD/YYYY HH:mm:ss");
         // let new_date = moment(moment(current_Date).format("MM/DD/YYYY HH:mm:ss").add(minValue, 'days'));
-        console.log('lowestGrace', minValue);
-      //  console.log('new_date', new_date);
+        //  console.log('new_date', new_date);
         //   let lowestGrace=arr.reduce(function(prev, curr) {
         //     return (prev.Score < curr.Score) ? prev : curr;
         // });
@@ -153,42 +148,114 @@ const Accordions = ({ data, taskid, inspectionItem, checklistDate }) => {
 
         // let min = arr[0];
         // console.log('lowestGrace', min); 
+        let temarr = []
+        if (inspectionItem.inspectionTypeField == 'Direct Self Inspection') {
+          for (let i = 0; i < arr.length; i++) {
+            let item = arr[i];
 
-        let data =
-        {
-          "_Input":
-          {
-            "InterfaceID": "ADFCA_CRM_SBL_066",
-            "AssesmentChecklist":
-              [{
-                "DataLogger": "N",
-                "Flashlight": "N",
-                "LuxMeter": "N",
-                "UVLight": "N",
-                "TaskID": taskid,
-                "Thermometer": "N",
-                "InspectorId": "",
-                "InspectorName": "",
-                "LanguageType": "ENU",
-                "ListOfSalesAssessment":
-                  [{
-                    "AssessmentScore": "", 
-                    "Description": "",
-                    "MaxScore": "", 
-                    "Name": "",
-                    "Percent": "", 
-                    "TemplateName": inspectionItem.inspectionTypeField + '-Food',
-                    "ListOfSalesAssessmentValue": arr
-                  }]
-
-              }],
-            "Attrib1": countResult,
-            "Attrib2": inspectionItem.inspectionTypeField,
-            "Attrib3": moment.utc(timeValue*1000).format('HH:mm:ss')/* moment(timeValue).format('ss:mm:HH') */,
-            "Attrib4": /* "05/27/2022 13:53:11", */minValue!='Infinity' ? moment().add(minValue, 'days').format("MM/DD/YYYY HH:mm:ss") :'',
-            "Attrib5": /* "05/13/2022 13:53:11" */moment().format("MM/DD/YYYY HH:mm:ss")
+            temarr.push({
+              // ...item,
+              Comment: item.Comment,
+              Order: item.Order,
+              Score: item.Score,
+              Value: item.Value,
+              Weight: item.Weight,
+              AttributeName: item.AttributeName,
+              Category: item.Description3
+            })
           }
+          arr = temarr;
         }
+        let assessScore = 0;
+        for (let i = 0; i < arr.length; i++) {
+          let temp;
+          let item = arr[i];
+
+          if (item.Value == 'Yes') {
+            temp = 1
+          } else if(item.Value == 'No') {
+            temp = 0
+          } else{
+            temp = 0
+          }
+          assessScore += temp
+        }
+        // let maxvalue=Math.max(...array.map(arr => arr.y))
+        // console.log('arrlength', arr.length);
+        // console.log('assessScore', assessScore);
+        // console.log('percentage', assessScore / arr.length * 100);
+        let data =
+          (inspectionItem.inspectionTypeField == 'Direct Self Inspection') ?
+            {
+              "InterfaceID": "ADFCA_CRM_SBL_066",
+              "AssesmentChecklist": {
+                "Inpsection": {
+                  "DataLogger": "N",
+                  "Flashlight": "N",
+                  "LuxMeter": "N",
+                  "UVLight": "N",
+                  "TaskID": taskid,
+                  "Thermometer": "N",
+                  "InspectorId": "",
+                  "InspectorName": "",
+                  "LanguageType": "ENU",
+                  "ListOfSalesAssessment": {
+                    "AssessmentChecklist": {
+                      "AssessmentScore": assessScore ? assessScore : "",
+                      "Description": "",
+                      "MaxScore": arr && arr.length ? (arr.length) : "",
+                      "Name": "",
+                      "Percent": (assessScore && arr.length) ? assessScore / arr.length * 100 : "",
+                      "TemplateName": (subChecked && subChecked.LanguageIndependentCode) ? subChecked.LanguageIndependentCode : '',
+                      "ListOfSalesAssessmentValue": {
+                        "AssessmentChecklistValues": arr
+                      }
+                    }
+                  }
+                }
+              },
+              "Attrib1": countResult,
+              "Attrib2": (subChecked && subChecked.LanguageIndependentCode) ? subChecked.LanguageIndependentCode : '',
+              "Attrib3": moment.utc(timeValue * 1000).format('HH:mm:ss'),
+              "Attrib4": minValue != 'Infinity' ? moment().add(minValue, 'days').format("MM/DD/YYYY HH:mm:ss") : '',
+              "Attrib5": moment().format("MM/DD/YYYY HH:mm:ss")
+            }
+            :
+            {
+              "_Input":
+              {
+                "InterfaceID": "ADFCA_CRM_SBL_066",
+                "AssesmentChecklist":
+                  [{
+                    "DataLogger": "N",
+                    "Flashlight": "N",
+                    "LuxMeter": "N",
+                    "UVLight": "N",
+                    "TaskID": taskid,
+                    "Thermometer": "N",
+                    "InspectorId": "",
+                    "InspectorName": "",
+                    "LanguageType": "ENU",
+                    "ListOfSalesAssessment":
+                      [{
+                        "AssessmentScore": "",
+                        "Description": "",
+                        "MaxScore": "",
+                        "Name": "",
+                        "Percent": "",
+                        "TemplateName": inspectionItem.inspectionTypeField + '-Food',
+                        "ListOfSalesAssessmentValue": arr
+                      }]
+
+                  }],
+                "Attrib1": countResult,
+                "Attrib2": inspectionItem.inspectionTypeField,
+                "Attrib3": moment.utc(timeValue * 1000).format('HH:mm:ss')/* moment(timeValue).format('ss:mm:HH') */,
+                "Attrib4": /* "05/27/2022 13:53:11", */minValue != 'Infinity' ? moment().add(minValue, 'days').format("MM/DD/YYYY HH:mm:ss") : '',
+                "Attrib5": /* "05/13/2022 13:53:11" */moment().format("MM/DD/YYYY HH:mm:ss")
+              }
+            }
+        console.log('data_updateAssessnent', JSON.stringify(data));
         //let datacloned = _.cloneDeep(data)`
         setModalData(data)
         setModalListData(arr)
@@ -203,29 +270,13 @@ const Accordions = ({ data, taskid, inspectionItem, checklistDate }) => {
           setDataModalVisible(true)
         }
         //setDataModalVisible(true)
-
-
-        // console.log("\n\n\n\n", "arrayresult => ", JSON.stringify(data))
-        // dispatch(Update_Assessment(data));
-        // dispatch(Update_Assessment(data, (result) => {
-        //   if (result == 'Success') {
-        //     console.log('checkout',);
-        //     if (result == 'Failure') {
-        //       console.log('checkin',);
-        //       alertRef.current.show(result.error);
-        //     }
-        //     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',);
-        //     NavigationService.goBack();
-        //     dispatch(Search_Establishment_History());
-        //   }
-        // }))
       }
     }
   }
 
   const onModalSubmitAction = () => {
     console.log("Modal submit button is pressed")
-    dispatch(Update_Assessment(modalData, (result) => {
+    dispatch(Update_Assessment(modalData, inspectionItem.inspectionTypeField, (result) => {
       if (result == 'Success') {
         console.log('checkout',);
         if (result == 'Failure') {
@@ -507,7 +558,7 @@ const Accordions = ({ data, taskid, inspectionItem, checklistDate }) => {
         renderItem={renderItem}
         keyExtractor={(item, index) => {
           index.toString();
-        }} 
+        }}
         style={{ flexGrow: 0, height: '90%' }}
       />
       <DataDisplay modalVisible={dataModalVisible} setModalVisible={setDataModalVisible} data={modalListData} onSubmitAction={onModalSubmitAction} />
@@ -524,7 +575,7 @@ const Accordions = ({ data, taskid, inspectionItem, checklistDate }) => {
         </TouchableOpacity>
         <View style={{ alignItems: 'center', flex: 1 }}>
           {/* <Text>Timer</Text> */}
-          <Timer  setTimeValue={setTimeValue} time={timeValue}/>
+          <Timer setTimeValue={setTimeValue} time={timeValue} />
         </View>
       </View>
 

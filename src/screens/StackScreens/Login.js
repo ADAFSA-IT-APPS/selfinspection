@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image, TextInput, Dimensions, TouchableOpacity,
 import CheckBox from '@react-native-community/checkbox';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { AuthContext } from '../../Components/context';
-import { signIn, GetServerDateTime } from '../../Redux/actions/SI_Action';
+import { signIn, GetServerDateTime, GetLOVDetails } from '../../Redux/actions/SI_Action';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomeError from '../../Components/modals/CustomeError';
 import { version } from '../../../package.json';
@@ -24,6 +24,8 @@ const Login = ({ navigation }) => {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
+    const [hidePassword, setHidePassword] = useState(true);
+
     //const [isLoading, setIsLoading] = useState(true)
     const { t, i18n } = useTranslation();
 
@@ -41,7 +43,7 @@ const Login = ({ navigation }) => {
     useEffect(() => {
         DeviceInfo.getDevice().then((device) => {
             // "walleye"
-            console.log('device',device );
+            console.log('device', device);
         });
         console.log('DeviceInfo.getVersion()', DeviceInfo.getVersion());
         console.log('DeviceInfo.getReadableVersion()', DeviceInfo.getReadableVersion());
@@ -56,6 +58,9 @@ const Login = ({ navigation }) => {
         }
     }, [toggleCheckBox])
 
+    const eyeShowHide = () => {
+        setHidePassword(prevCheck => !prevCheck);
+    }
     const rememberUser = async () => {
         console.log('remember',);
         userToken = 'asdf';
@@ -93,9 +98,19 @@ const Login = ({ navigation }) => {
                         placeholderTextColor="#bebebe"
                         style={[styles.textInput, { textAlign: I18nManager.isRTL ? 'right' : 'left' }]}
                         autoCapitalize="none"
-                        secureTextEntry={true}
+                        secureTextEntry={hidePassword}
                         onChangeText={(val) => setUserPassword(val)}
                     />
+                    <TouchableOpacity
+                        onPress={eyeShowHide}
+                        style={{
+                             width: '15%'
+                        }}>
+                        <Image resizeMode="contain" source={hidePassword
+                            ? require("../../assets/img/eyeHidden.png")
+                            : require("../../assets/img/eye.png")}
+                            style={{ width: '35%',height: '100%', }} />
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.rememberMe}>
@@ -109,6 +124,7 @@ const Login = ({ navigation }) => {
                     />
                     <Text style={{ paddingLeft: 10, color: 'gray' }}>{t('Rememberme')}</Text>
                 </View>
+
 
                 <TouchableOpacity style={styles.loginCont} onPress={() => { loginHandle(userEmail, userPassword) }/* navigation.navigate("Tabs") */}>
                     <Text style={styles.loginText}>
@@ -147,10 +163,12 @@ const styles = StyleSheet.create({
     userCont: {
         flexDirection: 'row',/*  marginTop: 10, */
         borderBottomWidth: 1,
+        justifyContent: 'space-between',
         borderBottomColor: '#c9ced4',
         paddingVertical: height * 0.02,
         marginTop: Platform.OS === 'ios' ? height * 0.03 : height * 0.015,
-
+        width: '100%',
+        height:'10%'
     },
     rememberMe: {
         flexDirection: 'row', marginTop: 10,
@@ -168,6 +186,14 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: Platform.OS === 'ios' ? 0 : -12,
         paddingLeft: 20,
+        color: '#5d6773',
+        fontSize: height * 0.02,
+        letterSpacing: 0.7,
+        textAlign: I18nManager.isRTL ? 'right' : 'left'
+    },
+    passCont: {
+        flex: 1,
+        marginTop: Platform.OS === 'ios' ? 0 : -12,
         color: '#5d6773',
         fontSize: height * 0.02,
         letterSpacing: 0.7,
