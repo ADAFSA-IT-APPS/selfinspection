@@ -21,7 +21,6 @@ const { SERVERDATE_TIME, COMMON_SERVICE, UpdateAssessment, LOV, APP_SERVICE_URL,
     const encryptedServerDatePar = Encrypt(dateString);
     let encryptedServerDate = encryptedServerDatePar;
     let ur = APP_SERVICE_URL + COMMON_SERVICE + "/" + encryptedServerDate + "/" + dateString + "/GetServerDateTime";
-    console.log('getserverdateapi', ur);
     try {
         const msgArray = { val: 7 }
         axios({
@@ -33,14 +32,11 @@ const { SERVERDATE_TIME, COMMON_SERVICE, UpdateAssessment, LOV, APP_SERVICE_URL,
             }
         })
             .then(function (response) {
-                console.log(response)
-                console.log('datefromserver', response.data.GetServerDateTimeResult.serverDate);
                 const dateObj = response.data.GetServerDateTimeResult.serverDate;
-                console.log('datesigninobj', dateObj);
                 //global.DateObj = dateObj;
                 return { date: dateObj };
             })
-    } catch (e) { console.log('errorfrom datefunc', e.ErrorMsg) }
+    } catch (e) {  }
 } */
 
 export const getDateTimeFromServer = async () => {
@@ -265,7 +261,6 @@ export const signIn = (userName, password, toggle, result) => async (dispatch) =
 
     // const userNameEcrypted = Encrypt(userName);
     // const userPasswordEcrypted = Encrypt(password);
-    console.log('test');
     const dateob = await getDateTimeFromServer();
     if (typeof dateob == 'undefined') {
         toast('Network Error')
@@ -273,11 +268,8 @@ export const signIn = (userName, password, toggle, result) => async (dispatch) =
         dispatch({ type: 'HIDE_LOADER' });
 
     }
-    console.log('new111 date object', dateob);
-    console.log('new date object', dateob.data);
 
     let checkToken = await AsyncStorage.getItem('fcmToken');
-    console.log('checktoken>>',);
     console.log('checkToken', checkToken);
 
     const dateInUtc = getDateInUtc(dateob.data);
@@ -760,6 +752,8 @@ export const Get_Assessment = (item, result) => async (dispatch) => {
                     dispatch({ type: 'HIDE_LOADER' });
                     return;
                 }
+                console.log('dataAssessmentt', JSON.stringify(dresponse.dataata))
+
                 const data = response.data.Get_AssessmentResult.GetAssesment_Output.listOfAdfcaMobilitySalesAssessmentField[0].listOfSalesAssessmentAttributeField;
                 AsyncStorage.setItem('dataAssessmentt', JSON.stringify(data))
                 console.log('Get_Assessment--------'/* dataObj */ /* JSON.stringify(formattedObj) */);
@@ -825,7 +819,7 @@ export const Get_Assessment_New = (item, result, subChecked) => async (dispatch)
             }
         })
             .then(function (response) {
-                console.log('Get_Assessment_new_Response', response.data.Data);
+                // console.log('Get_Assessment_new_Response', response.data.Data);
                 // let resp = response.data.Data; 
                 let resp = JSON.parse(response.data.Data)
                 if (resp.ListOfAdfcaMobilitySalesAssessment == null) {
@@ -1115,8 +1109,10 @@ export const GetCheckList = (item, result) => async (dispatch) => {
         })
             .then(async function (response) {
                 var data = response.data.Get_Check_ListResult.Get_Check_List_Output.inspectionCheckListField[0].listOfSalesAssessmentField[0].listOfSalesAssessmentValueField/* .inspectionCheckListField[0].listOfSalesAssessmentField[0].listOfSalesAssessmentValueField */;
-                // console.log('checkdata', data);
-
+                console.log('checkdata', data);
+                let testData = response.data.Get_Check_ListResult.Get_Check_List_Output.inspectionCheckListField[0].listOfSalesAssessmentField;
+                console.log('testData', testData);
+                console.log('length', testData.length);
                 if (response.data.Get_Check_ListResult.ErrorCode == "0") {
                     if (response.data.Get_Check_ListResult.Get_Check_List_Output.inspectionCheckListField[0].listOfSalesAssessmentField.length > 0) {
                         let nearestDateField = response.data.Get_Check_ListResult.Get_Check_List_Output.inspectionCheckListField[0].nearestDateField
@@ -1128,7 +1124,8 @@ export const GetCheckList = (item, result) => async (dispatch) => {
                             let valueFormatted = JSON.parse(value);
                             const dataObj = data.map(item => {
                                 const filteredData = valueFormatted.filter(e => e.nameField === item.attributeNameField)
-                                // console.log('filterdata', filteredData);
+                                console.log('filterdata',);
+                                console.log('filterdata', filteredData);
                                 if (filteredData.length) {
                                     return {
                                         ...item,
@@ -1346,7 +1343,8 @@ export const Update_Assessment = (data, IType, callback) => async (dispatch) => 
     const encryptedServerDate = Encrypt(dateInUtc);
 
 
-    let postUrl = IType == 'Direct Self Inspection' ? SMARTCONTROL + UpdateAssessment : APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Update_Assessment";
+    //  let postUrl = IType == 'Direct Self Inspection' ? SMARTCONTROL + UpdateAssessment : APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Update_Assessment";
+    let postUrl = IType == 'Vehicle Self Inspection' ? APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Update_Assessment" : SMARTCONTROL + UpdateAssessment;
 
     console.log('Update_Assessment', postUrl);
     // console.log('checktaskid', item.inspectionTypeField !== 'Vehicle Self Inspection' && item.inspectionTypeField);

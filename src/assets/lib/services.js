@@ -42,8 +42,8 @@ if (IS_BROWSER) {
         //  'ws://adremoteinspection.com', {
         //     transports: ["websocket"]
         //   }
-       //  'https://f23f-2001-8f8-152f-226d-b8ac-76a1-fae8-1f81.in.ngrok.io'
-        'https://adremoteinspection.com',{ secure: true,timeout:50000, upgrade: false}
+        //  'https://f23f-2001-8f8-152f-226d-b8ac-76a1-fae8-1f81.in.ngrok.io'
+        'https://adremoteinspection.com', { secure: true, timeout: 50000, upgrade: false }
         //    'https://rewebrtc.herokuapp.com', 
     )
 }
@@ -52,11 +52,13 @@ var configuration = {
     "iceServers": [{
         urls: 'turn:adremoteinspection.com:3478?transport=udp',
         credential: 'ADFCA@1234',
+        // credential: 'Adafsa@123456',
         username: 'ADFCA'
     },
     {
         urls: 'stun:adremoteinspection.com:3478?transport=udp',
         credential: 'ADFCA@1234',
+        // credential: 'Adafsa@123456',
         username: 'ADFCA'
   //  urls: "stun:stun.l.google.com:19302"
 /* "url": 'turn:192.158.29.39:3478?transport=udp',
@@ -203,7 +205,7 @@ socket.on("reconnect_attempt", (err) => {
 });
 
 socket.on("connect_error", (err) => {
-   // console.log('connect_error due to',err);
+    // console.log('connect_error due to',err);
 });
 
 socket.on('leave', function (socketId) {

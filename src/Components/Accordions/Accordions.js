@@ -148,31 +148,33 @@ const Accordions = ({ data, taskid, inspectionItem, checklistDate, subChecked })
 
         // let min = arr[0];
         // console.log('lowestGrace', min); 
-        let temarr = []
-        if (inspectionItem.inspectionTypeField == 'Direct Self Inspection') {
-          for (let i = 0; i < arr.length; i++) {
-            let item = arr[i];
-            let score = ''
-            if (item.Value == 'Yes') {
-              score = 1
-            } else if (item.Value == 'No') {
-              score = 0
-            } else {
-              score = ''
-            }
-            temarr.push({
-              // ...item,
-              Comment: item.Comment,
-              Order: item.Order,
-              Score: score/* item.Score */,
-              Value: item.Value,
-              Weight: item.Weight,
-              AttributeName: item.AttributeName,
-              Category: item.Description3
-            })
-          }
-          arr = temarr;
-        }
+
+        /* adding score */
+        // let temarr = []
+        // if (inspectionItem.inspectionTypeField == 'Direct Self Inspection') {
+        //   for (let i = 0; i < arr.length; i++) {
+        //     let item = arr[i];
+        //     let score = ''
+        //     if (item.Value == 'Yes') {
+        //       score = 1
+        //     } else if (item.Value == 'No') {
+        //       score = 0
+        //     } else {
+        //       score = ''
+        //     }
+        //     temarr.push({
+        //       // ...item,
+        //       Comment: item.Comment,
+        //       Order: item.Order,
+        //       Score: score/* item.Score */,
+        //       Value: item.Value,
+        //       Weight: item.Weight,
+        //       AttributeName: item.AttributeName,
+        //       Category: item.Description3
+        //     })
+        //   }
+        //   arr = temarr;
+        // }
         let assessScore = 0;
         for (let i = 0; i < arr.length; i++) {
           let temp;
@@ -192,7 +194,7 @@ const Accordions = ({ data, taskid, inspectionItem, checklistDate, subChecked })
         // console.log('assessScore', assessScore);
         // console.log('percentage', assessScore / arr.length * 100);
         let data =
-          (inspectionItem.inspectionTypeField == 'Direct Self Inspection') ?
+          (inspectionItem.inspectionTypeField == 'Direct Self Inspection' || inspectionItem.inspectionTypeField == 'Follow Up Self Inspection' || inspectionItem.inspectionTypeField == 'Self Inspection') ?
             {
               "InterfaceID": "ADFCA_CRM_SBL_066",
               "AssesmentChecklist": {
@@ -208,11 +210,11 @@ const Accordions = ({ data, taskid, inspectionItem, checklistDate, subChecked })
                   "LanguageType": "ENU",
                   "ListOfSalesAssessment": {
                     "AssessmentChecklist": {
-                      "AssessmentScore": assessScore ? assessScore : "",
+                      "AssessmentScore": /* assessScore ? assessScore : */ "",
                       "Description": "",
                       "MaxScore": arr && arr.length ? (arr.length) : "",
                       "Name": "",
-                      "Percent": (assessScore && arr.length) ? assessScore / arr.length * 100 : "",
+                      "Percent": /* (assessScore && arr.length) ? assessScore / arr.length * 100 : */ "",
                       "TemplateName": (subChecked && subChecked.LanguageIndependentCode) ? subChecked.LanguageIndependentCode : '',
                       "ListOfSalesAssessmentValue": {
                         "AssessmentChecklistValues": arr

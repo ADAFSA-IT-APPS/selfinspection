@@ -37,7 +37,7 @@ const UserDetails = () => {
        // dispatch(Search_Establishment_History_NOC());
   //console.log('Search_Establishment_HistoryResult_NOCSearch_Establishment_HistoryResult_NOC', Search_Establishment_HistoryResult_NOC);
         let parsedSiebeleport =Object.keys(Search_Establishment_HistoryResult_NOC).length ?JSON.parse(Search_Establishment_HistoryResult_NOC):''
-        let data=parsedSiebeleport?.TradelicenseHistory?.Establishment[0]?.ListOfServiceRequest?.ServiceRequest
+        let data=parsedSiebeleport&&parsedSiebeleport?.TradelicenseHistory?.Establishment[0]?.ListOfServiceRequest?.ServiceRequest
         setServiceRequest(data)
         //console.log('Eshtablisment_parsedSiebeleport', parsedSiebeleport.TradelicenseHistory.Establishment[0].ListOfServiceRequest.ServiceRequest);
     }, [Search_Establishment_HistoryResult_NOC])
@@ -50,7 +50,6 @@ const UserDetails = () => {
        }, [state]) */
 
     useEffect(() => {
-        console.log('DeviceInfo.getVersion()', DeviceInfo.getVersion());
         getUser();
       //  get_siebelReport!=''?'':get_siebelReport
     }, [])

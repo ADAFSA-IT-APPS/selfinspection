@@ -135,8 +135,8 @@ android {
         applicationId "com.selfinspection"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4
-        versionName "1.2"
+        versionCode 6
+        versionName "1.3"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
