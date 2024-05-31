@@ -14,7 +14,8 @@
     "build-dev-ios": "cp ./.env.dev ./.env && npx react-native run-ios",
     "build-prod-android": "cp ./.env.prod ./.env && npx react-native run-android",
     "build-prod-ios": "cp ./.env.prod ./.env && npx react-native run-ios",
-    "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19001"
+    "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19001",
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'"
   },
   "dependencies": {
     "@dev-event/react-native-accordion": "^2.0.4",

@@ -80,7 +80,9 @@ const Daily = ({ navigation }) => {
         console.log('itemopenTask', item);
         console.log('taskId', taskId);
         setTask(task);
-        if (item.inspectionTypeField == 'Direct Self Inspection'&&item.statusField !== 'Satisfactory' && item.statusField !== 'Unsatisfactory') {
+        if (item.inspectionTypeField == 'Direct Self Inspection' && item.statusField !== 'Satisfactory' && item.statusField !== 'Unsatisfactory') {
+            setModalChecklistVisible(!modalChecklistVisible)
+
             dispatch(Get_Assessment_New(item, '', subCheckedItem));
 
         } else {
@@ -163,7 +165,7 @@ const Daily = ({ navigation }) => {
                                 {(item.title === 'Direct Self Inspection') &&
                                     <View>
                                         {item.data.map((item, index) => (
-                                            (item.statusField !== 'Satisfactory'&&item.statusField !== 'Cancelled' && item.statusField !== 'Unsatisfactory'/* &&item.statusField !=='Scheduled' */) &&
+                                            (item.statusField !== 'Satisfactory' && item.statusField !== 'Cancelled' && item.statusField !== 'Unsatisfactory'/* &&item.statusField !=='Scheduled' */) &&
                                             <TouchableOpacity key={index} onPress={() => openChecklistModal(item)} style={styles.taskCont}>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', }}>
                                                     <Text style={styles.textWhite}>{item.priorityField ? item.priorityField : 'Medium'}</Text>
@@ -181,7 +183,7 @@ const Daily = ({ navigation }) => {
                                 {(item.title === 'Vehicle Self Inspection') &&
                                     <View>
                                         {item.data.map((item, index) => (
-                                            (item.statusField !== 'Satisfactory'&&item.statusField !== 'Cancelled' && item.statusField !== 'Unsatisfactory'/* &&item.statusField !=='Scheduled' */) &&
+                                            (item.statusField !== 'Satisfactory' && item.statusField !== 'Cancelled' && item.statusField !== 'Unsatisfactory'/* &&item.statusField !=='Scheduled' */) &&
                                             <TouchableOpacity key={index} onPress={() => openTask(item.inspectionNumberField, item)} style={styles.taskCont}>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', }}>
                                                     <Text style={styles.textWhite}>{item.priorityField ? item.priorityField : 'Medium'}</Text>
@@ -215,7 +217,7 @@ const Daily = ({ navigation }) => {
                                 {(item.title === 'Direct Self Inspection' || item.title === 'Vehicle Self Inspection') &&
                                     <View>
                                         {item.data.map((item, index) => (
-                                            ((item.statusField === 'Satisfactory' || item.statusField == 'Unsatisfactory')&&item.statusField !== 'Cancelled') &&
+                                            ((item.statusField === 'Satisfactory' || item.statusField == 'Unsatisfactory') && item.statusField !== 'Cancelled') &&
                                             <TouchableOpacity key={index} onPress={() => openTask(item.inspectionNumberField, item)} style={styles.taskCont}>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', }}>
                                                     <Text style={styles.textWhite}>{item.statusField ? item.statusField : 'Medium'}</Text>

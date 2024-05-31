@@ -752,7 +752,7 @@ export const Get_Assessment = (item, result) => async (dispatch) => {
                     dispatch({ type: 'HIDE_LOADER' });
                     return;
                 }
-                console.log('dataAssessmentt', JSON.stringify(dresponse.dataata))
+                console.log('dataAssessmentt', JSON.stringify(response.data))
 
                 const data = response.data.Get_AssessmentResult.GetAssesment_Output.listOfAdfcaMobilitySalesAssessmentField[0].listOfSalesAssessmentAttributeField;
                 AsyncStorage.setItem('dataAssessmentt', JSON.stringify(data))
@@ -1248,7 +1248,7 @@ export const CallToGetInspectionReport = (data, type) => async (dispatch) => {
 
                 }
             }).catch((err) => {
-                console.log('catch');
+                console.log('catch', err);
 
                 dispatch({ type: 'HIDE_LOADER' });
             })

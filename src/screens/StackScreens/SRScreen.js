@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, Dimensions, ScrollView, TouchableOpacity,PermissionsAndroid, Alert } from "react-native";
+import { View, Platform, Text, StyleSheet, Image, Dimensions, ScrollView, TouchableOpacity, PermissionsAndroid, Alert } from "react-native";
 import Navbar from "../../Components/Navbar/Navbar";
 import SI_ImageCont from "../../Components/SI_ImageCont";
 import Loading from "../../Components/Loading";
 import NavigationService from '../../navigation/NavigationService';
 import { AdhocInspection, Search_Establishment_History, Search_Establishment_History_NOC, Get_Assessment, GetCheckList, CallToGetInspectionReport } from '../../Redux/actions/SI_Action';
 import { useDispatch, useSelector } from "react-redux";
-import { writeFile, appendFile, readFile, readFileAssets, DownloadDirectoryPath,DocumentDirectoryPath, mkdir, readDir } from 'react-native-fs';
+import { writeFile, appendFile, readFile, readFileAssets, DownloadDirectoryPath, DocumentDirectoryPath, mkdir, readDir } from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
 import { toast, getUserdetails } from '../../Util/CommonStyle';
 
@@ -34,17 +34,35 @@ const SRScreen = (props) => {
 
 
     useEffect(() => {
-        if (get_siebelReport&&reportDataClick) {
+        if (get_siebelReport && reportDataClick) {
             setReportDataClick(false)
             const parsedSiebeleport = JSON.parse(get_siebelReport);
             console.log('EndDate?', parsedSiebeleport?.FileBuffer);
-            console.log('Inumber', Inumber);
-            var path = DocumentDirectoryPath + '/' + Inumber+ "_SibleReport.pdf";
+            console.log('Inumbertest', Inumber);
+            var path = DocumentDirectoryPath + '/' + Inumber + "_SibleReport.pdf";
 
             if (parsedSiebeleport?.FileBuffer) {
 
+                if (Platform.OS === 'ios') {
+                    console.log('platform', Platform.OS);
+                    writeFile(path, parsedSiebeleport.FileBuffer, 'base64')
+                        .then((success) => {
+                            console.log('FILE WRITTEN!');
+                            FileViewer.open(path)
+                                .then(() => {
+                                    console.log('FILE Open!');
+                                })
+                                .catch(error => {
+                                    console.log('FILE Open failed!::' + error);
+                                });
+                        })
+                        .catch((err) => {
+                            console.log(err.message);
+                        });
+                }
+                console.log('platform', Platform.OS);
 
-                const granted =  PermissionsAndroid.requestMultiple(
+                const granted = PermissionsAndroid.requestMultiple(
                     [PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
                     PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
                     ]
@@ -53,7 +71,7 @@ const SRScreen = (props) => {
                     if (result['android.permission.WRITE_EXTERNAL_STORAGE'] === 'granted'
                         && result['android.permission.READ_EXTERNAL_STORAGE'] === 'granted') {
 
-                            writeFile(path, parsedSiebeleport.FileBuffer, 'base64')
+                        writeFile(path, parsedSiebeleport.FileBuffer, 'base64')
                             .then((success) => {
                                 console.log('FILE WRITTEN!');
                                 FileViewer.open(path)
@@ -105,7 +123,7 @@ const SRScreen = (props) => {
         dispatch(CallToGetInspectionReport(inspectionNumberField, type));
         resolve();
     })
- 
+
     return (
         <View style={styles.container}>
             {/* {isLoading && <Loading />} */}
@@ -131,7 +149,7 @@ const SRScreen = (props) => {
                                                 <Text style={styles.textWhite}>{item.inspectionTypeField}</Text>
                                             </View>
                                             <TouchableOpacity onPress={() => getSiebelReport(item.inspectionNumberField)} style={{ alignItems: 'center', justifyContent: 'center', }}>
-                                                <View style={{ width: '50%', backgroundColor: '#5c6672', padding: 5, marginTop: 10, alignItems: 'center',borderColor:'white',borderWidth:1 , justifyContent: 'center', borderRadius: 5 }}>
+                                                <View style={{ width: '50%', backgroundColor: '#5c6672', padding: 5, marginTop: 10, alignItems: 'center', borderColor: 'white', borderWidth: 1, justifyContent: 'center', borderRadius: 5 }}>
                                                     <Text style={{ textDecorationLine: 'underline', color: 'white', fontWeight: 'bold' }}>Print Certificate</Text>
                                                 </View>
                                             </TouchableOpacity>
@@ -161,7 +179,7 @@ const SRScreen = (props) => {
                                             <Text style={styles.textWhite}>{item.SRNumber}</Text>
                                         </View>
                                         <TouchableOpacity onPress={() => getSiebelReport(item.SRNumber, item.Application)} style={{ alignItems: 'center', justifyContent: 'center', }}>
-                                            <View style={{ width: '50%', backgroundColor: '#5c6672', padding: 5, marginTop: 10, alignItems: 'center', justifyContent: 'center',borderColor:'white',borderWidth:1 ,borderRadius: 5 }}>
+                                            <View style={{ width: '50%', backgroundColor: '#5c6672', padding: 5, marginTop: 10, alignItems: 'center', justifyContent: 'center', borderColor: 'white', borderWidth: 1, borderRadius: 5 }}>
                                                 <Text style={{ textDecorationLine: 'underline', color: 'white', fontWeight: 'bold' }}>Print Certificate</Text>
                                             </View>
                                         </TouchableOpacity>

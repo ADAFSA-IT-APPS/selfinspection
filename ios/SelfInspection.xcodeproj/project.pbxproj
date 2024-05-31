@@ -24,6 +24,7 @@
 		9882AFEECFDA4D29B594C024 /* OpenSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5DCE574F5C94572B9470786 /* OpenSans-Medium.ttf */; };
 		A14C29D2286A39F300A1729F /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A14C29D1286A39F300A1729F /* CallKit.framework */; };
 		A14C29D4286A3A0300A1729F /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A14C29D3286A3A0300A1729F /* Intents.framework */; };
+		A1979F4B2C088DAC00540CB2 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = A1979F4A2C088DAB00540CB2 /* main.jsbundle */; };
 		A19836732853DD01009ECBE5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A19836722853DD01009ECBE5 /* GoogleService-Info.plist */; };
 		A1A0848B285B16AE00973442 /* ring_bell.wav in Resources */ = {isa = PBXBuildFile; fileRef = A1A0848A285B16AD00973442 /* ring_bell.wav */; };
 		A83C363136E75651C2ACD882 /* libPods-SelfInspection.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EADA78F75CEE74B4E76E107 /* libPods-SelfInspection.a */; };
@@ -91,6 +92,7 @@
 		A138DDE327F2F490009D4F76 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		A14C29D1286A39F300A1729F /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
 		A14C29D3286A3A0300A1729F /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		A1979F4A2C088DAB00540CB2 /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		A19836722853DD01009ECBE5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A19836742853E298009ECBE5 /* SelfInspection.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SelfInspection.entitlements; path = SelfInspection/SelfInspection.entitlements; sourceTree = "<group>"; };
 		A1A0848A285B16AD00973442 /* ring_bell.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ring_bell.wav; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				A1979F4A2C088DAB00540CB2 /* main.jsbundle */,
 				A1A0848A285B16AD00973442 /* ring_bell.wav */,
 				13B07FAE1A68108700A75B9A /* SelfInspection */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -356,6 +359,9 @@
 				Base,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
+			packageReferences = (
+				A10F89552C08662B005A86D0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -378,6 +384,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1979F4B2C088DAC00540CB2 /* main.jsbundle in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				A19836732853DD01009ECBE5 /* GoogleService-Info.plist in Resources */,
@@ -412,7 +419,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "cd $PROJECT_DIR/..\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		3DCFC1A4142693CE89BF56E5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -656,10 +663,11 @@
 				CODE_SIGN_IDENTITY = "Apple Development: Ali Dahabiyeh (Y58PC47627)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: Ali Dahabiyeh (Y58PC47627)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = HQJG5EM49A;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = HQJG5EM49A;
 				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = SelfInspection/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -667,7 +675,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.11;
+				MARKETING_VERSION = 2.2;
 				NEW_SETTING = "";
 				NEW_SETTING1 = "";
 				OTHER_LDFLAGS = (
@@ -694,9 +702,10 @@
 				CODE_SIGN_ENTITLEMENTS = SelfInspection/SelfInspection.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = HQJG5EM49A;
 				ENABLE_BITCODE = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = SelfInspection/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -704,7 +713,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.11;
+				MARKETING_VERSION = 2.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				NEW_SETTING = "";
 				NEW_SETTING1 = "";
@@ -756,7 +765,7 @@
 				DEVELOPMENT_TEAM = HQJG5EM49A;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 i386";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -883,6 +892,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A10F89552C08662B005A86D0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.27.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
 }

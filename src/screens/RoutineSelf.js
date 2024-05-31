@@ -8,7 +8,7 @@ import SI_ImageCont from '../Components/SI_ImageCont';
 import { IconLeftActiveRoutine, IconRightActive, IconRightInActive, IconLeftInActiveRoutine, ActiveScheduledTask, ActiveCompletedTask, InactiveScheduledTask, InactiveCompletedTask } from '../Util/CommonStyle'
 import { useDispatch, useSelector } from 'react-redux';
 import ModalCreateNewIns from '../Components/modals/ModalCreateNewIns';
-import { GetLOVDetails,AdhocInspection, Get_Assessment, Get_Assessment_New, GetCheckList, Search_Establishment_History } from '../Redux/actions/SI_Action';
+import { GetLOVDetails, AdhocInspection, Get_Assessment, Get_Assessment_New, GetCheckList, Search_Establishment_History } from '../Redux/actions/SI_Action';
 import CustomeError from '../Components/modals/CustomeError';
 import Loading from '../Components/Loading';
 import { useTranslation } from 'react-i18next';
@@ -57,10 +57,14 @@ const RoutineSelf = ({ navigation }) => {
         console.log('openTask', item);
 
 
-        if (item.inspectionTypeField == 'Follow Up Self Inspection'&&item.statusField !== 'Satisfactory' && item.statusField !== 'Unsatisfactory') {
+        if (item.inspectionTypeField == 'Follow Up Self Inspection' && item.statusField !== 'Satisfactory' && item.statusField !== 'Unsatisfactory') {
+            setModalChecklistVisible(!modalChecklistVisible)
+
             dispatch(Get_Assessment_New(item, '', subCheckedItem));
 
-        } else   if (item.inspectionTypeField == 'Self Inspection'&&item.statusField !== 'Satisfactory' && item.statusField !== 'Unsatisfactory') {
+        } else if (item.inspectionTypeField == 'Self Inspection' && item.statusField !== 'Satisfactory' && item.statusField !== 'Unsatisfactory') {
+            setModalChecklistVisible(!modalChecklistVisible)
+
             dispatch(Get_Assessment_New(item, '', subCheckedItem));
 
         } else {
@@ -152,7 +156,7 @@ const RoutineSelf = ({ navigation }) => {
                                     <View>
                                         {item.data.map((item, index) => (
                                             (item.statusField !== 'Satisfactory' && item.statusField !== 'Cancelled' && item.statusField !== 'Unsatisfactory') &&
-                                            <TouchableOpacity key={index} onPress={() => openChecklistModal( item)} style={styles.taskCont}>
+                                            <TouchableOpacity key={index} onPress={() => openChecklistModal(item)} style={styles.taskCont}>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', }}>
                                                     <Text style={styles.textWhite}>{item.priorityField ? item.priorityField : 'Medium'}</Text>
                                                     <Text style={styles.textWhite}>{item.inspectionNumberField}</Text>

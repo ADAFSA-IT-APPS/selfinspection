@@ -29,17 +29,18 @@ const UserDetails = () => {
     const Search_Establishment_HistoryResult_NOC = useSelector(state => state.Search_Establishment_HistoryResult_NOC)
     const get_siebelReport = useSelector(state => state.GET_INSPECTION_REPORT);
 
-    
+
     const [isLoading, setIsLoading] = useState(true)
     const [userDetails, setUserDetails] = useState('');
 
-    useEffect(() => { 
-       // dispatch(Search_Establishment_History_NOC());
-  //console.log('Search_Establishment_HistoryResult_NOCSearch_Establishment_HistoryResult_NOC', Search_Establishment_HistoryResult_NOC);
-        let parsedSiebeleport =Object.keys(Search_Establishment_HistoryResult_NOC).length ?JSON.parse(Search_Establishment_HistoryResult_NOC):''
-        let data=parsedSiebeleport&&parsedSiebeleport?.TradelicenseHistory?.Establishment[0]?.ListOfServiceRequest?.ServiceRequest
+    useEffect(() => {
+        // dispatch(Search_Establishment_History_NOC());
+        //console.log('Search_Establishment_HistoryResult_NOCSearch_Establishment_HistoryResult_NOC', Search_Establishment_HistoryResult_NOC);
+        let parsedSiebeleport = Object.keys(Search_Establishment_HistoryResult_NOC).length ? JSON.parse(Search_Establishment_HistoryResult_NOC) : ''
+        let data = parsedSiebeleport && parsedSiebeleport?.TradelicenseHistory?.Establishment[0]?.ListOfServiceRequest?.ServiceRequest
         setServiceRequest(data)
-        //console.log('Eshtablisment_parsedSiebeleport', parsedSiebeleport.TradelicenseHistory.Establishment[0].ListOfServiceRequest.ServiceRequest);
+    console.log('Eshtablisment_parsedSiebeleport', parsedSiebeleport.TradelicenseHistory.Establishment[0].ListOfServiceRequest.ServiceRequest);
+    console.log('Eshtablisment_parsedSiebeleport', data);
     }, [Search_Establishment_HistoryResult_NOC])
     /*    useEffect(() => {
            if (state !== '') {
@@ -51,7 +52,7 @@ const UserDetails = () => {
 
     useEffect(() => {
         getUser();
-      //  get_siebelReport!=''?'':get_siebelReport
+        //  get_siebelReport!=''?'':get_siebelReport
     }, [])
 
     const getUser = async () => {
@@ -72,11 +73,11 @@ const UserDetails = () => {
         })
     }
 
-    const inspectionHistory=()=>{
-        NavigationService.navigate('SRScreen', { item: (/* Eshtablisment_Count?.Satisfactory|| */Eshtablisment_Inspection_Type) ,inspectionHist:true ,establishment:true})
+    const inspectionHistory = () => {
+        NavigationService.navigate('SRScreen', { item: (/* Eshtablisment_Count?.Satisfactory|| */Eshtablisment_Inspection_Type), inspectionHist: true, establishment: true })
     }
-    const serviceRequestHistory=()=>{
-        NavigationService.navigate('SRScreen', { item: (/* Eshtablisment_Count?.Satisfactory|| */Eshtablisment_Inspection_Type) ,inspectionHist:true,establishment:false,serviceRequest })
+    const serviceRequestHistory = () => {
+        NavigationService.navigate('SRScreen', { item: (/* Eshtablisment_Count?.Satisfactory|| */Eshtablisment_Inspection_Type), inspectionHist: true, establishment: false, serviceRequest })
     }
 
     return (
@@ -118,12 +119,12 @@ const UserDetails = () => {
                 </View>
             </View>
 
-            <View style={[styles.userDetailCont,{marginTop:10}]}>
-                <TouchableOpacity onPress={() => inspectionHistory()}  style={styles.inspectionHistory}>
-                    <Text style={[styles.userDetailValue,{letterSpacing:0.4,fontSize:14}]}>{t('Inpection_History')}</Text>
+            <View style={[styles.userDetailCont, { marginTop: 10 }]}>
+                <TouchableOpacity onPress={() => inspectionHistory()} style={styles.inspectionHistory}>
+                    <Text style={[styles.userDetailValue, { letterSpacing: 0.4, fontSize: 14 }]}>{t('Inpection_History')}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>{serviceRequestHistory()}} style={styles.inspectionHistory}>
-                    <Text style={[styles.userDetailValue,{letterSpacing:0.4,fontSize:14}]}>{t('Service_Request')}</Text>
+                <TouchableOpacity onPress={() => { serviceRequestHistory() }} style={styles.inspectionHistory}>
+                    <Text style={[styles.userDetailValue, { letterSpacing: 0.4, fontSize: 14 }]}>{t('Service_Request')}</Text>
                 </TouchableOpacity>
             </View>
 
@@ -155,9 +156,9 @@ const styles = StyleSheet.create({
         height: '100%',
         resizeMode: 'contain',
     },
-    userDetailCont: { flexDirection: 'row', alignItems: 'center',justifyContent: 'center', marginHorizontal: '8%' },
+    userDetailCont: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginHorizontal: '8%' },
     userDetailsKey: { width: '50%',/* alignSelf:'flex-start' */textAlign: 'left' },
-    inspectionHistory:{
+    inspectionHistory: {
         backgroundColor: '#5c6672', paddingHorizontal: 10, borderRadius: 5, marginHorizontal: 10, marginVertical: 10, paddingVertical: 18,
     },
     userDetailValueCont: { width: '50%', backgroundColor: '#5c6672', paddingHorizontal: 10, borderRadius: 5, marginHorizontal: 10, marginVertical: 10, paddingVertical: 18 },
