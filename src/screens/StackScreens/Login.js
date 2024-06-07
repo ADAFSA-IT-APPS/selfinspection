@@ -1,6 +1,6 @@
 //import liraries
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, Dimensions, TouchableOpacity, ActivityIndicator, Platform, I18nManager } from 'react-native';
+import { View, Text, StyleSheet, Linking, Button, Image, TextInput, Dimensions, TouchableOpacity, ActivityIndicator, Platform, I18nManager } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { AuthContext } from '../../Components/context';
@@ -104,15 +104,16 @@ const Login = ({ navigation }) => {
                     <TouchableOpacity
                         onPress={eyeShowHide}
                         style={{
-                             width: '15%'
+                            width: '15%'
                         }}>
                         <Image resizeMode="contain" source={hidePassword
                             ? require("../../assets/img/eyeHidden.png")
                             : require("../../assets/img/eye.png")}
-                            style={{ width: '35%',height: '100%', }} />
+                            style={{ width: '35%', height: '100%', }} />
                     </TouchableOpacity>
                 </View>
-
+                {/* <Button title={'android link'} onPress={() => { Linking.openURL("https://play.google.com/store/apps/details?id=com.selfinspection") }}></Button> */}
+                {/* <Button title={'IOS link'} onPress={() => { Linking.openURL("https://apps.apple.com/ae/app/adafsa-self-inspection/id6443712930") }}></Button> */}
                 <View style={styles.rememberMe}>
                     <CheckBox
                         disabled={false}
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
         paddingVertical: height * 0.02,
         marginTop: Platform.OS === 'ios' ? height * 0.03 : height * 0.015,
         width: '100%',
-        height:'10%'
+        height: '10%'
     },
     rememberMe: {
         flexDirection: 'row', marginTop: 10,

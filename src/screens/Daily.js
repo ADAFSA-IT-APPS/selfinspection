@@ -81,16 +81,23 @@ const Daily = ({ navigation }) => {
         console.log('taskId', taskId);
         setTask(task);
         if (item.inspectionTypeField == 'Direct Self Inspection' && item.statusField !== 'Satisfactory' && item.statusField !== 'Unsatisfactory') {
-            setModalChecklistVisible(!modalChecklistVisible)
 
-            dispatch(Get_Assessment_New(item, '', subCheckedItem));
+            (item.statusField == 'Scheduled') && setModalChecklistVisible(!modalChecklistVisible)
+
+            //dispatch(Get_Assessment_New(item, '', subCheckedItem));
+            dispatch(Get_Assessment(subCheckedItem, item, (result) => {
+                alertRef.current.show(result.error);
+            }));
+            dispatch(GetCheckList(subCheckedItem, item, (result) => {
+                alertRef.current.show(result.error);
+            }));
 
         } else {
             /*Added Get_Assessment_New */
-            dispatch(Get_Assessment(item, (result) => {
+            dispatch(Get_Assessment('', item, (result) => {
                 alertRef.current.show(result.error);
             }));
-            dispatch(GetCheckList(item, (result) => {
+            dispatch(GetCheckList('', item, (result) => {
                 alertRef.current.show(result.error);
             }));
         }
@@ -100,9 +107,18 @@ const Daily = ({ navigation }) => {
     }
     const openChecklistModal = (item) => {
         console.log('taskItem', taskItem);
+        console.log('taskItem', item);
+        setModalChecklistVisible(false)
+        if (item.statusField == 'Acknowledged') {
+            setModalChecklistVisible(false)
 
-        setModalChecklistVisible(!modalChecklistVisible)
-        setTaskItem(item)
+            openTask(item.inspectionNumberField, item)
+
+        } else {
+            setModalChecklistVisible(!modalChecklistVisible)
+            setTaskItem(item)
+        }
+
     }
     const { Search_Establishment_HistoryResult } = state;
 

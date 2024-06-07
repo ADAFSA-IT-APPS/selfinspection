@@ -36,7 +36,9 @@ const RoutineSelf = ({ navigation }) => {
 
 
     useEffect(() => {
-        dispatch(Search_Establishment_History());
+        dispatch(Search_Establishment_History((result) => {
+            alertRef.current.show(result.error);
+        }));
         dispatch(GetLOVDetails((result) => {
             console.log('sssssss', result);
             console.log('lovDetails', lovDetails);
@@ -46,36 +48,40 @@ const RoutineSelf = ({ navigation }) => {
 
 
     const openTask = (taskId, item) => {
-        // dispatch(Get_Assessment(item, (result) => {
-        //     console.log('sssssss', result);
-        //     alertRef.current.show(result.error);
-        // }));
-        // dispatch(GetCheckList(item, (result) => {
-        //     console.log('sssssss', result);
-        //     alertRef.current.show(result.error);
-        // }));
+        if (item.inspectionTypeField == 'Follow Up Self Inspection' && item.statusField == 'Acknowledged') {
+            setModalChecklistVisible(false)
+        }
+        dispatch(Get_Assessment(subCheckedItem, item, (result) => {
+            console.log('sssssss', result);
+            alertRef.current.show(result.error);
+        }));
+
+        dispatch(GetCheckList(subCheckedItem, item, (result) => {
+            console.log('sssssss', result);
+            alertRef.current.show(result.error);
+        }));
         console.log('openTask', item);
 
 
-        if (item.inspectionTypeField == 'Follow Up Self Inspection' && item.statusField !== 'Satisfactory' && item.statusField !== 'Unsatisfactory') {
-            setModalChecklistVisible(!modalChecklistVisible)
+        // if (item.inspectionTypeField == 'Follow Up Self Inspection' && item.statusField !== 'Satisfactory' && item.statusField !== 'Unsatisfactory') {
+        //     setModalChecklistVisible(!modalChecklistVisible)
 
-            dispatch(Get_Assessment_New(item, '', subCheckedItem));
+        //     dispatch(Get_Assessment_New(item, '', subCheckedItem));
 
-        } else if (item.inspectionTypeField == 'Self Inspection' && item.statusField !== 'Satisfactory' && item.statusField !== 'Unsatisfactory') {
-            setModalChecklistVisible(!modalChecklistVisible)
+        // } else if (item.inspectionTypeField == 'Self Inspection' && item.statusField !== 'Satisfactory' && item.statusField !== 'Unsatisfactory') {
+        //     setModalChecklistVisible(!modalChecklistVisible)
 
-            dispatch(Get_Assessment_New(item, '', subCheckedItem));
+        //     dispatch(Get_Assessment_New(item, '', subCheckedItem));
 
-        } else {
-            /*Added Get_Assessment_New */
-            dispatch(Get_Assessment(item, (result) => {
-                alertRef.current.show(result.error);
-            }));
-            dispatch(GetCheckList(item, (result) => {
-                alertRef.current.show(result.error);
-            }));
-        }
+        // } else {
+        //     /*Added Get_Assessment_New */
+        //     dispatch(Get_Assessment(subCheckedItem,item, (result) => {
+        //         alertRef.current.show(result.error);
+        //     }));
+        //     dispatch(GetCheckList(subCheckedItem,item, (result) => {
+        //         alertRef.current.show(result.error);
+        //     }));
+        // }
     }
 
     const getInspectionType = (IType, subtype) => {
@@ -95,9 +101,19 @@ const RoutineSelf = ({ navigation }) => {
     }
     const openChecklistModal = (item) => {
         console.log('taskItem', taskItem);
+        setModalChecklistVisible(false)
 
-        setModalChecklistVisible(!modalChecklistVisible)
-        setTaskItem(item)
+        if (item.statusField == 'Acknowledged') {
+            console.log('test to check',modalChecklistVisible);
+
+            setModalChecklistVisible(false)
+
+            openTask(item.inspectionNumberField, item)
+
+        } else {
+            setModalChecklistVisible(!modalChecklistVisible)
+            setTaskItem(item)
+        }
     }
     return (
         <View style={styles.container}>

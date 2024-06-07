@@ -18,7 +18,7 @@ const TaskDetails = props => {
     //const [taskId,setTaskId]=useState('');
     console.log('route', JSON.stringify(props));
     const dispatch = useDispatch();
-    const { taskId, statusField, item, nearestDateField, subChecked } = props.route.params;
+    const { taskId, statusField, item, nearestDateField, subChecked,templatename } = props.route.params;
 
 
 
@@ -50,7 +50,7 @@ const TaskDetails = props => {
             {isLoading && <Loading />}
             <TaskNavbar taskno={taskId} />
             {/* <ScrollView> */}
-            {(statusField === 'Satisfactory' || statusField === 'Unsatisfactory' /* ||statusField==='Scheduled' */) ? <AccordionsViewTask data={checkList} taskid={taskId} /> : <Accordions data={checkList} taskid={taskId} inspectionItem={item} checklistDate={nearestDateField} subChecked={subChecked} />}
+            {(statusField === 'Satisfactory' || statusField === 'Unsatisfactory' /* ||statusField==='Scheduled' */) ? <AccordionsViewTask data={checkList} taskid={taskId} /> : <Accordions data={checkList} taskid={taskId} inspectionItem={item} checklistDate={nearestDateField} subChecked={subChecked} templatename={templatename} />}
             {/* <Accordions data={checkList} /> */}
             {/*  </ScrollView> */}
             {/* (statusField==='Satisfactory' || statusField==='Unsatisfactory')?<Text></Text>:<Text></Text> */

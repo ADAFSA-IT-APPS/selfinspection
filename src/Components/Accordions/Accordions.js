@@ -32,7 +32,7 @@ import { TemporaryDirectoryPath } from 'react-native-fs';
 const _ = require('lodash');
 
 // create a component 'Grace can only be gven to unsatisfactory questions'
-const Accordions = ({ data, taskid, inspectionItem, checklistDate, subChecked }) => {
+const Accordions = ({ data, taskid, inspectionItem, checklistDate, subChecked ,templatename}) => {
   let dataCloned = _.cloneDeep(data)
   const [currentIndex, setCurrentIndex] = React.useState(null);
   /* ----------  Modal State  ---------- */
@@ -194,76 +194,76 @@ const Accordions = ({ data, taskid, inspectionItem, checklistDate, subChecked })
         // console.log('assessScore', assessScore);
         // console.log('percentage', assessScore / arr.length * 100);
         let data =
-          (inspectionItem.inspectionTypeField == 'Direct Self Inspection' || inspectionItem.inspectionTypeField == 'Follow Up Self Inspection' || inspectionItem.inspectionTypeField == 'Self Inspection') ?
-            {
-              "InterfaceID": "ADFCA_CRM_SBL_066",
-              "AssesmentChecklist": {
-                "Inpsection": {
-                  "DataLogger": "N",
-                  "Flashlight": "N",
-                  "LuxMeter": "N",
-                  "UVLight": "N",
-                  "TaskID": taskid,
-                  "Thermometer": "N",
-                  "InspectorId": "",
-                  "InspectorName": "",
-                  "LanguageType": "ENU",
-                  "ListOfSalesAssessment": {
-                    "AssessmentChecklist": {
-                      "AssessmentScore": /* assessScore ? assessScore : */ "",
-                      "Description": "",
-                      "MaxScore": arr && arr.length ? (arr.length) : "",
-                      "Name": "",
-                      "Percent": /* (assessScore && arr.length) ? assessScore / arr.length * 100 : */ "",
-                      "TemplateName": (subChecked && subChecked.LanguageIndependentCode) ? subChecked.LanguageIndependentCode : '',
-                      "ListOfSalesAssessmentValue": {
-                        "AssessmentChecklistValues": arr
-                      }
-                    }
-                  }
-                }
-              },
-              "Attrib1": countResult,
-              "Attrib2": (subChecked && subChecked.LanguageIndependentCode) ? subChecked.LanguageIndependentCode : '',
-              "Attrib3": moment.utc(timeValue * 1000).format('HH:mm:ss'),
-              "Attrib4": minValue != 'Infinity' ? moment().add(minValue, 'days').format("MM/DD/YYYY HH:mm:ss") : '',
-              "Attrib5": moment().format("MM/DD/YYYY HH:mm:ss")
-            }
-            :
-            {
-              "_Input":
-              {
-                "InterfaceID": "ADFCA_CRM_SBL_066",
-                "AssesmentChecklist":
+        // (inspectionItem.inspectionTypeField == 'Direct Self Inspection' || inspectionItem.inspectionTypeField == 'Follow Up Self Inspection' || inspectionItem.inspectionTypeField == 'Self Inspection') ?
+        //   {
+        //     "InterfaceID": "ADFCA_CRM_SBL_066",
+        //     "AssesmentChecklist": {
+        //       "Inpsection": {
+        //         "DataLogger": "N",
+        //         "Flashlight": "N",
+        //         "LuxMeter": "N",
+        //         "UVLight": "N",
+        //         "TaskID": taskid,
+        //         "Thermometer": "N",
+        //         "InspectorId": "",
+        //         "InspectorName": "",
+        //         "LanguageType": "ENU",
+        //         "ListOfSalesAssessment": {
+        //           "AssessmentChecklist": {
+        //             "AssessmentScore": /* assessScore ? assessScore : */ "",
+        //             "Description": "",
+        //             "MaxScore": arr && arr.length ? (arr.length) : "",
+        //             "Name": "",
+        //             "Percent": /* (assessScore && arr.length) ? assessScore / arr.length * 100 : */ "",
+        //             "TemplateName": (subChecked && subChecked.LanguageIndependentCode) ? subChecked.LanguageIndependentCode : '',
+        //             "ListOfSalesAssessmentValue": {
+        //               "AssessmentChecklistValues": arr
+        //             }
+        //           }
+        //         }
+        //       }
+        //     },
+        //     "Attrib1": countResult,
+        //     "Attrib2": (subChecked && subChecked.LanguageIndependentCode) ? subChecked.LanguageIndependentCode : '',
+        //     "Attrib3": moment.utc(timeValue * 1000).format('HH:mm:ss'),
+        //     "Attrib4": minValue != 'Infinity' ? moment().add(minValue, 'days').format("MM/DD/YYYY HH:mm:ss") : '',
+        //     "Attrib5": moment().format("MM/DD/YYYY HH:mm:ss")
+        //   }
+        //   :
+        {
+          "_Input":
+          {
+            "InterfaceID": "ADFCA_CRM_SBL_066",
+            "AssesmentChecklist":
+              [{
+                "DataLogger": "N",
+                "Flashlight": "N",
+                "LuxMeter": "N",
+                "UVLight": "N",
+                "TaskID": taskid,
+                "Thermometer": "N",
+                "InspectorId": "",
+                "InspectorName": "",
+                "LanguageType": "ENU",
+                "ListOfSalesAssessment":
                   [{
-                    "DataLogger": "N",
-                    "Flashlight": "N",
-                    "LuxMeter": "N",
-                    "UVLight": "N",
-                    "TaskID": taskid,
-                    "Thermometer": "N",
-                    "InspectorId": "",
-                    "InspectorName": "",
-                    "LanguageType": "ENU",
-                    "ListOfSalesAssessment":
-                      [{
-                        "AssessmentScore": "",
-                        "Description": "",
-                        "MaxScore": "",
-                        "Name": "",
-                        "Percent": "",
-                        "TemplateName": inspectionItem.inspectionTypeField + '-Food',
-                        "ListOfSalesAssessmentValue": arr
-                      }]
+                    "AssessmentScore": "",
+                    "Description": "",
+                    "MaxScore": arr && arr.length ? (arr.length) : "",
+                    "Name": "",
+                    "Percent": (assessScore && arr.length) ? assessScore / arr.length * 100 : "",
+                    "TemplateName": (subChecked && subChecked.LanguageIndependentCode) ? subChecked.LanguageIndependentCode :templatename?templatename: inspectionItem.inspectionTypeField + '-Food',
+                    "ListOfSalesAssessmentValue": arr
+                  }]
 
-                  }],
-                "Attrib1": countResult,
-                "Attrib2": inspectionItem.inspectionTypeField,
-                "Attrib3": moment.utc(timeValue * 1000).format('HH:mm:ss')/* moment(timeValue).format('ss:mm:HH') */,
-                "Attrib4": /* "05/27/2022 13:53:11", */minValue != 'Infinity' ? moment().add(minValue, 'days').format("MM/DD/YYYY HH:mm:ss") : '',
-                "Attrib5": /* "05/13/2022 13:53:11" */moment().format("MM/DD/YYYY HH:mm:ss")
-              }
-            }
+              }],
+            "Attrib1": countResult,
+            "Attrib2": inspectionItem.inspectionTypeField,
+            "Attrib3": moment.utc(timeValue * 1000).format('HH:mm:ss')/* moment(timeValue).format('ss:mm:HH') */,
+            "Attrib4": /* "05/27/2022 13:53:11", */minValue != 'Infinity' ? moment().add(minValue, 'days').format("MM/DD/YYYY HH:mm:ss") : '',
+            "Attrib5": /* "05/13/2022 13:53:11" */moment().format("MM/DD/YYYY HH:mm:ss")
+          }
+        }
         console.log('data_updateAssessnent', JSON.stringify(data));
         //let datacloned = _.cloneDeep(data)`
         setModalData(data)

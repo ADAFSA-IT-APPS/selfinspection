@@ -39,16 +39,10 @@ const UserDetails = () => {
         let parsedSiebeleport = Object.keys(Search_Establishment_HistoryResult_NOC).length ? JSON.parse(Search_Establishment_HistoryResult_NOC) : ''
         let data = parsedSiebeleport && parsedSiebeleport?.TradelicenseHistory?.Establishment[0]?.ListOfServiceRequest?.ServiceRequest
         setServiceRequest(data)
-    console.log('Eshtablisment_parsedSiebeleport', parsedSiebeleport.TradelicenseHistory.Establishment[0].ListOfServiceRequest.ServiceRequest);
-    console.log('Eshtablisment_parsedSiebeleport', data);
+    // console.log('Eshtablisment_parsedSiebeleport', parsedSiebeleport.TradelicenseHistory.Establishment[0].ListOfServiceRequest.ServiceRequest);
+    // console.log('Eshtablisment_parsedSiebeleport', data);
     }, [Search_Establishment_HistoryResult_NOC])
-    /*    useEffect(() => {
-           if (state !== '') {
-               setIsLoading(false);
-           } else {
-               NavigationService.goBack();
-           }
-       }, [state]) */
+ 
 
     useEffect(() => {
         getUser();

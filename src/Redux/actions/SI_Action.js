@@ -566,6 +566,7 @@ export const Search_Establishment_History_NOC = (/* result */) => async (dispatc
 export const AdhocInspection = (IType, VNumber, subChecked) => async (dispatch) => {
     console.log('itype', IType);
     console.log('VNumber', VNumber);
+    console.log('subChecked_AdhocInspectionsubChecked', subChecked);
     dispatch({ type: 'SHOW_LOADER' });
 
 
@@ -600,7 +601,7 @@ export const AdhocInspection = (IType, VNumber, subChecked) => async (dispatch) 
             InspectionType: IType,
             AccountArabicName: "",
             PhoneNumber: "",
-            LanguageType: "",
+            LanguageType: (IType == 'Direct Self Inspection' && subChecked?.LanguageIndependentCode) ? subChecked?.LanguageIndependentCode : "",
             City: "",
             TradeLicenseNumber: LicenseNO/* "CN-1700160" */,
             Latitude: "",
@@ -635,6 +636,55 @@ export const AdhocInspection = (IType, VNumber, subChecked) => async (dispatch) 
                 let data = response.data;
                 console.log('Adhocdata', data);
 
+
+                // if (IType == 'Direct Self Inspection') {
+                //     let postUrl = APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Send_Acknowledge";
+                //     let postData = {
+                //         _Input: {
+                //             InterfaceID: "ADFCA_CRM_SBL_068",
+                //             Longitude: "",
+                //             Latitude: "",
+                //             DateTime: "",
+                //             Comments: "",
+                //             LanguageType: "ENU",
+                //             InspectorName: subChecked?.LanguageIndependentCode ? subChecked.LanguageIndependentCode : '',
+                //             RequestType: "",
+                //             Reason: "",
+                //             TaskStatus: "Acknowledged",
+                //             TaskId: response.data.AdhocInspectionResult.NewInspection_Output.taskIdField,
+                //             InspectorId: "",
+                //             PreposedDateTime: ""
+                //         }
+                //     }
+                //     console.log('postData from send acknowledge AdhocInspection', postData);
+
+                //     try {
+                //         axios({
+                //             method: "POST",
+                //             url: postUrl,
+                //             timeout: 1000 * 13,
+                //             data: JSON.stringify(postData),
+                //             headers: {
+                //                 "Content-Type": "application/json",
+                //             }
+                //         })
+                //             .then(async function (response) {
+                //                 var data = response.data;
+                //                 console.log('sendAcKnowledgedata', data);
+                //                 if (data.Send_AcknowledgeResult.Send_Acknowledge_Output.statusField === 'Failed') {
+                //                     toast(data.Send_AcknowledgeResult.Send_Acknowledge_Output.errorMessageField)
+
+                //                 }
+                //             }).catch((err) => {
+                //                 dispatch({ type: 'HIDE_LOADER' });
+                //                 return
+                //             })
+                //     } catch (e) {
+                //         console.log('GET_ACKNOWLEDGE_ERROR', e.ErrorMsg); toast('Network Error');
+                //         dispatch({ type: 'HIDE_LOADER' });
+                //         return
+                //     }
+                // }
                 response.data?.AdhocInspectionResult?.NewInspection_Output?.Error && toast(response.data.AdhocInspectionResult.NewInspection_Output.Error)
                 if (response.data.AdhocInspectionResult.ErrorCode == 402) {
                     return result({ error: response.data.AdhocInspectionResult.ErrorDesc })
@@ -658,12 +708,14 @@ export const AdhocInspection = (IType, VNumber, subChecked) => async (dispatch) 
 
 
                     console.log('taskid_check>>>>>>>', taskid);
-                    if (IType == 'Vehicle Self Inspection') {
-                        dispatch(Get_Assessment(taskid));
-                        dispatch(GetCheckList(taskid));
-                    } else {
-                        dispatch(Get_Assessment_New(taskid, '', subChecked));
-                    }
+                    dispatch(Get_Assessment(subChecked, taskid));
+                    dispatch(GetCheckList(subChecked, taskid));
+                    // if (IType == 'Vehicle Self Inspection') {
+                    //     dispatch(Get_Assessment(taskid));
+                    //     dispatch(GetCheckList(taskid));
+                    // } else {
+                    //     dispatch(Get_Assessment_New(taskid, '', subChecked));
+                    // }
                     // NavigationService.navigate('TaskDetails', { taskId: taskid });
                     // return result({ error: response.data.AdhocInspectionResult.NewInspection_Output.statusField })
                 } else {
@@ -686,7 +738,7 @@ export const AdhocInspection = (IType, VNumber, subChecked) => async (dispatch) 
     // dispatch({ type: 'GET_CHECK_LIST', payload: false });
 }
 
-export const Get_Assessment = (item, result) => async (dispatch) => {
+export const Get_Assessment = (subChecked, item, result) => async (dispatch) => {
     // console.log('task_Get_Assessment', item.inspectionNumberField);
     console.log('itemfrom action', item);
     dispatch({ type: 'SHOW_LOADER' });
@@ -722,8 +774,7 @@ export const Get_Assessment = (item, result) => async (dispatch) => {
         TaskId = item.inspectionNumberField
     }
 
-    console.log('conditionTASKID', TaskId);
-    let postData = {
+    let postDataAssessment = {
         _Input: {
             InterfaceID: "ADFCA_CRM_SBL_065",
             LanguageType: "ENU",
@@ -732,14 +783,69 @@ export const Get_Assessment = (item, result) => async (dispatch) => {
             InspectorId: "",
         }
     };
-    console.log('payload_getAssement', postData);
+    console.log('payload_getAssement', postDataAssessment);
+    if (/* item.inspectionTypeField == 'Direct Self Inspection' && */ item.statusField == 'Scheduled') {
+        let postUrl = APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Send_Acknowledge";
+        let postData = {
+            _Input: {
+                InterfaceID: "ADFCA_CRM_SBL_068",
+                Longitude: "",
+                Latitude: "",
+                DateTime: "",
+                Comments: "",
+                LanguageType: "ENU",
+                InspectorName: subChecked?.LanguageIndependentCode ? subChecked.LanguageIndependentCode : '',
+                RequestType: "",
+                Reason: "",
+                TaskStatus: "Acknowledged",
+                TaskId: TaskId,
+                InspectorId: "",
+                PreposedDateTime: ""
+            }
+        }
+        console.log('postData from send acknowledge Get_Assessment', postData);
+
+        try {
+            axios({
+                method: "POST",
+                url: postUrl,
+                timeout: 1000 * 13,
+                data: JSON.stringify(postData),
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+                .then(async function (response) {
+                    var data = await response.data;
+                    console.log('sendAcKnowledgedata', data);
+                    console.log('payload_getAssement_inside_Acknowledge', postDataAssessment);
+
+                    if (data.Send_AcknowledgeResult.Send_Acknowledge_Output.statusField === 'Failed') {
+                        toast(data.Send_AcknowledgeResult.Send_Acknowledge_Output.errorMessageField)
+
+                    }
+                }).catch((err) => {
+                    dispatch({ type: 'HIDE_LOADER' });
+                    return
+                })
+        } catch (e) {
+            console.log('GET_ACKNOWLEDGE_ERROR', e.ErrorMsg); toast('Network Error');
+            dispatch({ type: 'HIDE_LOADER' });
+            return
+        }
+    }
+
+
+
+    console.log('conditionTASKID', TaskId);
+
 
     try {
         axios({
             method: "POST",
             url: postUrl,
             timeout: 1000 * 16,
-            data: JSON.stringify(postData),
+            data: JSON.stringify(postDataAssessment),
             headers: {
                 "Content-Type": "application/json",
             }
@@ -1003,11 +1109,12 @@ export const GetInspectionDetails = () => async (dispatch) => {
     }
 }
 
-export const GetCheckList = (item, result) => async (dispatch) => {
+export const GetCheckList = (subChecked, item, result) => async (dispatch) => {
     dispatch({ type: 'SHOW_LOADER' });
 
     console.log('task_GetCheckList', item.inspectionNumberField);
     console.log('task_GetCheckList item', item?.statusField);
+    console.log('subChecked_GetCheckList', subChecked);
 
     const dateob = await getDateTimeFromServer();
     if (typeof dateob == 'undefined') {
@@ -1015,60 +1122,61 @@ export const GetCheckList = (item, result) => async (dispatch) => {
         dispatch({ type: 'HIDE_LOADER' });
 
     }
+    let templatename = '';
 
     let dateInUtc = getDateInUtc(dateob.data);
     const encryptedServerDate = Encrypt(dateInUtc);
 
 
-    if (item.statusField === 'Scheduled') {
-        let postUrl = APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Send_Acknowledge";
-        console.log('post url from send acknowledge', postUrl);
-        let postData = {
-            _Input: {
-                InterfaceID: "ADFCA_CRM_SBL_068",
-                Longitude: "",
-                Latitude: "",
-                DateTime: "",
-                Comments: "",
-                LanguageType: "ENU",
-                InspectorName: "",
-                RequestType: "",
-                Reason: "",
-                TaskStatus: "Acknowledged",
-                TaskId: item.inspectionNumberField,
-                InspectorId: "",
-                PreposedDateTime: ""
-            }
-        }
-        console.log('postData from send acknowledge', postData);
+    // if (item.statusField === 'Scheduled') {
+    //     let postUrl = APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Send_Acknowledge";
+    //     console.log('post url from send acknowledge', postUrl);
+    //     let postData = {
+    //         _Input: {
+    //             InterfaceID: "ADFCA_CRM_SBL_068",
+    //             Longitude: "",
+    //             Latitude: "",
+    //             DateTime: "",
+    //             Comments: "",
+    //             LanguageType: "ENU",
+    //             InspectorName: "",
+    //             RequestType: "",
+    //             Reason: "",
+    //             TaskStatus: "Acknowledged",
+    //             TaskId: item.inspectionNumberField,
+    //             InspectorId: "",
+    //             PreposedDateTime: ""
+    //         }
+    //     }
+    //     console.log('postData from send acknowledge', postData);
 
-        try {
-            axios({
-                method: "POST",
-                url: postUrl,
-                timeout: 1000 * 13,
-                data: JSON.stringify(postData),
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            })
-                .then(async function (response) {
-                    var data = response.data;
-                    console.log('sendAcKnowledgedata', data);
-                    if (data.Send_AcknowledgeResult.Send_Acknowledge_Output.statusField === 'Failed') {
-                        toast(data.Send_AcknowledgeResult.Send_Acknowledge_Output.errorMessageField)
+    //     try {
+    //         axios({
+    //             method: "POST",
+    //             url: postUrl,
+    //             timeout: 1000 * 13,
+    //             data: JSON.stringify(postData),
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             }
+    //         })
+    //             .then(async function (response) {
+    //                 var data = response.data;
+    //                 console.log('sendAcKnowledgedata', data);
+    //                 if (data.Send_AcknowledgeResult.Send_Acknowledge_Output.statusField === 'Failed') {
+    //                     toast(data.Send_AcknowledgeResult.Send_Acknowledge_Output.errorMessageField)
 
-                    }
-                }).catch((err) => {
-                    dispatch({ type: 'HIDE_LOADER' });
-                    return
-                })
-        } catch (e) {
-            console.log('GET_ACKNOWLEDGE_ERROR', e.ErrorMsg); toast('Network Error');
-            dispatch({ type: 'HIDE_LOADER' });
-            return
-        }
-    }
+    //                 }
+    //             }).catch((err) => {
+    //                 dispatch({ type: 'HIDE_LOADER' });
+    //                 return
+    //             })
+    //     } catch (e) {
+    //         console.log('GET_ACKNOWLEDGE_ERROR', e.ErrorMsg); toast('Network Error');
+    //         dispatch({ type: 'HIDE_LOADER' });
+    //         return
+    //     }
+    // }
 
     let postUrl = APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Get_Check_List";
     console.log('GetCheckList', postUrl);
@@ -1108,8 +1216,13 @@ export const GetCheckList = (item, result) => async (dispatch) => {
             }
         })
             .then(async function (response) {
+                if (!subChecked) {
+                    console.log('emptysubChecked_GetCheckList',);
+                    templatename=response.data.Get_Check_ListResult.Get_Check_List_Output.inspectionCheckListField[0].listOfSalesAssessmentField[0].template_NameField;
+                    console.log('templatename', templatename);
+                }
                 var data = response.data.Get_Check_ListResult.Get_Check_List_Output.inspectionCheckListField[0].listOfSalesAssessmentField[0].listOfSalesAssessmentValueField/* .inspectionCheckListField[0].listOfSalesAssessmentField[0].listOfSalesAssessmentValueField */;
-                console.log('checkdata', data);
+                console.log('checkdataChecklist', response.data);
                 let testData = response.data.Get_Check_ListResult.Get_Check_List_Output.inspectionCheckListField[0].listOfSalesAssessmentField;
                 console.log('testData', testData);
                 console.log('length', testData.length);
@@ -1165,7 +1278,9 @@ export const GetCheckList = (item, result) => async (dispatch) => {
 
                             console.log('TaskIdfrom action in checklist', item.inspectionNumberField);
 
-                            NavigationService.navigate('TaskDetails', { taskId: item.inspectionNumberField, statusField: item.statusField, item: item, nearestDateField: nearestDateField });
+                            // NavigationService.navigate('TaskDetails', { taskId: item.inspectionNumberField, statusField: item.statusField, item: item, nearestDateField: nearestDateField });
+                            NavigationService.navigate('TaskDetails', { taskId: item.inspectionNumberField, statusField: item.statusField, item: item, nearestDateField: "", subChecked: subChecked, templatename: templatename });
+
                             dispatch({ type: 'HIDE_LOADER' });
 
                             //   console.log('dataObj', dataObj);
@@ -1344,7 +1459,8 @@ export const Update_Assessment = (data, IType, callback) => async (dispatch) => 
 
 
     //  let postUrl = IType == 'Direct Self Inspection' ? SMARTCONTROL + UpdateAssessment : APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Update_Assessment";
-    let postUrl = IType == 'Vehicle Self Inspection' ? APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Update_Assessment" : SMARTCONTROL + UpdateAssessment;
+    // let postUrl = IType == 'Vehicle Self Inspection' ? APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Update_Assessment" : SMARTCONTROL + UpdateAssessment;
+    let postUrl = APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Update_Assessment";
 
     console.log('Update_Assessment', postUrl);
     // console.log('checktaskid', item.inspectionTypeField !== 'Vehicle Self Inspection' && item.inspectionTypeField);
