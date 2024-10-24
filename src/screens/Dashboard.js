@@ -1,6 +1,6 @@
 //import liraries
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Animated, Image, Button, BackHandler, Alert, TouchableOpacity, ScrollView, StatusBar, I18nManager, Platform, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Animated, Linking, Image, Button, BackHandler, Alert, TouchableOpacity, ScrollView, StatusBar, I18nManager, Platform, Dimensions } from 'react-native';
 import Navbar from '../Components/Navbar/Navbar';
 import TabToggle from '../Components/Navbar/tabToggle';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -8,7 +8,7 @@ import ProgressCircle from '../Components/ProgressCircle';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Config from "react-native-config";
-import { GetCheckList, Search_Establishment_History, GetDeviceDetailsByLicenseNo, GetInspectionDetails, Get_Assessment, Get_Assessment_New, Search_Establishment_History_NOC } from '../Redux/actions/SI_Action';
+import { GetCheckList, Search_Establishment_History, GetLOVDetailsVersion, GetDeviceDetailsByLicenseNo, GetInspectionDetails, Get_Assessment, Get_Assessment_New, Search_Establishment_History_NOC } from '../Redux/actions/SI_Action';
 import { FontFamily, Colors } from '../Util/CommonStyle';
 import { toast, IconLeftActiveDaily, PendingtaskIcon, DownloadIcon, DelayedIcon, IconRightActiveDaily, IconLeftInActiveDaily, IconRightInActiveDaily, ActiveSelfIns, InactiveSelfIns, ActiveAdafsaIns, InactiveAdafsaIns, PendingTask, Delayed, InProgress } from '../Util/CommonStyle'
 import SI_ImageCont from '../Components/SI_ImageCont';
@@ -24,6 +24,7 @@ import ForegroundHandler from '../../src/assets/Helpers/Foreground_Handler'
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import RNPrint from 'react-native-print';
 import { useKeepAwake } from '@sayem314/react-native-keep-awake';
+import DeviceInfo from 'react-native-device-info';
 
 // create a component    
 const height = Dimensions.get('window').height;
@@ -36,6 +37,7 @@ const Dashboard = ({ navigation }) => {
     const { t, i18n } = useTranslation();
     const state = useSelector(state => state)
     const Eshtablisment_Count = useSelector(state => state.Eshtablisment_Count)
+    const versionLOV = useSelector(state => state.lovDetailsversion)
     const Search_Establishment_HistoryResult_NOC = useSelector(state => state.Search_Establishment_HistoryResult_NOC)
 
     const [focusedScreen, setFocusedScreen] = React.useState(1);
@@ -49,7 +51,7 @@ const Dashboard = ({ navigation }) => {
             "attributeNameField": "Always wash/disinfect their hands",
             "comment2Field": "",
             "orderField": "1",
-            "scoreField": "",
+            "Score": "",
             "valueField": "Yes",
             "weightField": "1"
         }
@@ -60,9 +62,13 @@ const Dashboard = ({ navigation }) => {
               duration: 5000, 
               useNativeDriver: true
           }).start();  */
+
+        callAppVersion()
         console.log('>>>>date', moment().add(7, 'days').format("MM/DD/YYYY HH:mm:ss"));
         //let parsedSiebeleport = JSON.parse(Search_Establishment_HistoryResult_NOC)
         //  console.log('Eshtablisment_parsedSiebeleport', parsedSiebeleport);
+        console.log('versionLOV_dashboard', versionLOV);
+
     });
     let pdfData = [];
     data.map((inspect, id) => {
@@ -82,6 +88,10 @@ const Dashboard = ({ navigation }) => {
 
     useEffect(() => {
         dispatch(Search_Establishment_History_NOC());
+        dispatch(GetLOVDetailsVersion((result) => {
+            console.log('GetLOVDetails', result);
+            alertRef.current.show(result.error);
+        }));
     }, [])
 
     useEffect(() => {
@@ -152,7 +162,53 @@ const Dashboard = ({ navigation }) => {
     /* pdf create end*/
 
 
+    callAppVersion = () => {
+        if (Platform.OS === 'android') {
+            versionLOV.map((item, index) => {
+                if (item.LanguageIndependentCode == 'Andriod') {
 
+                    if (DeviceInfo.getVersion() < item.Value) {
+                        Alert.alert(
+                            "",
+                            "Please Upgrade Version !",
+                            [
+                                {
+                                    text: 'Please click here to download the latest build',
+                                    onPress: () => Linking.openURL('https://play.google.com/store/apps/details?id=com.selfinspection'),
+                                },
+                            ],
+                            {
+                                cancelable: false,
+                            }
+                        )
+                    }
+                }
+            })
+
+        } else if (Platform.OS === 'ios') {
+            versionLOV.map((item, index) => {
+                if (item.LanguageIndependentCode == 'IOS') {
+                    if (DeviceInfo.getVersion() < item.Value) {
+                        Alert.alert(
+                            "",
+                            "Please Upgrade Version !",
+                            [
+                                {
+                                    text: 'Please click here to download the latest build',
+                                    onPress: () => Linking.openURL('itms-apps://itunes.apple.com/app/adafsa-self-inspection/id6443712930'),
+                                },
+                            ],
+                            {
+                                cancelable: false,
+                            }
+                        )
+                    }
+                }
+            })
+
+        }
+
+    }
 
     const onsubmit = (text) => {
         console.log(text)
@@ -194,6 +250,7 @@ const Dashboard = ({ navigation }) => {
             {/*  </View> */}
             {focusedScreen == 1 ?
                 <ScrollView style={{ flex: 1 }}>
+
                     {/* <Button onPress={() => setModalVisible(true)} title='open' />
                     <CommentModal visible={modalVisible} onClose={() => setModalVisible(false)} onsubmit={onsubmit} /> */}
                     <Animated.View style={[styles.container1,/*  { opacity: fadeAnim } */]}>
@@ -215,28 +272,28 @@ const Dashboard = ({ navigation }) => {
                         <View style={[styles.p10,]}>
                             <Task icon={DownloadIcon} text={t('In_Progress')}
                                 item={Eshtablisment_Count?.Open?.filter(item =>
-                                    item.inspectionTypeField === 'Direct Self Inspection' ||
-                                    item.inspectionTypeField === 'Follow Up Self Inspection' ||
-                                    item.inspectionTypeField === 'Vehicle Self Inspection'
+                                    item.InspectionType === 'Direct Self Inspection' ||
+                                    item.InspectionType === 'Follow Up Self Inspection' ||
+                                    item.InspectionType === 'Vehicle Self Inspection'
                                 )}
                                 reading={Eshtablisment_Count?.Open ?
                                     Eshtablisment_Count?.Open?.filter(item =>
-                                        item.inspectionTypeField === 'Direct Self Inspection' ||
-                                        item.inspectionTypeField === 'Follow Up Self Inspection' ||
-                                        item.inspectionTypeField === 'Vehicle Self Inspection'
+                                        item.InspectionType === 'Direct Self Inspection' ||
+                                        item.InspectionType === 'Follow Up Self Inspection' ||
+                                        item.InspectionType === 'Vehicle Self Inspection'
                                     ).length
                                     : 0} />
                             <Task icon={PendingtaskIcon} text={t('PendingTasks')}
                                 item={Eshtablisment_Count.Scheduled}
                                 reading={Eshtablisment_Count?.Scheduled?.filter(item =>
-                                    item.inspectionTypeField === 'Direct Self Inspection' ||
-                                    item.inspectionTypeField === 'Follow Up Self Inspection' ||
-                                    item.inspectionTypeField === 'Vehicle Self Inspection'
+                                    item.InspectionType === 'Direct Self Inspection' ||
+                                    item.InspectionType === 'Follow Up Self Inspection' ||
+                                    item.InspectionType === 'Vehicle Self Inspection'
                                 ) ?
                                     Eshtablisment_Count?.Scheduled?.filter(item =>
-                                        item.inspectionTypeField === 'Direct Self Inspection' ||
-                                        item.inspectionTypeField === 'Follow Up Self Inspection' ||
-                                        item.inspectionTypeField === 'Vehicle Self Inspection'
+                                        item.InspectionType === 'Direct Self Inspection' ||
+                                        item.InspectionType === 'Follow Up Self Inspection' ||
+                                        item.InspectionType === 'Vehicle Self Inspection'
                                     ).length
                                     : 0} />
                             <Task icon={DelayedIcon} item={Eshtablisment_Count.task} text={t('Delayed')} reading='0' />

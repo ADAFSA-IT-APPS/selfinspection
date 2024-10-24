@@ -51,12 +51,14 @@ const Daily = ({ navigation }) => {
             alertRef.current.show(result.error);
         }));
         dispatch(GetLOVDetails((result) => {
-            console.log('sssssss', result);
-            console.log('lovDetails', lovDetails);
+            console.log('GetLOVDetails', result);
             alertRef.current.show(result.error);
         }));
 
     }, [dispatch])
+
+    // useEffect(() => {
+    // }, [get_Assessment])
 
     const getInspectionType = (IType, subtype) => {
         console.log('lovDetails', lovDetails);
@@ -80,23 +82,32 @@ const Daily = ({ navigation }) => {
         console.log('itemopenTask', item);
         console.log('taskId', taskId);
         setTask(task);
-        if (item.inspectionTypeField == 'Direct Self Inspection' && item.statusField !== 'Satisfactory' && item.statusField !== 'Unsatisfactory') {
+        if (item.InspectionType == 'Direct Self Inspection' && item.Status !== 'Satisfactory' && item.Status !== 'Unsatisfactory') {
 
-            (item.statusField == 'Scheduled') && setModalChecklistVisible(!modalChecklistVisible)
+            (item.Status == 'Scheduled') && setModalChecklistVisible(!modalChecklistVisible)
 
             //dispatch(Get_Assessment_New(item, '', subCheckedItem));
             dispatch(Get_Assessment(subCheckedItem, item, (result) => {
-                alertRef.current.show(result.error);
-            }));
-            dispatch(GetCheckList(subCheckedItem, item, (result) => {
-                alertRef.current.show(result.error);
-            }));
+                console.log('resultresult', result);
 
+                alertRef.current.show(result.error);
+            }));
+            // if (get_Assessment) {
+            setTimeout(() => {
+                dispatch(GetCheckList(subCheckedItem, item, (result) => {
+                    alertRef.current.show(result.error);
+                }));
+            }, 3000);
+            // dispatch(GetCheckList(subCheckedItem, item, (result) => {
+            //     alertRef.current.show(result.error);
+            // }));
+            // }
         } else {
             /*Added Get_Assessment_New */
             dispatch(Get_Assessment('', item, (result) => {
                 alertRef.current.show(result.error);
             }));
+
             dispatch(GetCheckList('', item, (result) => {
                 alertRef.current.show(result.error);
             }));
@@ -109,10 +120,10 @@ const Daily = ({ navigation }) => {
         console.log('taskItem', taskItem);
         console.log('taskItem', item);
         setModalChecklistVisible(false)
-        if (item.statusField == 'Acknowledged') {
+        if (item.Status == 'Acknowledged') {
             setModalChecklistVisible(false)
 
-            openTask(item.inspectionNumberField, item)
+            openTask(item.InspectionNumber, item)
 
         } else {
             setModalChecklistVisible(!modalChecklistVisible)
@@ -155,7 +166,7 @@ const Daily = ({ navigation }) => {
                                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                                 <TouchableOpacity
                                                     style={[styles.button, styles.buttonClose]}
-                                                    onPress={() => openTask(taskItem.inspectionNumberField, taskItem)}
+                                                    onPress={() => openTask(taskItem.InspectionNumber, taskItem)}
                                                 >
                                                     <Text style={styles.textStyle}>Open</Text>
                                                 </TouchableOpacity>
@@ -181,15 +192,15 @@ const Daily = ({ navigation }) => {
                                 {(item.title === 'Direct Self Inspection') &&
                                     <View>
                                         {item.data.map((item, index) => (
-                                            (item.statusField !== 'Satisfactory' && item.statusField !== 'Cancelled' && item.statusField !== 'Unsatisfactory'/* &&item.statusField !=='Scheduled' */) &&
+                                            (item.Status !== 'Satisfactory' && item.Status !== 'Cancelled' && item.Status !== 'Unsatisfactory'/* &&item.Status !=='Scheduled' */) &&
                                             <TouchableOpacity key={index} onPress={() => openChecklistModal(item)} style={styles.taskCont}>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', }}>
-                                                    <Text style={styles.textWhite}>{item.priorityField ? item.priorityField : 'Medium'}</Text>
-                                                    <Text style={styles.textWhite}>{item.inspectionNumberField}</Text>
+                                                    <Text style={styles.textWhite}>{item.Priority ? item.Priority : 'Medium'}</Text>
+                                                    <Text style={styles.textWhite}>{item.InspectionNumber}</Text>
                                                 </View>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', paddingTop: '5%' }}>
-                                                    <Text style={styles.textWhite}>{item.creationDateField}</Text>
-                                                    <Text style={styles.textWhite}>{item.inspectionTypeField}</Text>
+                                                    <Text style={styles.textWhite}>{item.CreationDate}</Text>
+                                                    <Text style={styles.textWhite}>{item.InspectionType}</Text>
                                                 </View>
                                             </TouchableOpacity>
                                         ))}
@@ -199,15 +210,15 @@ const Daily = ({ navigation }) => {
                                 {(item.title === 'Vehicle Self Inspection') &&
                                     <View>
                                         {item.data.map((item, index) => (
-                                            (item.statusField !== 'Satisfactory' && item.statusField !== 'Cancelled' && item.statusField !== 'Unsatisfactory'/* &&item.statusField !=='Scheduled' */) &&
-                                            <TouchableOpacity key={index} onPress={() => openTask(item.inspectionNumberField, item)} style={styles.taskCont}>
+                                            (item.Status !== 'Satisfactory' && item.Status !== 'Cancelled' && item.Status !== 'Unsatisfactory'/* &&item.Status !=='Scheduled' */) &&
+                                            <TouchableOpacity key={index} onPress={() => openTask(item.InspectionNumber, item)} style={styles.taskCont}>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', }}>
-                                                    <Text style={styles.textWhite}>{item.priorityField ? item.priorityField : 'Medium'}</Text>
-                                                    <Text style={styles.textWhite}>{item.inspectionNumberField}</Text>
+                                                    <Text style={styles.textWhite}>{item.Priority ? item.Priority : 'Medium'}</Text>
+                                                    <Text style={styles.textWhite}>{item.InspectionNumber}</Text>
                                                 </View>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', paddingTop: '5%' }}>
-                                                    <Text style={styles.textWhite}>{item.creationDateField}</Text>
-                                                    <Text style={styles.textWhite}>{item.inspectionTypeField}</Text>
+                                                    <Text style={styles.textWhite}>{item.CreationDate}</Text>
+                                                    <Text style={styles.textWhite}>{item.InspectionType}</Text>
                                                 </View>
                                             </TouchableOpacity>
                                         ))}
@@ -233,15 +244,15 @@ const Daily = ({ navigation }) => {
                                 {(item.title === 'Direct Self Inspection' || item.title === 'Vehicle Self Inspection') &&
                                     <View>
                                         {item.data.map((item, index) => (
-                                            ((item.statusField === 'Satisfactory' || item.statusField == 'Unsatisfactory') && item.statusField !== 'Cancelled') &&
-                                            <TouchableOpacity key={index} onPress={() => openTask(item.inspectionNumberField, item)} style={styles.taskCont}>
+                                            ((item.Status === 'Satisfactory' || item.Status == 'Unsatisfactory') && item.Status !== 'Cancelled') &&
+                                            <TouchableOpacity key={index} onPress={() => openTask(item.InspectionNumber, item)} style={styles.taskCont}>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', }}>
-                                                    <Text style={styles.textWhite}>{item.statusField ? item.statusField : 'Medium'}</Text>
-                                                    <Text style={styles.textWhite}>{item.inspectionNumberField}</Text>
+                                                    <Text style={styles.textWhite}>{item.Status ? item.Status : 'Medium'}</Text>
+                                                    <Text style={styles.textWhite}>{item.InspectionNumber}</Text>
                                                 </View>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', paddingTop: '5%' }}>
-                                                    <Text style={styles.textWhite}>{item.actualInspectionDateField ? item.actualInspectionDateField : '-'}</Text>
-                                                    <Text style={styles.textWhite}>{item.inspectionTypeField}</Text>
+                                                    <Text style={styles.textWhite}>{item.ActualInspectionDate ? item.ActualInspectionDate : '-'}</Text>
+                                                    <Text style={styles.textWhite}>{item.InspectionType}</Text>
                                                 </View>
                                             </TouchableOpacity>
                                         ))}

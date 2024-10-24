@@ -77,27 +77,27 @@ const Accordions = ({ data, taskid /* onPress  */ }) => {
                 {item.data.map((subItem, subIndex) => {
                   return (
                     <View key={subIndex}>
-                      <View style={{ borderColor: subItem.valueField == 'Yes' ? 'green' : subItem.valueField == 'No' ? 'red' : subItem.valueField == 'NA' ? 'orange' : '#485865', borderWidth: 1, paddingVertical: 20, paddingHorizontal: 15, margin: '5%', borderRadius: 10 }}>
+                      <View style={{ borderColor: subItem.Value == 'Yes' ? 'green' : subItem.Value == 'No' ? 'red' : subItem.Value == 'NA' ? 'orange' : '#485865', borderWidth: 1, paddingVertical: 20, paddingHorizontal: 15, margin: '5%', borderRadius: 10 }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingBottom: '13%', paddingHorizontal: 10 }}>
                           <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Text style={{ paddingRight: 10 }}>{subIndex + 1})</Text>
-                            <Text style={{ width: '90%' }}>{subItem.attributeNameField}</Text>
+                            <Text style={{ width: '90%' }}>{subItem.AttributeName}</Text>
                           </View>
                           {/* <IconCont size={25} iconName={'calendar-clock-outline'} /> */}
                           <MaterialCommunityIcons onPress={() => {
-                            (subItem.valueField == 'No' && subItem.scoreField != '') &&
+                            (subItem.Value == 'No' && subItem.Score != '') &&
                               setGraceModalVisible(true)
-                            setCheckGraceValue(subItem.scoreField)
-                          }} name={'calendar-clock-outline'} color={/* subItem.scoreField  */(subItem.valueField == 'No' && subItem.scoreField != '' != '') ? 'green' : '#485865'} size={35} />
+                            setCheckGraceValue(subItem.Score)
+                          }} name={'calendar-clock-outline'} color={/* subItem.Score  */(subItem.Value == 'No' && subItem.Score != '' != '') ? 'green' : '#485865'} size={35} />
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <TouchableOpacity /* onPress={() => { changeItemValue(index, subIndex, "yes") }}  */ style={{ backgroundColor: subItem.valueField == 'Yes' ? 'green' : '#485865', borderRadius: 20, padding: 5 }}>
+                          <TouchableOpacity /* onPress={() => { changeItemValue(index, subIndex, "yes") }}  */ style={{ backgroundColor: subItem.Value == 'Yes' ? 'green' : '#485865', borderRadius: 20, padding: 5 }}>
                             <MaterialCommunityIcons style={{}} name={'check-bold'} color='#fff' size={30} />
                           </TouchableOpacity>
-                          <TouchableOpacity /* onPress={() => { changeItemValue(index, subIndex, "no") }} */ style={{ backgroundColor: subItem.valueField == 'No' ? 'red' : '#485865', borderRadius: 20, padding: 5 }}>
+                          <TouchableOpacity /* onPress={() => { changeItemValue(index, subIndex, "no") }} */ style={{ backgroundColor: subItem.Value == 'No' ? 'red' : '#485865', borderRadius: 20, padding: 5 }}>
                             <MaterialCommunityIcons style={{}} name={'close-thick'} color='#fff' size={30} />
                           </TouchableOpacity>
-                          <TouchableOpacity /* onPress={() => { changeItemValue(index, subIndex, "na") }} */ style={{ backgroundColor: subItem.valueField == 'NA' ? 'orange' : '#485865', borderRadius: 30, fontSize: 16, padding: 11, }}>
+                          <TouchableOpacity /* onPress={() => { changeItemValue(index, subIndex, "na") }} */ style={{ backgroundColor: subItem.Value == 'NA' ? 'orange' : '#485865', borderRadius: 30, fontSize: 16, padding: 11, }}>
                             <Text style={{ color: '#fff' }}  >N/A</Text>
                           </TouchableOpacity>
                           <TouchableOpacity /* onPress={() => takePhotoFromCamera(data, index)} */ style={{ backgroundColor: '#485865', borderRadius: 20, padding: 8 }}>
@@ -105,8 +105,8 @@ const Accordions = ({ data, taskid /* onPress  */ }) => {
                           </TouchableOpacity>
                           <TouchableOpacity onPress={() => {
                             setModalVisible(true)
-                            setComment(subItem.comment2Field)
-                          }} style={{ backgroundColor: (subItem.comment2Field ? 'green' : '#485865'), borderRadius: 20, padding: 5 }}>
+                            setComment(subItem.Comment)
+                          }} style={{ backgroundColor: (subItem.Comment ? 'green' : '#485865'), borderRadius: 20, padding: 5 }}>
                             <MaterialCommunityIcons /* style={{}}  */ name={'notebook-edit'} color='#fff' size={28} />
                           </TouchableOpacity>
 
@@ -126,10 +126,10 @@ const Accordions = ({ data, taskid /* onPress  */ }) => {
     )
   }
 
-  // const getSiebelReport = (inspectionNumberField) => {
-  //   console.log('inspectionNumberField_inspectionNumberField', inspectionNumberField);
-  //   dispatch(CallToGetInspectionReport(inspectionNumberField));
-  //   var path = DownloadDirectoryPath + '/' + inspectionNumberField + "_SibleReport.pdf";
+  // const getSiebelReport = (InspectionNumber) => {
+  //   console.log('InspectionNumber_InspectionNumber', InspectionNumber);
+  //   dispatch(CallToGetInspectionReport(InspectionNumber));
+  //   var path = DownloadDirectoryPath + '/' + InspectionNumber + "_SibleReport.pdf";
 
   //   let parsedSiebeleport = get_siebelReport?JSON.parse(get_siebelReport):'';
   //   console.log('EndDate?', parsedSiebeleport.FileBuffer);
@@ -176,11 +176,11 @@ const Accordions = ({ data, taskid /* onPress  */ }) => {
       let item = listData[i];
       for (let y = 0; y < item.data.length; y++) {
         const obj = item.data[y];
-        if (obj.valueField == 'Yes') {
+        if (obj.Value == 'Yes') {
           yes = yes + 1;
-        } else if (obj.valueField == 'No') {
+        } else if (obj.Value == 'No') {
           no += 1;
-        } else if (obj.valueField == 'NA') {
+        } else if (obj.Value == 'NA') {
           na += 1;
         }
       }

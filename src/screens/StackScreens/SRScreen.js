@@ -115,12 +115,12 @@ const SRScreen = (props) => {
     }, [get_siebelReport])
 
 
-    const getSiebelReport = (inspectionNumberField, type) => new Promise((resolve, reject) => {
+    const getSiebelReport = (InspectionNumber, type) => new Promise((resolve, reject) => {
         // do anything here
-        setInumber(inspectionNumberField);
+        setInumber(InspectionNumber);
         setReportDataClick(true);
 
-        dispatch(CallToGetInspectionReport(inspectionNumberField, type));
+        dispatch(CallToGetInspectionReport(InspectionNumber, type));
         resolve();
     })
 
@@ -138,17 +138,17 @@ const SRScreen = (props) => {
                             {(item.title === 'Direct Inspection' || item.title === 'Routine Inspection' || item.title === 'Follow Up Inspection' /* || item.title === 'Self Inspection' */) &&
                                 <View>
                                     {item.data.map((item, index) => (
-                                        (item.statusField === 'Satisfactory' || item.statusField == 'Unsatisfactory') &&
-                                        <View key={index} /* onPress={() => openTask(item.inspectionNumberField,item)} */ style={styles.taskCont}>
+                                        (item.Status === 'Satisfactory' || item.Status == 'Unsatisfactory') &&
+                                        <View key={index} /* onPress={() => openTask(item.InspectionNumber,item)} */ style={styles.taskCont}>
                                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', }}>
-                                                <Text style={styles.textWhite}>{item.statusField ? item.statusField : 'Medium'}</Text>
-                                                <Text style={styles.textWhite}>{item.inspectionNumberField}</Text>
+                                                <Text style={styles.textWhite}>{item.Status ? item.Status : 'Medium'}</Text>
+                                                <Text style={styles.textWhite}>{item.InspectionNumber}</Text>
                                             </View>
                                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', paddingTop: '5%' }}>
-                                                <Text style={styles.textWhite}>{item.actualInspectionDateField ? item.actualInspectionDateField : '-'}</Text>
-                                                <Text style={styles.textWhite}>{item.inspectionTypeField}</Text>
+                                                <Text style={styles.textWhite}>{item.ActualInspectionDate ? item.ActualInspectionDate : '-'}</Text>
+                                                <Text style={styles.textWhite}>{item.InspectionType}</Text>
                                             </View>
-                                            <TouchableOpacity onPress={() => getSiebelReport(item.inspectionNumberField)} style={{ alignItems: 'center', justifyContent: 'center', }}>
+                                            <TouchableOpacity onPress={() => getSiebelReport(item.InspectionNumber)} style={{ alignItems: 'center', justifyContent: 'center', }}>
                                                 <View style={{ width: '50%', backgroundColor: '#5c6672', padding: 5, marginTop: 10, alignItems: 'center', borderColor: 'white', borderWidth: 1, justifyContent: 'center', borderRadius: 5 }}>
                                                     <Text style={{ textDecorationLine: 'underline', color: 'white', fontWeight: 'bold' }}>Print Certificate</Text>
                                                 </View>
@@ -168,8 +168,8 @@ const SRScreen = (props) => {
                             {(item.Application === 'No Objection Certificate' && item.PermitStatus === 'Closed') &&
                                 <View>
                                     {/* {item.map((item, index) => (
-                            (item.statusField === 'Satisfactory' || item.statusField =='Unsatisfactory')&& */}
-                                    <View key={key} /* onPress={() => openTask(item.inspectionNumberField,item)}  */ style={styles.taskCont}>
+                            (item.Status === 'Satisfactory' || item.Status =='Unsatisfactory')&& */}
+                                    <View key={key} /* onPress={() => openTask(item.InspectionNumber,item)}  */ style={styles.taskCont}>
                                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', }}>
                                             <Text style={styles.textWhite}>{item.Application ? item.Application : '-'}</Text>
                                             <Text style={styles.textWhite}>{item.OpenedDate}</Text>

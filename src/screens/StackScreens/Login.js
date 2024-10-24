@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Linking, Button, Image, TextInput, Dimensions, 
 import CheckBox from '@react-native-community/checkbox';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { AuthContext } from '../../Components/context';
-import { signIn, GetServerDateTime, GetLOVDetails } from '../../Redux/actions/SI_Action';
+import { signIn, GetServerDateTime, GetLOVDetails,GetLOVDetailsVersion } from '../../Redux/actions/SI_Action';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomeError from '../../Components/modals/CustomeError';
 import { version } from '../../../package.json';
@@ -39,12 +39,23 @@ const Login = ({ navigation }) => {
             alertRef.current.show(result.error);
         }));
     }
+    useEffect(() => {
+   
+        dispatch(GetLOVDetailsVersion((result) => {
+            console.log('GetLOVDetails', result);
+            alertRef.current.show(result.error);
+        }));
 
+    }, [])
     useEffect(() => {
         DeviceInfo.getDevice().then((device) => {
             // "walleye"
             console.log('device', device);
         });
+        // dispatch(GetLOVDetailsVersion((result) => {
+        //     console.log('GetLOVDetails', result);
+        //     alertRef.current.show(result.error);
+        // }));
         console.log('DeviceInfo.getVersion()', DeviceInfo.getVersion());
         console.log('DeviceInfo.getReadableVersion()', DeviceInfo.getReadableVersion());
     }, [])

@@ -663,7 +663,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development: Ali Dahabiyeh (Y58PC47627)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: Ali Dahabiyeh (Y58PC47627)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = HQJG5EM49A;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = HQJG5EM49A;
 				ENABLE_BITCODE = NO;
@@ -701,9 +701,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = SelfInspection/SelfInspection.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
-				DEVELOPMENT_TEAM = HQJG5EM49A;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 17;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = HQJG5EM49A;
 				ENABLE_BITCODE = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)";
@@ -725,6 +727,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.SelfInspection;
 				PRODUCT_NAME = SelfInspection;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = SelfInspectionNew;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

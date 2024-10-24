@@ -48,7 +48,7 @@ const RoutineSelf = ({ navigation }) => {
 
 
     const openTask = (taskId, item) => {
-        if (item.inspectionTypeField == 'Follow Up Self Inspection' && item.statusField == 'Acknowledged') {
+        if (item.InspectionType == 'Follow Up Self Inspection' && item.Status == 'Acknowledged') {
             setModalChecklistVisible(false)
         }
         dispatch(Get_Assessment(subCheckedItem, item, (result) => {
@@ -56,19 +56,20 @@ const RoutineSelf = ({ navigation }) => {
             alertRef.current.show(result.error);
         }));
 
-        dispatch(GetCheckList(subCheckedItem, item, (result) => {
-            console.log('sssssss', result);
-            alertRef.current.show(result.error);
-        }));
+        setTimeout(() => {
+            dispatch(GetCheckList(subCheckedItem, item, (result) => {
+                alertRef.current.show(result.error);
+            }));
+        }, 3000);
         console.log('openTask', item);
 
 
-        // if (item.inspectionTypeField == 'Follow Up Self Inspection' && item.statusField !== 'Satisfactory' && item.statusField !== 'Unsatisfactory') {
+        // if (item.InspectionType == 'Follow Up Self Inspection' && item.Status !== 'Satisfactory' && item.Status !== 'Unsatisfactory') {
         //     setModalChecklistVisible(!modalChecklistVisible)
 
         //     dispatch(Get_Assessment_New(item, '', subCheckedItem));
 
-        // } else if (item.inspectionTypeField == 'Self Inspection' && item.statusField !== 'Satisfactory' && item.statusField !== 'Unsatisfactory') {
+        // } else if (item.InspectionType == 'Self Inspection' && item.Status !== 'Satisfactory' && item.Status !== 'Unsatisfactory') {
         //     setModalChecklistVisible(!modalChecklistVisible)
 
         //     dispatch(Get_Assessment_New(item, '', subCheckedItem));
@@ -103,12 +104,12 @@ const RoutineSelf = ({ navigation }) => {
         console.log('taskItem', taskItem);
         setModalChecklistVisible(false)
 
-        if (item.statusField == 'Acknowledged') {
-            console.log('test to check',modalChecklistVisible);
+        if (item.Status == 'Acknowledged') {
+            console.log('test to check', modalChecklistVisible);
 
             setModalChecklistVisible(false)
 
-            openTask(item.inspectionNumberField, item)
+            openTask(item.InspectionNumber, item)
 
         } else {
             setModalChecklistVisible(!modalChecklistVisible)
@@ -145,7 +146,7 @@ const RoutineSelf = ({ navigation }) => {
                                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                                 <TouchableOpacity
                                                     style={[styles.button, styles.buttonClose]}
-                                                    onPress={() => openTask(taskItem.inspectionNumberField, taskItem)}
+                                                    onPress={() => openTask(taskItem.InspectionNumber, taskItem)}
                                                 >
                                                     <Text style={styles.textStyle}>Open</Text>
                                                 </TouchableOpacity>
@@ -171,15 +172,15 @@ const RoutineSelf = ({ navigation }) => {
                                 {(/* item.title === 'Routine Inspection' ||  */item.title === 'Follow Up Self Inspection' || item.title === 'Self Inspection') &&
                                     <View>
                                         {item.data.map((item, index) => (
-                                            (item.statusField !== 'Satisfactory' && item.statusField !== 'Cancelled' && item.statusField !== 'Unsatisfactory') &&
+                                            (item.Status !== 'Satisfactory' && item.Status !== 'Cancelled' && item.Status !== 'Unsatisfactory') &&
                                             <TouchableOpacity key={index} onPress={() => openChecklistModal(item)} style={styles.taskCont}>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', }}>
-                                                    <Text style={styles.textWhite}>{item.priorityField ? item.priorityField : 'Medium'}</Text>
-                                                    <Text style={styles.textWhite}>{item.inspectionNumberField}</Text>
+                                                    <Text style={styles.textWhite}>{item.Priority ? item.Priority : 'Medium'}</Text>
+                                                    <Text style={styles.textWhite}>{item.InspectionNumber}</Text>
                                                 </View>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', paddingTop: '5%' }}>
-                                                    <Text style={styles.textWhite}>{item.creationDateField}</Text>
-                                                    <Text style={styles.textWhite}>{item.inspectionTypeField}</Text>
+                                                    <Text style={styles.textWhite}>{item.CreationDate}</Text>
+                                                    <Text style={styles.textWhite}>{item.InspectionType}</Text>
                                                 </View>
                                             </TouchableOpacity>
                                         ))}
@@ -202,15 +203,15 @@ const RoutineSelf = ({ navigation }) => {
                                 {(item.title === 'Self Inspection' || item.title === 'Follow Up Self Inspection') &&
                                     <View>
                                         {item.data.map((item, index) => (
-                                            ((item.statusField === 'Satisfactory' || item.statusField === 'Unsatisfactory') && item.statusField !== 'Cancelled') &&
-                                            <TouchableOpacity key={index} onPress={() => openTask(item.inspectionNumberField, item)} style={styles.taskCont}>
+                                            ((item.Status === 'Satisfactory' || item.Status === 'Unsatisfactory') && item.Status !== 'Cancelled') &&
+                                            <TouchableOpacity key={index} onPress={() => openTask(item.InspectionNumber, item)} style={styles.taskCont}>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', }}>
-                                                    <Text style={styles.textWhite}>{item.statusField ? item.statusField : 'Medium'}</Text>
-                                                    <Text style={styles.textWhite}>{item.inspectionNumberField}</Text>
+                                                    <Text style={styles.textWhite}>{item.Status ? item.Status : 'Medium'}</Text>
+                                                    <Text style={styles.textWhite}>{item.InspectionNumber}</Text>
                                                 </View>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', paddingTop: '5%' }}>
-                                                    <Text style={styles.textWhite}>{item.actualInspectionDateField ? item.actualInspectionDateField : '-'}</Text>
-                                                    <Text style={styles.textWhite}>{item.inspectionTypeField}</Text>
+                                                    <Text style={styles.textWhite}>{item.ActualInspectionDate ? item.ActualInspectionDate : '-'}</Text>
+                                                    <Text style={styles.textWhite}>{item.InspectionType}</Text>
                                                 </View>
                                             </TouchableOpacity>
 

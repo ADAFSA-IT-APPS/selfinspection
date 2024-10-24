@@ -6,6 +6,7 @@ const initialState = {
     showModal: false,
     inspectionDetails: [],
     lovDetails: [],
+    lovDetailsversion: [],
     checkList: [],
     adhocInspection: [],
     Search_Establishment_HistoryResult: [],
@@ -53,6 +54,11 @@ const SI_reducer = (state = initialState, action) => {
             return {
                 ...state,
                 lovDetails: action.payload,
+            }
+        case 'GET_LOV_DETAILS_VERSION':
+            return {
+                ...state,
+                lovDetailsversion: action.payload,
             }
         case 'GET_ASSESSMENT':
             return {
