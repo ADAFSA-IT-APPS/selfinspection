@@ -25,6 +25,7 @@ export default {
     'Password':'Password',
     'Rememberme':'Remember me',
     'Login':'Login',
+    'Forgot_Password':'Resend Password',
     'ADAFSAeService':'Please use your ADAFSA eService credentials, business operators can be added from eService Account',
     'Inpection_History':'Inspection History',
     'Service_Request':'Service Request'

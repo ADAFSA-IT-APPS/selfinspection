@@ -1,10 +1,10 @@
 //import liraries
-import React, { useEffect, useState, useContext, useRef } from 'react';
+import React, { useEffect, useState, useContext, useRef, useCallback } from 'react';
 import { View, Text, StyleSheet, Linking, Button, Image, TextInput, Dimensions, TouchableOpacity, ActivityIndicator, Platform, I18nManager } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { AuthContext } from '../../Components/context';
-import { signIn, GetServerDateTime, GetLOVDetails,GetLOVDetailsVersion } from '../../Redux/actions/SI_Action';
+import { signIn, ResendPassword, ForgetPassword, GetLOVDetails, GetLOVDetailsVersion } from '../../Redux/actions/SI_Action';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomeError from '../../Components/modals/CustomeError';
 import { version } from '../../../package.json';
@@ -13,6 +13,8 @@ import Loading from '../../Components/Loading';
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DeviceInfo from 'react-native-device-info';
+import ResendPasswordModal from '../../Components/modals/ResendPassword';
+import Toast from 'react-native-root-toast';
 
 const height = Dimensions.get('screen').height;
 const width = Dimensions.get('screen').width;
@@ -25,6 +27,7 @@ const Login = ({ navigation }) => {
     const [userPassword, setUserPassword] = useState('');
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
     const [hidePassword, setHidePassword] = useState(true);
+    const [modalVisible, setModalVisible] = useState(false);
 
     //const [isLoading, setIsLoading] = useState(true)
     const { t, i18n } = useTranslation();
@@ -40,7 +43,7 @@ const Login = ({ navigation }) => {
         }));
     }
     useEffect(() => {
-   
+
         dispatch(GetLOVDetailsVersion((result) => {
             console.log('GetLOVDetails', result);
             alertRef.current.show(result.error);
@@ -72,6 +75,45 @@ const Login = ({ navigation }) => {
     const eyeShowHide = () => {
         setHidePassword(prevCheck => !prevCheck);
     }
+    const resendPassword = useCallback(() => {
+        return (
+            <ResendPasswordModal
+                defaultValue={''}
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                onsubmit={submit} />
+        )
+    }, [modalVisible])
+
+    const submit = (LicenseNumber) => {
+        console.log('submit', LicenseNumber);
+        if (LicenseNumber) {
+            dispatch(ForgetPassword(LicenseNumber, (result) => {
+                if (result.success) {
+                    console.log('result.success', result.success);
+                    if (result.success.ID) {
+                        console.log('result.success.ID', result.success.ID);
+                        dispatch(ResendPassword(result.success.ID, (result) => {
+                            console.log('GetLOVDetails', result);
+                            alertRef.current.show(result.error);
+                        }));
+                    } else {
+                        alertRef.current.show('There is no ID');
+                        dispatch({ type: 'HIDE_LOADER' });
+                    }
+                } else {
+                    alertRef.current.show(result.error);
+                }
+            }));
+            setModalVisible(!modalVisible)
+
+        } else {
+            Toast.show('Please enter License Number', {
+                duration: Toast.durations.SHORT,
+                position: 50,
+            })
+        }
+    }
     const rememberUser = async () => {
         console.log('remember',);
         userToken = 'asdf';
@@ -100,7 +142,7 @@ const Login = ({ navigation }) => {
                         onChangeText={(val) => setUserEmail(val)}
                     />
                 </View>
-
+                {resendPassword()}
                 <View style={styles.userCont}>
                     <FontAwesome5 name="lock" color="gray" size={20} />
                     <TextInput
@@ -137,7 +179,11 @@ const Login = ({ navigation }) => {
                     <Text style={{ paddingLeft: 10, color: 'gray' }}>{t('Rememberme')}</Text>
                 </View>
 
-
+                <TouchableOpacity style={{}} onPress={() => { setModalVisible(true) }/* navigation.navigate("Tabs") */}>
+                    <Text style={{ paddingLeft: 10, paddingBottom: 2, textDecorationLine: 'underline', color: 'gray' }}>
+                        {t('Forgot_Password')}
+                    </Text>
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.loginCont} onPress={() => { loginHandle(userEmail, userPassword) }/* navigation.navigate("Tabs") */}>
                     <Text style={styles.loginText}>
                         {t('Login')}
@@ -168,7 +214,7 @@ const styles = StyleSheet.create({
     Logo: {
         width: width * 0.8,
         resizeMode: 'contain',
-        height: Platform.OS === 'ios' ? height * 0.15 : height * 0.15,
+        height: Platform.OS === 'ios' ? height * 0.14 : height * 0.14,
     },
     selfIns: { /* height:90 */ /* paddingTop:20 */ },
     selfInsImage: { alignSelf: 'center', height: height * 0.12, resizeMode: 'contain', },
@@ -185,7 +231,7 @@ const styles = StyleSheet.create({
     rememberMe: {
         flexDirection: 'row', marginTop: 10,
         alignItems: 'center',
-        paddingVertical: 15,
+        paddingVertical: 10,
         alignSelf: 'flex-start',
         marginTop: height * 0.02
     },
@@ -211,7 +257,7 @@ const styles = StyleSheet.create({
         letterSpacing: 0.7,
         textAlign: I18nManager.isRTL ? 'right' : 'left'
     },
-    loginCont: { alignSelf: 'center', justifyContent: 'center', backgroundColor: '#5d6a73', paddingHorizontal: wp('13%'), paddingVertical: hp('2%'), marginTop: '4%', borderRadius: 5, borderBottomColor: '#c9ced4', borderBottomWidth: 4 },
+    loginCont: { alignSelf: 'center', justifyContent: 'center', backgroundColor: '#5d6a73', paddingHorizontal: wp('13%'), paddingVertical: hp('1.8%'), marginTop: '4%', borderRadius: 5, borderBottomColor: '#c9ced4', borderBottomWidth: 4 },
     loginText: { color: '#fff', fontWeight: '600', fontSize: height * 0.021 }
 });
 

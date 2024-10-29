@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { writeFile, appendFile, readFile, readFileAssets, DownloadDirectoryPath, mkdir, readDir } from 'react-native-fs';
 
 
-const { SERVERDATE_TIME, COMMON_SERVICE, UpdateAssessment, Adhocinspection, GetQuestionnaire, Acknowledge, LOV, HistorySearch, APP_SERVICE_URL, SMARTCONTROL, GetAssessment, ESERVICE_GENERIC, SELFINSPECTION_SERVICE, MOBILE_SERVICE, STAGE_API } = Config;
+const { SERVERDATE_TIME, GetCompanyProfileByLicenseNo, ReSendCustomerDetails, COMMON_SERVICE, UpdateAssessment, Adhocinspection, GetQuestionnaire, Acknowledge, LOV, HistorySearch, APP_SERVICE_URL, SMARTCONTROL, GetAssessment, ESERVICE_GENERIC, SELFINSPECTION_SERVICE, MOBILE_SERVICE, STAGE_API } = Config;
 
 /* export const GetServerDateTime = () => async () => {
 
@@ -493,6 +493,103 @@ export const Search_Establishment_History = (result) => async (dispatch) => {
         dispatch({ type: 'HIDE_LOADER' });
         //  return result({ error: e.ErrorMsg })
 
+    }
+
+    // dispatch({ type: 'GET_CHECK_LIST', payload: false });
+}
+
+export const ForgetPassword = (LicenseNumber, result) => async (dispatch) => {
+    console.log('');
+    dispatch({ type: 'SHOW_LOADER' });
+
+    let postUrl = SMARTCONTROL + GetCompanyProfileByLicenseNo;
+    let resetUrl = SMARTCONTROL + ReSendCustomerDetails;
+
+    let postData =
+    {
+        "licenseNumber": LicenseNumber
+    }
+    console.log('postUrl_resetPassword', postUrl);
+    try {
+        axios({
+            method: "POST",
+            url: postUrl,
+            timeout: 1000 * 10,
+            data: postData,
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+            .then(function (response) {
+                let resp = JSON.parse(response.data.Data)
+                console.log('testResultReset', resp);
+                if (resp.Status == 'Failed') {
+                    return result({ error: resp.ErrorMessage })
+                }
+                if ((resp.GetCompanyProfileByLicenseNoResult)) {
+                    console.log('resp_GetCompanyProfileByLicenseNoResult', resp.GetCompanyProfileByLicenseNoResult);
+                    return result({ success: resp.GetCompanyProfileByLicenseNoResult })
+                } else {
+                    toast('FAILURE')
+                    return
+                }
+            })
+            .catch((err) => {
+                dispatch({ type: 'HIDE_LOADER' });
+
+            })
+    } catch (e) {
+        dispatch({ type: 'HIDE_LOADER' });
+        //  return result({ error: e.ErrorMsg })
+    }
+
+    // dispatch({ type: 'GET_CHECK_LIST', payload: false });
+}
+
+export const ResendPassword = (ResendID, result) => async (dispatch) => {
+    console.log('');
+    dispatch({ type: 'SHOW_LOADER' });
+    console.log('ResendID_ResendID', ResendID);
+
+    let resetUrl = SMARTCONTROL + ReSendCustomerDetails;
+
+    let postData =
+    {
+        "UserName": ResendID
+    }
+    try {
+        axios({
+            method: "POST",
+            url: resetUrl,
+            timeout: 1000 * 10,
+            data: postData,
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+            .then(function (response) {
+                let resp = JSON.parse(response.data.Data)
+                console.log('ResendPassword_Resp', resp);
+                if (resp.Status == 'Failed') {
+                    return result({ error: resp.ErrorMessage })
+                }
+                if ((resp.ReSendCustomerDetailsResult)) {
+                    toast('Password has been resent')
+                    dispatch({ type: 'HIDE_LOADER' });
+                    return
+                } else {
+                    toast('FAILURE')
+                    dispatch({ type: 'HIDE_LOADER' });
+                    return
+                }
+            })
+            .catch((err) => {
+                dispatch({ type: 'HIDE_LOADER' });
+
+            })
+    } catch (e) {
+        dispatch({ type: 'HIDE_LOADER' });
+        //  return result({ error: e.ErrorMsg })
     }
 
     // dispatch({ type: 'GET_CHECK_LIST', payload: false });
@@ -1468,8 +1565,8 @@ export const Update_Assessment = (data, IType, callback) => async (dispatch) => 
 
 
     //  let postUrl = IType == 'Direct Self Inspection' ? SMARTCONTROL + UpdateAssessment : APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Update_Assessment";
-     let postUrl = IType == 'Vehicle Self Inspection' ? APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Update_Assessment" : SMARTCONTROL + UpdateAssessment;
-  //  let postUrl = APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Update_Assessment";
+    let postUrl = IType == 'Vehicle Self Inspection' ? APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Update_Assessment" : SMARTCONTROL + UpdateAssessment;
+    //  let postUrl = APP_SERVICE_URL + SELFINSPECTION_SERVICE + "/" + encryptedServerDate + "/" + dateInUtc + "/" + "Update_Assessment";
 
     console.log('Update_Assessment', postUrl);
     // console.log('checktaskid', item.InspectionType !== 'Vehicle Self Inspection' && item.InspectionType);
