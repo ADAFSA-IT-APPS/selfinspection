@@ -50,10 +50,10 @@ const ResendPasswordModal = ({ defaultValue, visible, onClose, onsubmit }) => {
                             multiline
                             color='#000'
                             // defaultValue={defaultValue}
-                            placeholder={'xxxxxxx123'}
+                            placeholder={'CN - *****'}
                             textAlign={'center'} style={{ textAlignVertical: 'top' }}
                             value={defaultValue || comment}
-                            keyboardType={'numeric'}
+                            /* keyboardType={'numeric'} */
                             onChangeText={(text) => handleOnChangeComment(text)}
                             style={{ height: '60%', width: width / 2, fontSize: 14 }}
                         />

@@ -507,9 +507,10 @@ export const ForgetPassword = (LicenseNumber, result) => async (dispatch) => {
 
     let postData =
     {
-        "licenseNumber": LicenseNumber
+        "licenseNumber": /* "CN-" + */ LicenseNumber
     }
     console.log('postUrl_resetPassword', postUrl);
+    console.log('postData_resetPassword', postData);
     try {
         axios({
             method: "POST",
