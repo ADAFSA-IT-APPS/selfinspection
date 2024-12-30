@@ -1024,6 +1024,7 @@ export const GetLOVDetails = () => async (dispatch) => {
             }
         })
             .then(function (response) {
+                console.log('esponse.data.Data', response.data.Data);
                 let resp = JSON.parse(response.data.Data)
                 if (resp.GetLookupValuesResponse == null) {
                     toast('Empty Checklist Template');
@@ -1031,9 +1032,13 @@ export const GetLOVDetails = () => async (dispatch) => {
                     return;
                 }
                 const data = resp.GetLookupValuesResponse.Lookup;
-                console.log('LOVlength', data);
-                if (data.length) {
-                    dispatch({ type: 'GET_LOV_DETAILS', payload: data });
+                console.log('data_LOV', data);
+                let tempDta=data.filter((item,index)=>
+                    item.LanguageIndependentCode && item.LanguageIndependentCode.indexOf('Self Inspection')!==-1
+                )
+                console.log('LOVlength', tempDta);
+                if (tempDta.length) {
+                    dispatch({ type: 'GET_LOV_DETAILS', payload: tempDta });
                     dispatch({ type: 'HIDE_LOADER' });
 
                 } else {
